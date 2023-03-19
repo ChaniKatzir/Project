@@ -1,9 +1,14 @@
 import React from 'react';
-import { Button } from 'primereact/button';
-import UseGet from '../hooks/Generic'
-import { InputText } from "primereact/inputtext";
+import Menue from './menu1Generic'
+import Pop from './popStudentGeneric'
+import PopAdder from './popStudentsAdder'
+import PopPut from './popStudentsUpdate'
+import PopDelete from './popStudentsDelete'
 
-const Student=()=>{
+
+import UseGet from '../hooks/Generic'
+
+const Student1=()=>{
     const onChage=(selected,key)=>{
         
     }
@@ -21,20 +26,18 @@ const Student=()=>{
     //             }
     //     UseGet('https://localhost:2000/student/',object);
     // }
-    return(<>
-        <span className="p-input-icon-left">
-                <i className="pi pi-search" />
-                <InputText placeholder="first name" id='fn' onChange={(e)=> onChage(e.target.value,"fn")}/>
-                <InputText placeholder="last name" id='ln'/>
-                <InputText placeholder="yearbook" id='yb'/>
-                <InputText placeholder="id of the institute" id='idi'/>
-                <InputText placeholder="phone number" id='pn'/>
-                <InputText placeholder="celphone number" id='cn'/>
-                <InputText placeholder="id student" id='ids'/>
-                
-        </span>
 
-        <Button label="get student/s"  onClick={()=>{  onChage()
+    
+
+    return(<>
+   <Menue/>
+   <Pop label="חיפוש תלמיד/ים"/>
+   <PopAdder label="הוספת תלמיד חדש"/>
+   <PopPut label="עדכון פרטי תלמיד"/>
+   <PopDelete label="מחיקת תלמיד"/>
+   
+
+        {/* <Button label="get student/s"  onClick={()=>{  onChage()
         // console.log("makeobject")
         // debugger
         // makeObject(document.getElementById("fn").target.value,
@@ -44,7 +47,7 @@ const Student=()=>{
         // document.getElementById("pn").target.value,
         // document.getElementById("cn").target.value,
         // document.getElementById("ids").target.value)
-                                            }}/>
+                                            }}/> */}
 
         </>)}
-export default Student;
+export default Student1;

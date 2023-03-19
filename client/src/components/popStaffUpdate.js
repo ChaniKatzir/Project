@@ -13,7 +13,6 @@ export default function BasicDemo(props) {
             <Dialog header="הכנס פרטי עובד מעודכנים" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
                <Search placeholder="קוד עובד"/> 
                <Search placeholder="שם פרטי"/> 
-               <Search placeholder="שם פרטי"/> 
                <Search placeholder="שם משפחה"/>
                <Search placeholder="כתובת"/> 
                <Search placeholder="מספר טלפון"/> 

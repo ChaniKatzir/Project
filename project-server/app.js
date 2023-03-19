@@ -33,7 +33,7 @@ app.use("/determination", determinationRouter)
 app.use("/staff",staffRouter)
 app.use("/student",studentRouter)
 
-//app.use("/files",filesRouter)
+app.use("/files",filesRouter)
 
 
 

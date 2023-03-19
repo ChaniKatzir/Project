@@ -17,7 +17,8 @@ const Login=()=>{
     return(<>
      <InputNumber placeholder="enter your id number" inputId="minmax" valueid={valueid} onValueChange={(e) => setValueid(e.value)} min={10000000} max={999999999} />
      <Password placeholder="enter your password" value={valuepass} onChange={(e) => setValuepass(e.target.value)} toggleMask />
-     <Button label="Submit" onClick={()=>{<Home1/>}} />
-    </>)
+     <Button label="Submit" onClick={()=>{}} />
+    </>
+    )
 };
 export default Login

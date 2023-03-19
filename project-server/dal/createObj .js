@@ -1,4 +1,4 @@
 exports.cr = (p, key, value) => {
-    if (p[key])
+    if (value)
         p[key] = value
 }

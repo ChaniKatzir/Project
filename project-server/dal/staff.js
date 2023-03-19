@@ -2,7 +2,7 @@ const db = require('../models')
 const { where } = require('sequelize');
 const staff = db.staffes
 const person = db.persons
-const createObj = require('../dal/createObj')
+const createObj = require('./createObj ')
 
 exports.findAll = async (req, res) => {
     let p = {};

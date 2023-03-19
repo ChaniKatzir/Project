@@ -2,12 +2,11 @@ const { where } = require('sequelize');
 const db = require('../models');
 const person = db.persons
 const student = db.students
-const createObj = require('../dal/createObj')
+const createObj = require('./createObj ')
 
 
 exports.findAll = async (req, res) => {
     let p = {};
-
     createObj.cr(p, "$first_name$", req.body.first_name);
     createObj.cr(p, "$last_name$", req.body.last_name);
     createObj.cr(p, "yearbook", req.body.yearbook);

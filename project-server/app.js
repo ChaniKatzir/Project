@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require("express");
 const db = require('./models');
-const PORT =process.env.PORT||  2000;
+const PORT =process.env.PORT||2000;
 const app = express();
 
 const instituteRouter = require("./routes/institute.js");
@@ -33,7 +33,7 @@ app.use("/determination", determinationRouter)
 app.use("/staff",staffRouter)
 app.use("/student",studentRouter)
 
-app.use("/files",filesRouter)
+//app.use("/files",filesRouter)
 
 
 

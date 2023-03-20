@@ -9,7 +9,8 @@ export default function BasicDemo(props) {
     const [visible, setVisible] = useState(false);
     const{ data, loading, error, refetch}=useGet('student');
     useEffect(()=>{console.log('data',data);},[data])
-    const arr = ['vdhbgfhj', 'vhjbgfhj'];
+
+    const arr = ['שם פרטי', "שם משפחה","תפקיד","שנות ותק","מספר טלפון","מספר פלאפון" ,"קוד מוסד","קוד עובד"];
     return (
         <div className="card flex justify-content-center">
             <Button label={props.label} icon="pi pi-external-link" onClick={() => setVisible(true)} />

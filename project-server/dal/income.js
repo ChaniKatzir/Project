@@ -4,27 +4,21 @@ const Op = db.Sequelize.Op;
 const sequelize = require('sequelize');
 
 exports.findAll = async (req, res) => {
-    income.findAll()
-        .then(data => {
-            res.send(data);
-        })
+    return income.findAll()
+       
 }
 
-exports.findAllinst = async (req, res) => {
-    const inst = req.params.id;
-    income.findAll({ where: { id_institute_income: inst } })
+exports.findAllinst = async (id) => {
+    
+    return income.findAll({ where: { id_institute_income: id } })
 
-        .then(data => {
-            res.send(data);
-        })
+       
 }
 
-exports.findAllmonth = async (req, res) => {
-    const id = req.params.id;
-    const year = req.params.year;
-    const month = req.params.month;
+exports.findAllmonth = async (id,year,month) => {
+  
 
-    income.findAll(
+    return income.findAll(
         {
             where: {
                 [Op.and]: [{ id_institute_income: id },
@@ -34,63 +28,29 @@ exports.findAllmonth = async (req, res) => {
             }
         }
     )
-        .then(data => {
-            res.send(data);
-        })
+       
 }
 
-exports.create = async (req, res) => {
-    income.create(req.body)
-        .then(data => {
-            res.send(data);
-        })
+exports.create = async (body) => {
+    return income.create(body)
+       
 }
 
 
-exports.findOne = async (req, res) => {
-    const id = req.params.id;
-    income.findOne({ where: { id_income: id } })
-        .then(data => {
-            if (data) {
-                res.send(data);
-            } else {
-                res.status(404).send({
-                    message: `Cannot find expends with id=${id}.`
-                });
-            }
-        })
+exports.findOne = async (id) => {
+
+    return income.findOne({ where: { id_income: id } })
+        
 }
 
-exports.update = async (req, res) => {
-    const id = req.params.id;
-    income.update(req.body, { where: { id_income: id } })
-        .then(num => {
-            if (num == 1) {
-                res.send({
-                    message: "expends was updated successfully."
-                });
-            } else {
-                res.send({
-                    message: `Cannot update expends with id=${id}. Maybe Income was not found or req.body is empty!`
-                });
-            }
-        })
+exports.update = async (id,body) => {
+
+    return income.update(body, { where: { id_income: id } })
+       
 }
 
-exports.delete = async (req, res) => {
-    const id = req.params.id;
-    income.destroy({
+exports.delete = async (id) => {
+    return income.destroy({
         where: { id_income: id }
     })
-        .then(num => {
-            if (num == 1) {
-                res.send({
-                    message: "expends was deleted successfully!"
-                });
-            } else {
-                res.send({
-                    message: `Cannot delete expends with id=${id}. Maybe Income was not found!`
-                });
-            }
-        })
 }

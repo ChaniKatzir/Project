@@ -3,7 +3,7 @@ import Menue from './menu2Generic'
 import Pop from './popStudentGeneric'
 
 
-import UseGet from '../hooks/Generic'
+import useGet from '../hooks/useGet'
 
 const Student2=()=>{
     const onChage=(selected,key)=>{

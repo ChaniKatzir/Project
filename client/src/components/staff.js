@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import UseGet from '../hooks/Generic'
+import useGet from '../hooks/useGet'
 import Menue from './menu1Generic'
 import Pop from './popStaffGeneric'
 import PopAdder from './popStudentsAdder'

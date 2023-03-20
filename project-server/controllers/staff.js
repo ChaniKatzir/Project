@@ -4,15 +4,11 @@ const staff=db.staffes
 const person = db.persons
   
 //find 
-const cr=(p,attribute_key ,attribute_value)=>
-{    
-    if(attribute_value)
-        p[attribute_key] =attribute_value;
-}
+var { cr } = require('../dal/createObj ');
+
 
 exports.findAll=async(req,res)=>{
     let p={};
-    
     cr(p,"$first_name$",req.body.first_name);
     cr(p,"$last_name$",req.body.last_name);
     cr(p,"id_role",req.body.id_role);
@@ -21,11 +17,12 @@ exports.findAll=async(req,res)=>{
     cr(p,"$celphone_number$",req.body.celphone_number);
     cr(p,"id_institute_staff",req.body.id_institute_staff); 
     cr(p,"id_person_staff",req.body.id_person_staff); 
+    
+    console.log(p);
     const qry={};
     qry.where= p;
     qry.include=[{model:db.persons,attribute:[]}];
     qry.raw= true;
-    console.log(qry);
 
     staff.findAll(qry).then(data => {
       res.send(data);
@@ -53,14 +50,15 @@ let objperson={"first_name":req.body.first_name,
               "celphone_number":req.body.celphone_number,
               "Email":req.body.Email,
               "bank_account":req.body.bank_account,
-              "status_person":true
+              "status_person":true,
+              "password":req.body.password
             };
 
 
     try{
       const data1 = await person.create(objperson)
       let objstaff={"id_role":req.body.id_role,
-                  "seniority":req.body.seniority,
+                  "seniority":0,
                   "id_institute_staff":req.body.id_institute_staff,
                   "id_person_staff":data1.id_person }
       const data2  = await staff.create(objstaff)
@@ -80,16 +78,7 @@ let objperson={"first_name":req.body.first_name,
 exports.update = async (req, res) => {
   const id = req.params.id;
 
-  const cr=(p,attribute_key ,attribute_value)=>
-  {    
-      if(attribute_value)
-          p[attribute_key] =attribute_value;
-  }
-  const cs=(s,attribute_key ,attribute_value)=>
-  {    
-      if(attribute_value)
-          s[attribute_key] =attribute_value;
-  }
+
       let p={};
       let s={};
 
@@ -102,9 +91,9 @@ exports.update = async (req, res) => {
       cr(p,"bank_account",req.body.bank_account);
       cr(p,"status_person",req.body.status_person);
 
-      cs(s,"id_role",req.body.id_role);
-      cs(s,"seniority",req.body.seniority);
-      cs(s,"id_institute_staff",req.body.id_institute_staff);
+      cr(s,"id_role",req.body.id_role);
+      cr(s,"seniority",req.body.seniority);
+      cr(s,"id_institute_staff",req.body.id_institute_staff);
       
   if(Object.keys(p).length!=0)
  {

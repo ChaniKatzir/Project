@@ -5,6 +5,13 @@ import Home3 from "./components/Home3";
 import Student1 from "./components/students1";
 import Student2 from "./components/students2";
 import Staff from "./components/staff";
+import Account from "./components/AccountManagement"
+import Material from "./components/MaterialManagement"
+import Material2 from "./components/MaterialManagement2"
+import Area2 from "./components/privateArea2"
+import Area3 from "./components/privateArea3"
+
+
 
 
 import { BrowserRouter as Router,Routes, Route, Link } from 'react-router-dom';
@@ -22,6 +29,13 @@ function App() {
       <Route path='/Home2' element={< Home2 />}></Route>
       <Route path='/Home2/student' element={< Student2 />}></Route>
       <Route path='/Home3' element={< Home3 />}></Route>
+      <Route path='/AccountManagement' element={< Account />}></Route>
+      <Route path='/Home1/MaterialManagement' element={< Material />}></Route>
+      <Route path='/Home2/MaterialManagement' element={< Material2 />}></Route>
+      <Route path='/Home2/PrivateArea' element={< Area2 />}></Route>
+      <Route path='/Home3/PrivateArea' element={< Area3 />}></Route>
+
+      
      </Routes>
     </div>
 

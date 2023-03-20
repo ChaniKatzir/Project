@@ -28,6 +28,21 @@ exports.findAll = async(req, res) => {
         });
       }
 
+      exports.findCal = async (req, res) => {
+    
+        dalattendance.findCal( req.params.id,req.params.year,req.params.month,req.params.day)
+          
+            .then(data => {
+              res.send(data);
+            })
+            .catch(err => {
+              res.status(500).send({
+                message:
+                  err.message || "Some error occurred while findg attendance."
+              });
+            });
+          }
+
   // Find a single attendance 
   //Find a single attendance 
   exports.findLast = async (req, res) => {

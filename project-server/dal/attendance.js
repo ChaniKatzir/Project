@@ -1,13 +1,17 @@
 const db = require('../models')
 const attendance = db.attendances
+const person = db.persons
+const Op = db.Sequelize.Op;
+const sequelize = require('sequelize');
 
 exports.findAll = async (req, res) => {
-   return attendance.findAll()
-        
+   return attendance.findAll()      
 }
 
 exports.findAllByPersonId = async (id) => {
-    return attendance.findAllByPersonId({ where: { id_person_attendance: id } })
+    const att= attendance.findAll({ where: { id_person_attendance: id } })
+    const person=person.findOne({where:{id_person:att[0].id_person_attendance}})
+    return({att,person})
 }
 
 exports.findLast = async (id) => {
@@ -18,6 +22,13 @@ exports.findLast = async (id) => {
         ]
     })
        
+}
+exports.findcal = async (id,year,month,day) => {
+    return attendance.findOne({ where: {[Op.and]: [{ id_attendance: id },
+                                        sequelize.where(sequelize.fn('YEAR', sequelize.col('date')), year),
+                                        sequelize.where(sequelize.fn('MONTH', sequelize.col('date')), month),
+                                        sequelize.where(sequelize.fn('DAY', sequelize.col('date')), day)
+                                        ]}})
 }
 
 exports.create = async (req, res) => {

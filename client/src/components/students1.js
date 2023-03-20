@@ -6,7 +6,7 @@ import PopPut from './popStudentsUpdate'
 import PopDelete from './popStudentsDelete'
 
 
-import UseGet from '../hooks/Generic'
+import useGet from '../hooks/useGet'
 
 const Student1=()=>{
     const onChage=(selected,key)=>{

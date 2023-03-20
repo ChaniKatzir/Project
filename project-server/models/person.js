@@ -15,7 +15,7 @@ module.exports=(Sequelize,DataTypes)=>{
         Email:{ type: DataTypes.STRING},
         bank_account:{ type: DataTypes.INTEGER,allowNull: false},
         status_person:{type:DataTypes.BOOLEAN,allowNull: false},
-        //password:{type:DataTypes.INTEGER}//,allowNull: false}
+        password:{type:DataTypes.INTEGER,allowNull: false, uniqe:true}
 
     },
     {

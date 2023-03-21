@@ -16,7 +16,7 @@ import Area3 from "./components/privateArea3"
 
 
 import { BrowserRouter as Router,Routes, Route, Link } from 'react-router-dom';
-const ThemeContext = React.createContext('3');
+
 
 function App() {
 

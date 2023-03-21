@@ -11,10 +11,8 @@ const Home3=()=>{
 
    
     return(<>
-
     <Menue/>
-    <Search placeholder="חיפוש בחומר הלימוד"/>
-            
+    <Search placeholder="חיפוש בחומר הלימוד"/>   
     </>)
 };
 export default Home3

@@ -1,3 +1,6 @@
+import { React,useState, createContext } from "react";
+import ReactDOM from "react-dom/client";
+
 import Home1 from "./components/Home1";
 import Login from "./components/login";
 import Home2 from "./components/Home2";
@@ -12,10 +15,8 @@ import Area2 from "./components/privateArea2"
 import Area3 from "./components/privateArea3"
 
 
-
-
 import { BrowserRouter as Router,Routes, Route, Link } from 'react-router-dom';
-
+const ThemeContext = React.createContext('3');
 
 function App() {
 
@@ -35,15 +36,9 @@ function App() {
       <Route path='/Home2/PrivateArea' element={< Area2 />}></Route>
       <Route path='/Home3/PrivateArea' element={< Area3 />}></Route>
 
-      
-     </Routes>
+    </Routes>
     </div>
-
-
- 
-    
-
-  );
+ );
 }
 
 export default App;

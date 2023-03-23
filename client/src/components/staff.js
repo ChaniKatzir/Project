@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import useGet from '../hooks/useGet'
-import Menue from './menu1Generic'
+import useGet from '../hooks/getData'
+import Menue from './menu'
 import Pop from './popStaffGeneric'
 import PopAdder from './popStudentsAdder'
 import PopUpdate from './popStaffUpdate'

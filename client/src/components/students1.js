@@ -1,12 +1,12 @@
 import React from 'react';
-import Menue from './menu1Generic'
+import Menue from './menu'
 import Pop from './popStudentGeneric'
 import PopAdder from './popStudentsAdder'
 import PopPut from './popStudentsUpdate'
 import PopDelete from './popStudentsDelete'
 
 
-import useGet from '../hooks/useGet'
+import useGet from '../hooks/getData'
 
 const Student1=()=>{
     const onChage=(selected,key)=>{

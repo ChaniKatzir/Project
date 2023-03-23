@@ -1,5 +1,5 @@
 import React from "react";
-import Menue from './menu1Generic'
+import Menue from './menu'
 import Search from './search'
 
 import "primeicons/primeicons.css";//icone

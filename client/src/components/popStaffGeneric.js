@@ -3,7 +3,7 @@ import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import Search from './search'
 import ButtonG from './buttonGeneric'
-import useGet from "../hooks/useGet";
+import useGet from "../hooks/getData";
 
 export default function BasicDemo(props) {
     const [visible, setVisible] = useState(false);

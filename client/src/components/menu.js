@@ -2,8 +2,9 @@ import React from 'react';
 import { TabMenu } from 'primereact/tabmenu';
 import { useNavigate } from 'react-router-dom'; 
 
-export default function BasicDemo() {
+export default function BasicDemo(props) {
     const navigate = useNavigate();
+    props.arr.map()
     const items = [
         {label: 'בית', icon: 'pi pi-fw pi-home', command: ()=> { navigate("/Home1") } },
         {label: 'ניהול חשבונות', icon: 'pi pi-fw pi-calendar' ,  command: ()=> { navigate("/AccountManagement") }  },

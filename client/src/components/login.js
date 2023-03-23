@@ -1,7 +1,8 @@
 import React, { useState, createContext } from "react";
 import ReactDOM from "react-dom/client";
 
-import useGet from "../hooks/useGet";
+import  getData from "../hooks/getData";
+
 import "primeicons/primeicons.css";//icone
 import "primereact/resources/primereact.min.css";//core
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
@@ -10,37 +11,36 @@ import Home from "./Home"
 import { InputNumber } from 'primereact/inputnumber';
 import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
+import axios from "axios";
+
+
+// const log=(valueid,valuepass)=>{
+  
+//   // 
+//   return data;
+// }
 
 const Login=()=>{
-    console.log("pppp");
-    const [valueid, setValueid] = useState();
-    const [valuepass, setValuepass] = useState('');
-    const [enter, setEnter] = useState(false);
-    const [status, setStatus] = useState();
-    const UserContext = createContext()
     
-    if(enter)
-   { 
-        const{ data, loading, error, refetch}=useGet(`${valueid}/${valuepass}`);
-        console.log(data);
-        while(loading){}
-        setStatus(data)
-        setEnter(true)
-    }
-
+    const [valueid, setValueid] = useState('');
+    const [valuepass, setValuepass] = useState('');
+    // const[data, loading, error, refetch] =useGet(`${valueid}/${valuepass}`);
+    const [enter, setEnter] = useState(false);
+    const [statusP, setStatus] = useState('');
+    const UserContext = createContext()
+  
 
     return(<>
-    {enter ?  <><Home/> 
-      <UserContext.Provider value={status}>
-      </UserContext.Provider></>
+    {statusP ?  <> 
+      <Home status={statusP}/>
+      </>
     :<>
-    <InputNumber placeholder="enter your id number" inputId="minmax" valueid={valueid} onChange={(e) => setValueid(e.target.value)}
+    <InputNumber placeholder="enter your id number"  value={valueid} onChange={(e) => setValueid(e.value)}
     //  min={10000000} max={999999999} 
      />
     <Password placeholder="enter your password" value={valuepass} feedback={false} onChange={(e) => setValuepass(e.target.value)}  toggleMask />
-    <Button label="Submit" onClick={()=>{setEnter(true)}} />
+    <Button label="Submit" onClick={()=>{setStatus(getData(`${valueid}/${valuepass}`))}} />
     </>}
-   
     </>
     )
 };

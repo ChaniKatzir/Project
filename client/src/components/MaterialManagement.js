@@ -1,5 +1,5 @@
 import React from "react";
-import Menue from './menu1Generic'
+import Menue from './menu'
 
 import "primeicons/primeicons.css";//icone
 import "primereact/resources/primereact.min.css";//core

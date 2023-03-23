@@ -7,7 +7,7 @@ export default function BasicDemo() {
     const items = [
         {label: 'בית', icon: 'pi pi-fw pi-home', command: ()=> { navigate("/Home2") }},
         {label: 'תלמידים', icon: 'pi pi-fw pi-pencil', command: ()=> { navigate("/Home2/student") }},
-        {label: 'אזור אישי', icon: 'pi pi-fw pi-book', command: ()=> { navigate("/Home2/PrivateArea")}},
+        {label: 'איזור אישי', icon: 'pi pi-fw pi-book', command: ()=> { navigate("/Home2/PrivateArea")}},
         {label: 'ניהול תוכן', icon: 'pi pi-paperclip', command: ()=> { navigate("/Home2/MaterialManagement") }}
     ];
 

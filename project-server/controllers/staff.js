@@ -50,7 +50,7 @@ let objperson={"first_name":req.body.first_name,
               "celphone_number":req.body.celphone_number,
               "Email":req.body.Email,
               "bank_account":req.body.bank_account,
-              "status_person":true,
+              "status_person":1,
               "password":req.body.password
             };
 

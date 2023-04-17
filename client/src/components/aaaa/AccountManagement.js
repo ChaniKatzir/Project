@@ -1,18 +1,14 @@
 import React from "react";
-import Menue from './menu2Generic'
-import Search from './search'
+import Menue from '../menu'
 
 import "primeicons/primeicons.css";//icone
 import "primereact/resources/primereact.min.css";//core
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
-
-const Home2=()=>{
-
-    
-    return(<>
-
-    <Menue />  
-    <Search placeholder="חיפוש בחומר הלימוד"/>
+<link rel="stylesheet" href="login.css"></link>
+const Account = () => {
+    return (<>
+        <Menue/>
+      
     </>)
 };
-export default Home2
+export default Account

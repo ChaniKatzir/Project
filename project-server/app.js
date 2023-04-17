@@ -9,6 +9,7 @@ const app = express();
 app.use(cors({
     origin: 'http://localhost:3000'
 }));
+
 const instituteRouter = require("./routes/institute.js");
 const incomeRouter =require("./routes/income.js")
 const expendsRouter =require("./routes/expends.js")
@@ -19,8 +20,6 @@ const determinationRouter=require("./routes/determination.js")
 const filesRouter=require("./routes/determination.js")
 const accessRouter=require("./routes/access.js")
 
-
-
 app.use(express.urlencoded())
 app.use(express.json());
 
@@ -28,7 +27,6 @@ db.sequelize.sync({ force: false })
     .then(() => {
         console.log('yes re-sync done!')
     })
-
 
 app.use("/",accessRouter)
 app.use("/institute", instituteRouter)
@@ -39,16 +37,11 @@ app.use("/determination", determinationRouter)
 app.use("/staff",staffRouter)
 app.use("/student",studentRouter)
 
-
-
 //app.use("/files",filesRouter)
 
-
-    
 app.listen(PORT, () => {
     console.log("app running");
-})
-  ;
+});
 
 
 

@@ -15,14 +15,4 @@ import axios from "axios";
     }
   }
 
-//   const [{ data, loading, error }, refetch] = useAxios(`http://localhost:2000/${url}`)
-
-//   useEffect(() => { console.error(error); }, [error])
-//   return { data, loading, error, refetch };
-// }
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-//}
-
 export default getData;

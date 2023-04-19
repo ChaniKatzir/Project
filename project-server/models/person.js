@@ -5,7 +5,6 @@ module.exports=(Sequelize,DataTypes)=>{
     const Person=Sequelize.define('persons',{
         id_person:
         {type:DataTypes.INTEGER,
-            autoIncrement:true,
             primaryKey: true,},
         first_name: { type: DataTypes.STRING, allowNull: false },
         last_name:{ type: DataTypes.STRING, allowNull: false },
@@ -15,8 +14,8 @@ module.exports=(Sequelize,DataTypes)=>{
         Email:{ type: DataTypes.STRING},
         bank_account:{ type: DataTypes.INTEGER,allowNull: false},
         status_person:{type:DataTypes.BOOLEAN,allowNull: false},
-        password:{type:DataTypes.INTEGER,allowNull: false, uniqe:true}
-
+        password:{type:DataTypes.INTEGER,allowNull: false, uniqe:true},
+            
     },
     {
         timestamps: false,

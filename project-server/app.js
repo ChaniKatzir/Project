@@ -28,7 +28,6 @@ db.sequelize.sync({ force: false })
         console.log('yes re-sync done!')
     })
 
-app.use("/",accessRouter)
 app.use("/institute", instituteRouter)
 app.use("/income", incomeRouter)
 app.use("/expends", expendsRouter)
@@ -36,6 +35,7 @@ app.use("/attendance", attendanceRouter)
 app.use("/determination", determinationRouter)
 app.use("/staff",staffRouter)
 app.use("/student",studentRouter)
+app.use("/access",accessRouter)
 
 //app.use("/files",filesRouter)
 

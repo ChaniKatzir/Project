@@ -1,13 +1,14 @@
 import React, { useState, createContext } from "react";
 import ReactDOM from "react-dom/client";
 
-import  getData from "../hooks/getData";
+import { getData} from "../hooks/getData";
 
 import "primeicons/primeicons.css";//icone
 import "primereact/resources/primereact.min.css";//core
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 
 import Home from "./Home"
+import PrivateArea from "./privateArea"
 import { InputNumber } from 'primereact/inputnumber';
 import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
@@ -24,19 +25,19 @@ const Login=()=>{
     
     const [valueid, setValueid] = useState('');
     const [valuepass, setValuepass] = useState('');
-    // const[data, loading, error, refetch] =useGet(`${valueid}/${valuepass}`);
     const [statusP, setStatus] = useState('');
     const UserContext = createContext()
   
     const func=async()=>{
-      const a= await getData(`${valueid}/${valuepass}`) ;
+      const a= await getData(`access/${valueid}/${valuepass}`) ;
       setStatus(a) 
     }
     
     return(<>
     {console.log(statusP)}
-    {statusP!==''&&(statusP === 1 || statusP===2 || statusP===3)?<> 
-      <Home status={statusP} id={valueid}/>
+    {statusP!==''&&(statusP === 1 || statusP===2 || statusP===3)?<>
+      {/* <Home status={statusP} id={valueid}/> */}
+      <PrivateArea status={statusP} id={valueid}></PrivateArea>
       </>
     :<>
     <InputNumber placeholder="enter your id number"  value={valueid} onChange={(e) => setValueid(e.value)}

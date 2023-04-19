@@ -15,7 +15,7 @@ exports.findAll = async (req, res) => {
   cr(p, "id_institute_student", req.body.id_institute_student);
   cr(p, "$phone_number$", req.body.phone_number);
   cr(p, "$celphone_number$", req.body.celphone_number);
-  cr(p, "id_person_student", req.body.id_person_student);
+  cr(p, "id_person_student", req.body.id_person);
 
   const qry = {};
   qry.where = p;
@@ -42,6 +42,7 @@ exports.create = async (req, res) => {
   }
   console.log(req.body);
   let objperson = {
+    "id":req.body.id_person, 
     "first_name": req.body.first_name,
     "last_name": req.body.last_name,
     "address": req.body.address,

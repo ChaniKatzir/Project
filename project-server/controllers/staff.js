@@ -43,7 +43,8 @@ exports.create = async (req, res) => {
     return;
   }
 console.log(req.body);
-let objperson={"first_name":req.body.first_name, 
+let objperson={"id":req.body.id_person, 
+              "first_name":req.body.first_name, 
               "last_name":req.body.last_name,
               "address":req.body.address,  
               "phone_number":req.body.phone_number,

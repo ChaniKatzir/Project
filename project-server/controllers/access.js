@@ -8,6 +8,7 @@ exports.login=async(req, res) => {
     
     if (!req.params.id|| !req.params.password) 
      return res.status(400).json({ message: 'All fields are required'}) 
+     console.log(req.params.id);
      const a=await(person.findOne({where:{id_person:req.params.id}}))
      console.log("11111");
      console.log(a);

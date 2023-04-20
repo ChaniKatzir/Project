@@ -1,7 +1,7 @@
 import React, { useState, createContext } from "react";
 import ReactDOM from "react-dom/client";
 
-import { getData} from "../hooks/getData";
+import { useCrudFunctions} from "../hooks/useCrudFunctions";
 
 import "primeicons/primeicons.css";//icone
 import "primereact/resources/primereact.min.css";//core
@@ -22,7 +22,7 @@ import axios from "axios";
 // }
 
 const Login=()=>{
-    
+    const {getData}=useCrudFunctions()
     const [valueid, setValueid] = useState('');
     const [valuepass, setValuepass] = useState('');
     const [statusP, setStatus] = useState('');
@@ -36,8 +36,8 @@ const Login=()=>{
     return(<>
     {console.log(statusP)}
     {statusP!==''&&(statusP === 1 || statusP===2 || statusP===3)?<>
-      {/* <Home status={statusP} id={valueid}/> */}
-      <PrivateArea status={statusP} id={valueid}></PrivateArea>
+      <Home status={statusP} id={valueid}/>
+      {/* <PrivateArea status={statusP} id={valueid}></PrivateArea> */}
       </>
     :<>
     <InputNumber placeholder="enter your id number"  value={valueid} onChange={(e) => setValueid(e.value)}

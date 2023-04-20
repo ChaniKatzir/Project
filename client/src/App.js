@@ -5,7 +5,7 @@ import Home from "./components/Home";
 import Login from "./components/login";
 import Menu from "./components/menu";
 import PrivateArea from "./components/privateArea"
-
+import Student from "./components/student"
 
 import { BrowserRouter as Router,Routes, Route, Link } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
@@ -22,7 +22,8 @@ function App() {
           <Route path='/' element={<Login/>}/>
           <Route path='/Home' element={<Home/>}></Route>
           <Route path='/PrivateArea' element={<PrivateArea/>}></Route>
-          
+          <Route path='/Student' element={<Student/>}></Route>      
+          <Route path='/MaterialManagement' element={<PrivateArea/>}></Route>      
 
         </Routes>
     </div>

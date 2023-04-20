@@ -1,11 +1,7 @@
 import React from 'react'; 
 import { Card } from 'primereact/card';
-
-
 export default function CardA(props) {
-    const header = (
-        <img alt="Card" src="https://primefaces.org/cdn/primereact/images/usercard.png" />
-    );
+   
     const footer = (
         <div className="flex flex-wrap justify-content-end gap-2">
         </div>
@@ -13,8 +9,15 @@ export default function CardA(props) {
     
     return (  
         <div className="card flex justify-content-center">
-            <Card  footer={props.data} header={props.title} className="md:w-25rem">
+           { console.log(props.p,props.s)}
+
+           <Card title= {props.title} className="md:w-25rem">
+                <p className="m-0">
+                    {props.p}
+                    {props.s}
+                </p>
             </Card>
+
         </div>
     )
 }

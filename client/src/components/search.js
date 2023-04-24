@@ -2,7 +2,7 @@
 import React from 'react'; 
 import { InputText } from "primereact/inputtext";
 
-export default function IconsDemo(props) {
+export default function Search(props) {
     return (
         <div className="card flex flex-wrap justify-content-center gap-3">
             <span className="p-input-icon-left">

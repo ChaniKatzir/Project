@@ -5,9 +5,11 @@ import axios from "axios";
 
 export const useCrudFunctions = () => {
   const getData = async (url) => {
+  
     try {
       const response = await axios.get(`http://localhost:2000/${url}`);
-      return response.data;
+      var x=response.data;
+      return await x;
     } catch (error) {
       console.log(error);
     }

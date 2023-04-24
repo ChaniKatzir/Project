@@ -17,16 +17,25 @@ const Area = (props) => {
 
   const id_for_now = 44;
   const status = 3;
-  const [person, setPerson] = useState();
+  const [person, setPerson] = useState(null);
   const [p, setP] = useState();
   const [s, setS] = useState();
-  let ins;
+  const [ins, setIns] = useState([]);
+  var x = []
+  var obj;
 
   const insts = async (x, id) => {
-    console.log("personin", person);
-    console.log("idins", id);
-    const a = await getData(`${x}/${id}`);
-    return a;
+
+
+    if (status === 3) {
+      x = await getData("institute", person[0]["person.id_institute_student"]);
+    }
+    else {
+
+      x = await getData("institute", person[0]["person.id_institute_staff"]);
+    }
+    // console.log("ins", ins);
+    setIns(x)
   }
 
   const st = async (x, body) => {
@@ -47,74 +56,100 @@ const Area = (props) => {
         console.log("p[pppp", p[0]);
         setPerson(p)
       }
-      // ins = await insts("institute", person.id_institute_student);///move qqqqqqqq
     }
     else {
       let p = await st("staff", { "id_person": id_for_now });
       if (p) {
         setPerson(p[0])
       }
-      // ins = await insts("institute", person.id_institute_staff);
-    }
-    if (ins) {
-      { ins = ins.name; }
-    }
-    else {
-      console.log("no institute");
     }
   }
 
   useEffect(() => { findp(); console.log("stsart"); }, []);
 
   useEffect(() => {
-    if (person) {
-      let per = {
-        "מספר זהות:": person["person.id_person"],
-        "שם פרטי:": person["person.first_name"],
-        "שם משפחה:": person["person.last_name"],
-        "כתובת:": person["person.address"],
-        "טלפון:": person["person.phone_number"],
-        "פלאפון:": person["person.password"],
-        "מייל:": person["person.Email"],
-        "פרטי בנק:": person["person.bank_account"],
-        "סיסמה:": person["person.password"],
-        "סטטוס:": person["person.status"]
+    if (person !== null) {
+      insts();
+      
+
+      // let per =[]
+      // person.forEach(element => {
+
+      //   per.push(element)
+      // });
+       obj = {
+        "שם פרטי:": person[0]["person.first_name"],
+        "שם משפחה:": person[0]["person.last_name"],
+        "כתובת:": person[0]["person.address"],
+        "טלפון:": person[0]["person.phone_number"],
+        "פלאפון:": person[0]["person.password"],
+        "מייל:": person[0]["person.Email"],
+        "פרטי בנק:": person[0]["person.bank_account"],
+        "סיסמה:": person[0]["person.password"],
+        "סטטוס:": person[0]["person.status_person"]
       }
-      setP(per);
-      console.log("per", p);
+
+      //  [
+      //   { "שם פרטי:": person[0]["person.first_name"] },
+      //   { "שם משפחה:": person[0]["person.last_name"] },
+      //   { "כתובת:": person[0]["person.address"] },
+      //   { "טלפון:": person[0]["person.phone_number"] },
+      //   { "פלאפון:": person[0]["person.password"] },
+      //   { "מייל:": person[0]["person.Email"] },
+      //   { "פרטי בנק:": person[0]["person.bank_account"] },
+      //   { "סיסמה:": person[0]["person.password"] },
+      //   { "סטטוס:": person[0]["person.status_person"] }
+      // ]
+      // console.log("per", per);
+      setP(obj);
+    }
+  }, [person]);
+
+  useEffect(() => {
+    if (ins.length > 0) {
+      
       if (status == 3) {
-        let s = {
-          "שכר לימוד": person.tuition,
-          "שנתון:": person.yearbook,
-          // "שם מוסד:": ins.name
-        }
+        let s = [
+          { "שכר לימוד": person[0].tuition },
+          { "שנתון:": person[0].yearbook },
+          { "שם מוסד:": ins.name }
+        ]
+        console.log("s", s);
         setS(s);
       }
       else {
-        let s = {
-          "תפקיד:": role(person.id_role),
-          "שנות וותק:": person.seniority,
-          // "שם מוסד:": ins.name
-        }
+        let s = [
+          { "תפקיד:": role(person[0].id_role) },
+          { "שנות וותק:": person[0].seniority },
+          { "שם מוסד:": ins.name }
+        ]
+        console.log("s", s);
+
         setS(s);
-      }    
-      console.log('person', person);
+      }
+      console.log("ins", ins);
+    }
+  }, [ins]);
 
-    } 
-  }, [person]);
 
+  return (
+    p?.map((item) => {
+      {
+        status == 3 ? <><Menue status={props.status} id={props.id} arr={["בית", "איזור אישי"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-book"]} navigate={["/Home", "/PrivateArea"]} />
+          <Card p={p} s={s} title={"איזור אישי"} />
+          <Button label="לקבלת דווח נוכחות" rounded /></>
 
-  return (person?<> {status == 3 ? <><Menue status={props.status} id={props.id} arr={["בית", "איזור אישי"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-book"]} navigate={["/Home", "/PrivateArea"]} />
-    <Card p={p} s={s} title={"איזור אישי"} />
-    <Button label="לקבלת דווח נוכחות" rounded /></>
+        : status == 2 ? <><Menue status={props.status} id={props.id} arr={["בית", "תלמידים", "איזור אישי", "ניהול תוכן"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-pencil", "pi pi-fw pi-book", "pi pi-paperclip"]} navigate={["/Home", "/Student", "/PrivateArea", "/MaterialManagement"]} />
+          <Card p={p} s={s} title={"איזור אישי"} />
+          <Button label="לקבלת דווח נוכחות" rounded /></>
 
-    : status == 2 ? <><Menue status={props.status} id={props.id} arr={["בית", "תלמידים", "איזור אישי", "ניהול תוכן"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-pencil", "pi pi-fw pi-book", "pi pi-paperclip"]} navigate={["/Home", "/Student", "/PrivateArea", "/MaterialManagement"]} />
-      <Card p={p} s={s} title={"איזור אישי"} />
-      <Button label="לקבלת דווח נוכחות" rounded /></>
-
-      : <><Menue status={props.status} id={props.id} arr={["בית", "ניהול חשבונות", "תלמידים", "צוות", "ניהול תוכן"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-calendar", "pi pi-fw pi-pencil", "pi pi-fw pi-users", "pi pi-paperclip"]} navigate={["/Home", "/AccountManagement", "/Student", "/Staff", "/MaterialManagement"]} />
-        <Card p={p} s={s} title={"איזור אישי"} />
-        <Button label="לקבלת דווח נוכחות" rounded /></>}</>:<div>syjhkiuiuiou</div>)
+          : <><Menue status={props.status} id={props.id} arr={["בית", "ניהול חשבונות", "תלמידים", "צוות", "ניהול תוכן", "הגדרות מוסד"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-calendar", "pi pi-fw pi-pencil", "pi pi-fw pi-users", "pi pi-paperclip", "pi-cog"]} navigate={["/Home", "/AccountManagement", "/Student", "/Staff", "/MaterialManagement", "/definitions"]} />
+            <Card p={p} s={s} title={"איזור אישי"} />
+            <Button label="לקבלת דווח נוכחות" rounded /></>
+      }
+    })
+    
+  )
 
 };
 export default Area

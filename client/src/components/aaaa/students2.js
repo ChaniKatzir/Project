@@ -31,7 +31,7 @@ const Student2=()=>{
    <Pop label="חיפוש תלמיד/ים"/>
         {/* <Button label="get student/s"  onClick={()=>{  onChage()
         // console.log("makeobject")
-        // debugger
+        // 
         // makeObject(document.getElementById("fn").target.value,
         // document.getElementById("ln").target.value,
         // document.getElementById("yb").target.value,

@@ -46,22 +46,18 @@ db.attendances = require('./attendance')(sequelize, DataTypes);
 db.determinations = require('./determination')(sequelize, DataTypes);
 
 
-// db.persons.hasMany(db.students);
-// db.students.belongsTo(db.persons);
-
 db.persons.hasMany(db.students, {
     foreignKey: 'id_person_student',
   });
   db.students.belongsTo(db.persons, {
     foreignKey: 'id_person_student',
   });
-// db.persons.hasMany(db.students,{foreingnKey:'id_person_student'});
-// db.students.belongsTo(db.persons,{foreingnKey:'id_person_student'});
-// db.files = require('./files')(sequelize, DataTypes);
+  db.persons.hasMany(db.staffes, {
+    foreignKey: 'id_person_staff',
+  });
+  db.staffes.belongsTo(db.persons, {
+    foreignKey: 'id_person_staff',
+  });
 
-// db.sequelize.sync({ force: true })
-//     .then(() => {
-//         console.log('yes re-sync done!')
-//     })
 module.exports = db
 

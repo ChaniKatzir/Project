@@ -4,11 +4,11 @@ const studentRouter = express.Router();
 
 studentRouter.put("/",studentControler.findAll);
 
-studentRouter.put("/:id",studentControler.update);//////////
+studentRouter.put("/:id",studentControler.update);
 
 studentRouter.post("/",studentControler.create);
 
-studentRouter.delete("/:id",studentControler.delete);//////////
+studentRouter.delete("/:id",studentControler.delete);
 
 
 module.exports =studentRouter;

@@ -9,38 +9,37 @@ import { Button } from "primereact/button";
 import { useCrudFunctions} from "../hooks/useCrudFunctions";
 import Table from "./table";
 import SearchLine from "./searchLine";
-
 <link rel="stylesheet" href="login.css"></link>
  
- const Student = () => {
+ const Staff = () => {
     const {putData}=useCrudFunctions();
-    const [students, setStudents] = useState('');
+    const [staff, setStaff] = useState('');
     let [columns, setColumns] = useState();
-    const [objUser,setObjUser]=useState({})
+    const [objUser,setObjUser]=useState()
     
     const context = useContext(Context);
-    const name=["מספר זהות","שם פרטי","שם משפחה","מספר טלפון","מספר פלאפון","שנתון","קוד מוסד"];
-    const id=["id_person","first_name","last_name","phone_number","celphone_number","yearbook","id_institute_student"];
-    const type=["int","string","string","int","int","int","int"]
+    const name=["מספר זהות","שם פרטי","שם משפחה","מספר טלפון","מספר פלאפון","וותק","תפקיד","קוד מוסד"];
+    const id=["id_person","first_name","last_name","phone_number","celphone_number","seniority","id_role","id_institute_staff"];
+    const type=["int","string","string","int","int","int","int","int"]
+
     const func=async()=>{
       if(objUser!=null)
       {
-      const a= await putData('student',objUser) ;
-      setStudents(a);
-      }
+        const a= await putData('staff',objUser) ;
+        setStaff(a);}
       }
     
       useEffect(() => {
-        if(students)
+        if(staff)
         {
-           let keys=Object.keys(students)
+           let keys=Object.keys(staff)
            setColumns(keys);
         }        
-      }, [students]);
+      }, [staff]);
 return(<> 
     {
         <>
-        {students?<><Table column={columns}/></> :<></>}
+        {staff?<><Table column={columns}/></> :<></>}
         {context.status==1?<> 
             <Menu 
              arr={["בית","ניהול חשבונות","תלמידים","צוות","ניהול תוכן","הגדרות מוסד"]} 
@@ -60,8 +59,7 @@ return(<>
            )
         })}
             <Button label="חפש" onClick={()=>{func()}}/>
-            
      </>
     }
     </>)}
-    export default Student;
+    export default Staff;

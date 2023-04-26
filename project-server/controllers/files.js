@@ -46,7 +46,6 @@ exports.findAll = async(req, res) => {
       });
       return;
     }
-   console.log(determination);
     // Save determination in the database
     file.create(req.body)
       .then(data => {

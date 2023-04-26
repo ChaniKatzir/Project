@@ -5,7 +5,7 @@ module.exports=(sequelize,DataTypes)=>{
     const Student=sequelize.define('students',{
         id_student:{
             type: DataTypes.INTEGER,
-            autoIncrement:true,
+            autoIncrement:true,allowNull: false,uniqe:true,
             primaryKey:true},
         yearbook: { type: DataTypes.INTEGER, allowNull: false },
         id_institute_student: { type: DataTypes.INTEGER, allowNull: false},

@@ -2,10 +2,7 @@ const { where } = require('sequelize');
 const db = require('../models');
 const person = db.persons
 const student = db.students
-
 var { cr } = require('../dal/createObj ');
-
-
 
 exports.findAll = async (req, res) => {
   let p = {};
@@ -15,17 +12,22 @@ exports.findAll = async (req, res) => {
   cr(p, "id_institute_student", req.body.id_institute_student);
   cr(p, "$phone_number$", req.body.phone_number);
   cr(p, "$celphone_number$", req.body.celphone_number);
-  cr(p, "id_person_student", req.body.id_person);
+  cr(p, "$id_person$", req.body.id_person);
 
   const qry = {};
   qry.where = p;
   qry.include = [{ model: db.persons, attribute: [] }];
   qry.raw = true;
+  console.log("---find",qry);
 
   student.findAll(qry).then(data => {
+    console.log("---find",data);
+
     res.send(data);
   })
     .catch(err => {
+  console.log("---find",err);
+
       res.status(500).send({
         message:
           err.message || "Some error occurred while finding institute."
@@ -40,9 +42,8 @@ exports.create = async (req, res) => {
     });
     return;
   }
-  console.log(req.body);
   let objperson = {
-    "id":req.body.id_person, 
+    "id_person":req.body.id_person, 
     "first_name": req.body.first_name,
     "last_name": req.body.last_name,
     "address": req.body.address,
@@ -50,14 +51,13 @@ exports.create = async (req, res) => {
     "celphone_number": req.body.celphone_number,
     "Email": req.body.Email,
     "bank_account": req.body.bank_account,
-    "status_person": true
+    "status_person": true,
+    "password": req.body.password
+
   };
-
-
-  try {
+   try {
     const data1 = await person.create(objperson)
     console.log(data1);
-
     let objstudent = {
       "yearbook": req.body.yearbook,
       "status": 3,
@@ -82,15 +82,6 @@ exports.create = async (req, res) => {
 // Update a student by the id in the request
 exports.update = async (req, res) => {
   const id = req.params.id;
-
-  const cr = (p, attribute_key, attribute_value) => {
-    if (attribute_value)
-      p[attribute_key] = attribute_value;
-  }
-  const cs = (s, attribute_key, attribute_value) => {
-    if (attribute_value)
-      s[attribute_key] = attribute_value;
-  }
   let p = {};
   let s = {};
 
@@ -107,11 +98,9 @@ exports.update = async (req, res) => {
   cs(s, "id_institute_student", req.body.id_institute_student);
   cs(s, "tuition", req.body.tuition);
 
-
   if (Object.keys(p).length != 0) {
     person.update(p, { where: { id_person: id } })
       .then(num => {
-        console.log(num);
         if (num == 1) {
           if (Object.keys(s).length != 0) {
             student.update(s, { where: { id_person_student: id } })
@@ -135,7 +124,7 @@ exports.update = async (req, res) => {
           }
           else {
             res.send({
-              message: "staff was updated successfully."
+              message: "person was updated successfully."
             });
           }
         }

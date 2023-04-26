@@ -11,6 +11,7 @@ import Definitions from "./components/definitions"
 
 import { BrowserRouter as Router,Routes, Route, Link } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
+import Staff from "./components/staff";
 //import MyContext from "./components/myContext";
 
 // export const MyContext=React.createContext()
@@ -31,11 +32,12 @@ const setStatusCallback = (id) => {
   <UserProvider  statusP={status}>
         <Routes>
           <Route path='/' element={<Login  setStatus={setStatusCallback}/>}></Route>
-          <Route path='/Home' element={<Home/>}></Route>
-          <Route path='/PrivateArea' element={<PrivateArea/>}></Route>
-          <Route path='/Student' element={<Student/>}></Route>      
-          <Route path='/MaterialManagement' element={<PrivateArea/>}></Route>      
-          <Route path='/Definitions' element={<Definitions/>}></Route>      
+          <Route path='/home' element={<Home/>}></Route>
+          <Route path='/privateArea' element={<PrivateArea/>}></Route>
+          <Route path='/student' element={<Student/>}></Route>      
+          <Route path='/staff' element={<Staff/>}></Route>      
+          <Route path='/materialManagement' element={<PrivateArea/>}></Route>      
+          <Route path='/definitions' element={<Definitions/>}></Route>      
 
         </Routes>
     </UserProvider>

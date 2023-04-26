@@ -8,10 +8,7 @@ exports.login=async(req, res) => {
     
     if (!req.params.id|| !req.params.password) 
      return res.status(400).json({ message: 'All fields are required'}) 
-     console.log(req.params.id);
      const a=await(person.findOne({where:{id_person:req.params.id}}))
-     console.log("11111");
-     console.log(a);
     if(!(req.params.password==a.password)) 
         return res.status(400).json({ message: 'password does not match to user id'})
 
@@ -19,7 +16,6 @@ exports.login=async(req, res) => {
     if(await staff.findOne({where:{id_person_staff:req.params.id}}))
    {
         const a=await(staff.findOne({where:{id_person_staff:req.params.id}}))
-        console.log(a.id_role);
         if(a.id_role=='1')
             statusPerson='1'
         else

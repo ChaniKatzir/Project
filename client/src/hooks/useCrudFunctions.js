@@ -12,6 +12,8 @@ export const useCrudFunctions = () => {
       return await x;
     } catch (error) {
       console.log(error);
+      return error;
+
     }
   }
 

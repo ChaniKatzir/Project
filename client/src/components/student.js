@@ -54,11 +54,13 @@ return(<>
             navigate={["/Home","/Student","/PrivateArea","/MaterialManagement"]}/>  
         </>}
         
+        <div class="card">
         {name.map((name,index) => {
            return(
             <SearchLine name={name}  id={id[index]} type={type[index]} setObjUser={setObjUser}/>
            )
         })}
+        </div>
             <Button label="חפש" onClick={()=>{func()}}/>
             
      </>

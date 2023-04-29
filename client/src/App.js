@@ -4,7 +4,6 @@ import UserProvider from "./components/context/Provider";
 
 import Home from "./components/Home";
 import Login from "./components/login";
-import Menu from "./components/menu";
 import PrivateArea from "./components/privateArea"
 import Student from "./components/student"
 import Definitions from "./components/definitions"
@@ -38,7 +37,6 @@ const setStatusCallback = (id) => {
           <Route path='/staff' element={<Staff/>}></Route>      
           <Route path='/materialManagement' element={<PrivateArea/>}></Route>      
           <Route path='/definitions' element={<Definitions/>}></Route>      
-
         </Routes>
     </UserProvider>
 </>

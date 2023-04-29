@@ -3,6 +3,7 @@ html {
 }
 
 body {
+    text-align: center;
     font-family: var(--font-family);
     font-weight: normal;
     background: var(--surface-ground);
@@ -10,10 +11,20 @@ body {
     padding: 1rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.form{
     text-align: center;
+
+    background: var(--surface-card);
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
 }
 
 .card {
+    text-align: right;
+
     background: var(--surface-card);
     padding: 2rem;
     border-radius: 10px;

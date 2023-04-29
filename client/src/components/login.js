@@ -1,4 +1,4 @@
-import React, { useState, createContext, useEffect } from "react";
+import React, { useState, createContext, useEffect,useRef } from "react";
 
 import { useCrudFunctions } from "../hooks/useCrudFunctions";
 
@@ -10,6 +10,7 @@ import { InputNumber } from 'primereact/inputnumber';
 import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
 import { useNavigate } from "react-router-dom";
+import { Toast } from 'primereact/toast';
 
 
 const Login = (props) => {
@@ -17,13 +18,28 @@ const Login = (props) => {
   const [valueid, setValueid] = useState();
   const [valuepass, setValuepass] = useState();
   const [statusP, setStatus] = useState();
+  const [err, setErr] = useState();
+
+
+  const toast = useRef(null);
 
   const navigate = useNavigate();
 
-  const func = async (props) => {
+  const func = async () => {
     const a = await getData(`access/${valueid}/${valuepass}`);
-    setStatus(a)
-  }
+    if(a==1||a==2||a==3){
+      setStatus(a)
+    }
+    else
+      setErr(a.response.data.message);
+    }
+    
+  
+  useEffect(() => {
+    if (err) {
+      toast.current.show({ severity: 'info', summary: 'Error', detail:err })
+    }
+  }, [err]);
 
   useEffect(() => {
     if (statusP) {
@@ -32,15 +48,21 @@ const Login = (props) => {
     }
   }, [statusP]);
 
-
-  return (<>{statusP?<></>:
-   <div className="card">
+ 
+  return (
+  <>{statusP?<></>:
+   <div className="form">
         <InputNumber placeholder="enter your id number" value={valueid} onChange={(e) => setValueid(e.value)}
         //  min={10000000} max={999999999} 
         />
+        <h1></h1>
         <Password placeholder="enter your password" value={valuepass} feedback={false} onChange={(e) => setValuepass(e.target.value)} toggleMask />
+        <h1></h1>
+        <Toast ref={toast} />
         <Button label="הכנס" onClick={() => { func() }} /></div>}
+        
   </>
+  // <Try></Try>
   )
 };
 export default Login

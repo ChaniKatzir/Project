@@ -13,15 +13,15 @@ const Home = () => {
     return (<>
         {context && (
         context.status == 1 ? <>,
-                <Menu arr={["בית", "ניהול חשבונות", "תלמידים", "צוות", "ניהול תוכן","הגדרות מוסד"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-calendar", "pi pi-fw pi-pencil", "pi pi-fw pi-users", "pi pi-paperclip","pi pi-cog"]} navigate={["/Home", "/AccountManagement", "/Student", "/Staff", "/MaterialManagement","/definitions"]} />
+                <Menu arr={["בית", "ניהול חשבונות", "תלמידים", "צוות", "ניהול תוכן","הגדרות מוסד"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-calendar", "pi pi-fw pi-pencil", "pi pi-fw pi-users", "pi pi-paperclip","pi pi-cog"]} navigate={["/home", "/account", "/student", "/staff", "/materialManagement","/definitions"]} />
                 <Search placeholder="חיפוש בחומר הלימוד" />
         </> :
         context.status == 2 ? <>
-            <Menu arr={["בית", "תלמידים", "איזור אישי", "ניהול תוכן"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-pencil", "pi pi-fw pi-book", "pi pi-paperclip"]} navigate={["/Home", "/Student", "/PrivateArea", "/MaterialManagement"]} />
+            <Menu arr={["בית", "תלמידים", "איזור אישי", "ניהול תוכן"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-pencil", "pi pi-fw pi-book", "pi pi-paperclip"]} navigate={["/home", "/student", "/privateArea", "/materialManagement"]} />
             <Search placeholder="חיפוש בחומר הלימוד" />
         </> :
         <>
-            <Menu arr={["בית", "איזור אישי"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-book"]} navigate={["/Home", "/PrivateArea"]} />
+            <Menu arr={["בית", "איזור אישי"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-book"]} navigate={["/home", "/privateArea"]} />
             <Search placeholder="חיפוש בחומר הלימוד" />
         </>)
         }

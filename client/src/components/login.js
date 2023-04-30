@@ -41,7 +41,7 @@ const Login = (props) => {
   useEffect(() => {
     if (statusP) {
       props.setStatus({ "status": statusP, "id": valueid });
-      navigate('/Home');
+      navigate('/home');
     }
   }, [statusP]);
 

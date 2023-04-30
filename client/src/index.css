@@ -30,3 +30,11 @@ body {
     border-radius: 10px;
     margin-bottom: 1rem;
 }
+#right{
+    text-align: right;
+
+}
+#left{
+    text-align: left;
+
+}

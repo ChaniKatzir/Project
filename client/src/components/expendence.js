@@ -6,7 +6,7 @@ import Context from "./context/Context"
 import { useCrudFunctions } from "../hooks/useCrudFunctions";
 import { InputNumber } from 'primereact/inputnumber';
 import CardA from './card';
-import Account from './account';
+import Account from './accounts';
 import { useNavigate } from "react-router-dom";
 
 export default function Expendence(props) {
@@ -86,14 +86,21 @@ export default function Expendence(props) {
             {
               <>
                 <Button label=" קוד הוצאה" text raised onClick={() => (setTipe(1))} />
+                <h1></h1>
                 <Button label="הוצאה לפי קוד מוסד" severity="secondary" text raised onClick={() => (setTipe(2))} />
+                <h1></h1>
                 <Button label="על ידי תאריך" severity="success" text raised onClick={() => (setTipe(3))} />
+                <h1></h1>
                 <Button label=" הכל" text raised onClick={() => (setTipe(4))} />
+                <h1></h1>
                 <Button label="עדכון" severity="info" text raised />
+                <h1></h1>
                 <Button label="הוצאה חדשה" severity="warning" text raised />
+                <h1></h1>
                 <Button label="מחיקה" severity="help" text raised onClick={() => (setTipe(5))}/>
+                <h1></h1>
                 <Button label="חזרה" onClick={() => (navigate('/Home'))} />
-
+                <h1></h1>
               </>}
             {<><Button label="לקבלת נתונים" severity="help" text raised onClick={() => (setDraw(id))} /></>}
             {type == 1 ?

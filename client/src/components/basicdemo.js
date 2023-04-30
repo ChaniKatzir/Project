@@ -1,24 +1,27 @@
-import React, { useRef } from 'react';
+import React, { useRef,useState } from 'react';
 //import { useRouter } from 'next/router';
 import { SplitButton } from 'primereact/splitbutton';
 import { Toast } from 'primereact/toast';
-
+import Expendence from './expendence';
 export default function BasicDemo() {
+    const [chose, setChose] = useState();
+
     //const router = useRouter();
     const toast = useRef(null);
     const items = [
         {
-            label: 'Update',
+            label: 'הכנסות',
             icon: 'pi pi-refresh',
             command: () => {
-                toast.current.show({ severity: 'success', summary: 'Updated', detail: 'Data Updated' });
+                setChose(1)
             }
         },
         {
-            label: 'Delete',
+            label: 'הוצאות',
             icon: 'pi pi-times',
             command: () => {
-                toast.current.show({ severity: 'warn', summary: 'Delete', detail: 'Data Deleted' });
+                setChose(2)
+
             }
         }
     ];
@@ -27,8 +30,10 @@ export default function BasicDemo() {
     };
     return (
         <div className="card flex justify-content-center">
-            <Toast ref={toast}></Toast>
-            <SplitButton label="Save" icon="pi pi-plus" onClick={save} model={items} />
+           {chose==2?<Expendence></Expendence>:
+            <><Toast ref={toast}></Toast>
+            <SplitButton label="בחר" model={items} /></>
+            }
         </div>
     )
 }

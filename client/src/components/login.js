@@ -17,24 +17,21 @@ const Login = (props) => {
   const { getData } = useCrudFunctions()
   const [valueid, setValueid] = useState();
   const [valuepass, setValuepass] = useState();
-  const [statusP, setStatus] = useState();
+  const [statusP, setStatusP] = useState();
   const [err, setErr] = useState();
 
-
   const toast = useRef(null);
-
   const navigate = useNavigate();
 
   const func = async () => {
     const a = await getData(`access/${valueid}/${valuepass}`);
     if(a==1||a==2||a==3){
-      setStatus(a)
+      setStatusP(a)
     }
     else
       setErr(a.response.data.message);
     }
     
-  
   useEffect(() => {
     if (err) {
       toast.current.show({ severity: 'info', summary: 'Error', detail:err })
@@ -48,7 +45,6 @@ const Login = (props) => {
     }
   }, [statusP]);
 
- 
   return (
   <>{statusP?<></>:
    <div className="form">
@@ -60,9 +56,7 @@ const Login = (props) => {
         <h1></h1>
         <Toast ref={toast} />
         <Button label="הכנס" onClick={() => { func() }} /></div>}
-        
   </>
-  // <Try></Try>
   )
 };
 export default Login

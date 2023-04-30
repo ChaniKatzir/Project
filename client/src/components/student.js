@@ -17,7 +17,7 @@ import SearchLine from "./searchLine";
     const [students, setStudents] = useState('');
     let [columns, setColumns] = useState();
     const [objUser,setObjUser]=useState({})
-    
+    let counter=1;
     const context = useContext(Context);
     const name=["מספר זהות","שם פרטי","שם משפחה","מספר טלפון","מספר פלאפון","שנתון","קוד מוסד"];
     const id=["id_person","first_name","last_name","phone_number","celphone_number","yearbook","id_institute_student"];
@@ -25,6 +25,7 @@ import SearchLine from "./searchLine";
     const func=async()=>{
       if(objUser!=null)
       {
+        console.log("-----objUser",objUser);
       const a= await putData('student',objUser) ;
       setStudents(a);
       }
@@ -57,7 +58,7 @@ return(<>
         <div class="card">
         {name.map((name,index) => {
            return(
-            <SearchLine name={name}  id={id[index]} type={type[index]} setObjUser={setObjUser}/>
+            <SearchLine key={counter++} name={name}  id={id[index]} type={type[index]} setObjUser={setObjUser}/>
            )
         })}
         </div>

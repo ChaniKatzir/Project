@@ -1,15 +1,15 @@
 const db = require('../models')
 const person=db.persons
-const student=db.students
 const staff=db.staffes
 
-
 exports.login=async(req, res) => {
-    
     if (!req.params.id|| !req.params.password) 
      return res.status(400).json({ message: 'All fields are required'}) 
-     const a=await(person.findOne({where:{id_person:req.params.id}}))
-    if(!(req.params.password==a.password)) 
+     let a=await(person.findOne({where:{id_person:req.params.id}}))
+     console.log("req.params.password",req.params.password);
+     console.log("req.params.id",req.params.id);
+     console.log("---a",a);
+    if(a&&!(req.params.password==a.password)) 
         return res.status(400).json({ message: 'password does not match to user id'})
 
     var statusPerson='3'
@@ -21,7 +21,7 @@ exports.login=async(req, res) => {
         else
             statusPerson='2'  
     }
-    res.status(201).send(statusPerson)
+    return res.status(201).send(statusPerson)
 }
 
 

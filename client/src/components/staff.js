@@ -52,12 +52,14 @@ return(<>
             icon={["pi pi-fw pi-home","pi pi-fw pi-pencil","pi pi-fw pi-book","pi pi-paperclip"]} 
             navigate={["/Home","/Student","/PrivateArea","/MaterialManagement"]}/>  
         </>}
-        
+        <div class="card">
         {name.map((name,index) => {
            return(
             <SearchLine name={name}  id={id[index]} type={type[index]} setObjUser={setObjUser}/>
            )
         })}
+        </div>
+
             <Button label="חפש" onClick={()=>{func()}}/>
      </>
     }

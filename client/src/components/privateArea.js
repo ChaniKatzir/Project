@@ -25,8 +25,6 @@ const Area = (props) => {
   var obj;
 
   const insts = async (x, id) => {
-
-
     if (context.status === 3) {
       x = await getData("institute", person["person.id_institute_student"]);
     }
@@ -131,7 +129,7 @@ const Area = (props) => {
             <Card p={p} s={s} title={"איזור אישי"} />
             <Button label="לקבלת דווח נוכחות" rounded /></>
       }</>
-    :<div>kkkkkk</div>
+    :<div>no person</div>
       )
     
 

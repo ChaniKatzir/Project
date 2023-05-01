@@ -9,13 +9,21 @@ export default function CardA(props,index) {
     
     return (  
         <div className="card flex justify-content-center">
+           { console.log(props.p)};
            { console.log(props.p,props.s)}
 
            <Card kea={index} title= {props.title} className="md:w-25rem">
-                <p className="m-0">
+                
                     {props.p}
-                    {props.s}
-                </p>
+                    {/* {props.s} */}
+                    {/* {props.p.map((element,index) => {
+                        if(index%props.length==0)
+                        return(<><p >{element}</p>
+                        <h1></h1></>)
+                        return(<p >{element}</p>)
+
+                    })} */}
+                
             </Card>
 
         </div>

@@ -8,7 +8,7 @@ exports.findAll = async (req, res) => {
         res.send(data);
       })
       .catch(err => {
-        res.status(500).send({
+        res.status(500).json({
           message:
             err.message || "Some error occurred while findg expends."
         });
@@ -17,12 +17,12 @@ exports.findAll = async (req, res) => {
   
     exports.findAllinst = async (req, res) => {
      
-      dalexpends.findAll(req.params.id)
+      dalexpends.findAllinst(req.params.id)
           .then(data => {
             res.send(data);
           })
           .catch(err => {
-            res.status(500).send({
+            res.status(500).json({
               message:
                 err.message || "Some error occurred while findg incomes."
             });
@@ -30,7 +30,7 @@ exports.findAll = async (req, res) => {
         }
   
       exports.findAllmonth = async (req, res) => {
-    dalexpends.findAll( req.params.id
+    dalexpends.findAllmonth( req.params.id
       ,req.params.year
       ,req.params.month
         )    
@@ -38,14 +38,12 @@ exports.findAll = async (req, res) => {
             res.send(data);
           })
           .catch(err => {
-            res.status(500).send({
+            res.status(500).json({
               message:
                 err.message || "Some error occurred while findg incomes."
             });
           });
         }
-    
-
 
   exports.create = async (req, res) => {
     // Validate request
@@ -61,7 +59,7 @@ exports.findAll = async (req, res) => {
         res.send(data);
       })
       .catch(err => {
-        res.status(500).send({
+        res.status(500).json({
           message:
             err.message || "Some error occurred while creating the expends."
         });
@@ -71,27 +69,26 @@ exports.findAll = async (req, res) => {
   
   // Find a single Income 
   exports.findOne = async (req, res) => {
-   
     dalexpends.findOne(req.params.id)
       .then(data => {
         if (data) {
-          res.send(data);
+          return res.send(data);
         } else {
-          res.status(404).send({
-            message: `Cannot find expends with id=${id}.`
+          res.status(404).json({
+            message: `Cannot find expends with id=${req.params.id}.`
           });
         }
       })
       .catch(err => {
-        res.status(500).send({
-          message: "Error retrieving expends with id=" + id
+        res.status(500).json({
+          message: "Error retrieving expends with id=" + req.params.id
         });
       });
   };
   
   // Update a Income by the id in the request
   exports.update = async (req, res) => {
-  
+  console.log("req.params.id",req.params.id,"req.body",req.body);
     dalexpends.update(req.params.id,req.body)
       .then(num => {
         if (num == 1) {
@@ -100,35 +97,34 @@ exports.findAll = async (req, res) => {
           });
         } else {
           res.send({
-            message: `Cannot update expends with id=${id}. Maybe Income was not found or req.body is empty!`
+            message: `Cannot update expends with id=${req.params.id}. Maybe Income was not found or req.body is empty!`
           });
         }
       })
       .catch(err => {
-        res.status(500).send({
-          message: "Error updating expends with id=" + id
+        res.status(500).json({
+          message: "Error updating expends with id=" + req.params.id
         });
       });
   };
   
   // // Delete a Income with the specified id in the request
   exports.delete =async (req, res) => {
-   
-    dalexpends.destroy(req.params.id)
+    dalexpends.delete(req.params.id)
       .then(num => {
         if (num == 1) {
           res.send({
-            message: "expends was deleted successfully!"
+            message: "הרשומה נמחקה בהצלחה"
           });
         } else {
           res.send({
-            message: `Cannot delete expends with id=${id}. Maybe Income was not found!`
+            message: `לא נמצאה רשומה בעלת קוד מספר ${req.params.id}`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Could not delete expends with id=" + id
+          message: "Could not delete expends with id=" + req.params.id
         });
       });
   };

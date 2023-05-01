@@ -5,9 +5,6 @@ import { Button } from 'primereact/button';
 import { useCrudFunctions } from "../hooks/useCrudFunctions";
 import { useGetData } from "../hooks/useGetData";
 import Context from "./context/Context"
-
-
-
 import "primeicons/primeicons.css";//icone
 import "primereact/resources/primereact.min.css";//core
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
@@ -15,7 +12,6 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 
 const Area = (props) => {
   const context = useContext(Context);
-
   const { putData, getData } = useCrudFunctions()
   const [person, setPerson] = useState(null);
   const [p, setP] = useState();
@@ -29,7 +25,6 @@ const Area = (props) => {
       x = await getData("institute", person["person.id_institute_student"]);
     }
     else {
-
       x = await getData("institute", person["person.id_institute_staff"]);
     }
     // console.log("ins", ins);
@@ -69,12 +64,6 @@ const Area = (props) => {
     if (person !== null) {
       insts();
       
-
-      // let per =[]
-      // person.forEach(element => {
-
-      //   per.push(element)
-      // });
        obj = {
         "שם פרטי:": person["person.first_name"],
         "שם משפחה:": person["person.last_name"],
@@ -131,7 +120,5 @@ const Area = (props) => {
       }</>
     :<div>no person</div>
       )
-    
-
 };
 export default Area

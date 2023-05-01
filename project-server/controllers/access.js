@@ -3,14 +3,13 @@ const person=db.persons
 const staff=db.staffes
 
 exports.login=async(req, res) => {
+    let a=await(person.findOne({where:{id_person:req.params.id}}))
     if (!req.params.id|| !req.params.password) 
-     return res.status(400).json({ message: 'All fields are required'}) 
-     let a=await(person.findOne({where:{id_person:req.params.id}}))
-     console.log("req.params.password",req.params.password);
-     console.log("req.params.id",req.params.id);
-     console.log("---a",a);
-    if(a&&!(req.params.password==a.password)) 
-        return res.status(400).json({ message: 'password does not match to user id'})
+     return res.status(400).json({ message: 'יש למלא את כל השדות'}) 
+    else if(a==null)
+     return res.status(400).json({message:'מספר זהות זה אינו מוכר במערכת. אנא נסה שנית'})
+    else if(a&&!(req.params.password==a.password)) 
+        return res.status(400).json({ message: 'סיסמא שגויה. אנא נסה שנית'})
 
     var statusPerson='3'
     if(await staff.findOne({where:{id_person_staff:req.params.id}}))

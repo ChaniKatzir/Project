@@ -17,8 +17,6 @@ const Menu = (props) => {
     let items = []
     const context = useContext(Context);
     
-
-
     if (context.status == 1) {
         items = [{ label: arr[0], icon: icon[0], comand: command[0] },
         { label: arr[1], icon: icon[1], comand: command[1] },
@@ -26,7 +24,6 @@ const Menu = (props) => {
         { label: arr[3], icon: icon[3], comand: command[3] },
         { label: arr[4], icon: icon[4], comand: command[4] },
         { label: arr[5], icon: icon[5], comand: command[5] },
-
         ]
     }
 

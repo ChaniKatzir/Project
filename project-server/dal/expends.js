@@ -16,9 +16,7 @@ exports.findAllinst = async (id) => {
 }
 
 exports.findAllmonth = async (id,year,month) => {
-  
-
-    return expends.findAll(
+      return expends.findAll(
         {
             where: {
                 [Op.and]: [{ id_institute_expends: id },

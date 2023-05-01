@@ -17,7 +17,7 @@ exports.findAll = async (req, res) => {
   
   exports.findAllinst = async (req, res) => {
     
-    dalincome.findAll(req.params.id)
+    dalincome.findAllinst(req.params.id)
       
         .then(data => {
           res.send(data);
@@ -32,7 +32,7 @@ exports.findAll = async (req, res) => {
   
   exports.findAllmonth = async (req, res) => {
    
-    dalincome.findAll(  req.params.id,
+    dalincome.findAllmonth(  req.params.id,
        req.params.year,
 req.params.month)    
       .then(data => {
@@ -77,13 +77,13 @@ req.params.month)
           res.send(data);
         } else {
           res.status(404).send({
-            message: `Cannot find Income with id=${id}.`
+            message: `Cannot find Income with id=${req.params.id}.`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error retrieving Income with id=" + id
+          message: "Error retrieving Income with id=" + req.params.id
         });
       });
   };
@@ -98,34 +98,34 @@ req.params.month)
           });
         } else {
           res.send({
-            message: `Cannot update Income with id=${id}. Maybe Income was not found or req.body is empty!`
+            message: `Cannot update Income with id=${req.params.id}. Maybe Income was not found or req.body is empty!`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error updating Income with id=" + id
+          message: "Error updating Income with id=" + req.params.id
         });
       });
   };
   
   // // Delete a Income with the specified id in the request
   exports.delete =async (req, res) => {
-    dalincome.destroy(req.params.id)
+    dalincome.delete(req.params.id)
       .then(num => {
         if (num == 1) {
           res.send({
-            message: "Income was deleted successfully!"
+            message: "הרשומה נמחקה בהצלחה"
           });
         } else {
           res.send({
-            message: `Cannot delete Income with id=${id}. Maybe Income was not found!`
+            message: `לא נמצאה רשומה בעלת קוד מספר ${req.params.id}`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Could not delete Income with id=" + id
+          message: "Could not delete Income with id=" + req.params.id
         });
       });
   };

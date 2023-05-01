@@ -34,7 +34,7 @@ const Login = (props) => {
     
   useEffect(() => {
     if (err) {
-      toast.current.show({ severity: 'info', summary: 'Error', detail:err })
+      toast.current.show({ severity: 'info', summary: 'טעות בהזנת הנתונים', detail:err })
     }
   }, [err]);
 
@@ -48,14 +48,16 @@ const Login = (props) => {
   return (
   <>{statusP?<></>:
    <div className="form">
-        <InputNumber placeholder="enter your id number" value={valueid} onChange={(e) => setValueid(e.value)}
+        <h1>ברוכים  הבאים</h1>
+        <h3></h3>
+        <InputNumber placeholder="הקש מספר זהות" value={valueid} onChange={(e) => setValueid(e.value)}
         //  min={10000000} max={999999999} 
         />
         <h1></h1>
-        <Password placeholder="enter your password" value={valuepass} feedback={false} onChange={(e) => setValuepass(e.target.value)} toggleMask />
+        <Password placeholder="הקש סיסמא" value={valuepass} feedback={false} onChange={(e) => setValuepass(e.target.value)} toggleMask />
         <h1></h1>
         <Toast ref={toast} />
-        <Button label="הכנס" onClick={() => { func() }} /></div>}
+        <Button label="כניסה" onClick={() => { func() }} /></div>}
   </>
   )
 };

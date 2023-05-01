@@ -15,7 +15,6 @@ body {
 
 .form{
     text-align: center;
-
     background: var(--surface-card);
     padding: 2rem;
     border-radius: 10px;
@@ -24,17 +23,29 @@ body {
 
 .card {
     text-align: right;
-
     background: var(--surface-card);
     padding: 2rem;
     border-radius: 10px;
     margin-bottom: 1rem;
+    /* display: flex; */
+    justify-content: space-between;
 }
+.card_sides {
+    text-align: center;
+    background: var(--surface-card);
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
 #right{
-    text-align: right;
-
+    order: 1;
+    /* float: right; */
 }
-#left{
-    text-align: left;
 
+#left{
+    order: 2;
+    /* float: left; */
 }

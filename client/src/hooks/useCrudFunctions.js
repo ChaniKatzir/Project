@@ -18,8 +18,10 @@ export const useCrudFunctions = () => {
   }
 
   const deleteData = async (url) => {
-    try {
-      const response = await axios.get(`http://localhost:2000/${url}`);
+    try {console.log("tring");
+
+      const response = await axios.delete(`http://localhost:2000/${url}`);
+      console.log("response",response);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -28,7 +30,9 @@ export const useCrudFunctions = () => {
 
   const putData = async (url, body) => {
     try {
+    console.log("body",body,"url",url);
       let response = await axios.put(`http://localhost:2000/${url}`, body);
+      console.log("response in useCrudfunction",response);
       return response.data;
     } catch (error) {
       console.log(error);

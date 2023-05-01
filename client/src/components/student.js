@@ -38,21 +38,21 @@ import SearchLine from "./searchLine";
            setColumns(keys);
         }        
       }, [students]);
-return(<> 
+    return(<> 
     {
         <>
-        {students?<><Table column={columns}/></> :<></>}
+        {students?<><Table column={columns}/></>:<></>}
         {context.status==1?<> 
             <Menu 
              arr={["בית","ניהול חשבונות","תלמידים","צוות","ניהול תוכן","הגדרות מוסד"]} 
              icon={["pi pi-fw pi-home","pi pi-fw pi-calendar","pi pi-fw pi-pencil","pi pi-fw pi-users","pi pi-paperclip","pi pi-cog"]} 
-             navigate={["/Home","/AccountManagement","/Student","/Staff","/MaterialManagement","/Definitions"]} />
+             navigate={["/home","/account","/student","/staff","/materialManagement","/definitions"]} />
         </>:
         <>
             <Menu 
             arr={["בית","תלמידים","איזור אישי","ניהול תוכן"]} 
             icon={["pi pi-fw pi-home","pi pi-fw pi-pencil","pi pi-fw pi-book","pi pi-paperclip"]} 
-            navigate={["/Home","/Student","/PrivateArea","/MaterialManagement"]}/>  
+            navigate={["/home","/student","/privateArea","/materialManagement"]}/>  
         </>}
         
         <div class="card">

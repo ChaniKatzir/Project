@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { InputText } from 'primereact/inputtext';
+import { Calendar } from 'primereact/calendar';
+
 export default function SearchLine(props) {
+    const [date, setDate] = useState(null);
+
     const onChange = (selected, key) => {
-        console.log("selected",selected);
-        const a="hhh"
         props.setObjUser((prev) => ({ ...prev, [key]: selected }))
     }
     return (
@@ -13,9 +15,10 @@ export default function SearchLine(props) {
                     <label className="font-bold block mb-2">
                         {props.name}
                     </label>
-                    <InputText key={props.counter} id={props.id} keyfilter={props.type} className="w-full" onChange={(e) => { if(props.type=='int') onChange(parseInt(e.target.value), props.id); else onChange(e.target.value, props.id) }} />
-                    {console.log("props.id",props.id,"props.type",props.type)}
+                    {props.name=='תאריך'? <><Calendar value={date} onChange={(e) => setDate(e.value)} showButtonBar /><h1></h1></>:
+                    <><InputText key={props.counter} id={props.id} keyfilter={props.type} className="w-full" onChange={(e) => { if(props.type=='int') onChange(parseInt(e.target.value), props.id); else onChange(e.target.value, props.id) }} />
                     <h1></h1>
+                    </>}
                 </div>
             </div>
         </div>

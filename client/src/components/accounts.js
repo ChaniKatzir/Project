@@ -15,7 +15,7 @@ import CardA from './card';
 import Menu1 from './menu'
 import yudatatable from './table';
 import SearchLine from './searchLine';
-{/* <link rel="stylesheet" href="login.css"></link> */}
+{/* <link rel="stylesheet" href="login.css"></link> */ }
 
 const Account = () => {
   const context = useContext(Context);
@@ -24,21 +24,16 @@ const Account = () => {
   const toast = useRef(null);
   const menu1 = useRef(null);
   const menu2 = useRef(null);
-  // let length;
   let counter = 1;
-  const [choseI, setChoseI] = useState();
-  const [choseE, setChoseE] = useState();
+  const [chose, setChose] = useState();
   const [tableName, setTableName] = useState();
   const [id, setId] = useState();
   const [month, setMonth] = useState();
   const [year, setYear] = useState();
-  const [data, setData] = useState();
   const [draw, setDraw] = useState();
-  // const [coulums, setCoulums] = useState();
-  // const [english, setEnglish] = useState();
-  // const [type, setType] = useState();
   const [objUser, setObjUser] = useState({})
-  const [person, setPerson] = useState('');
+  const [data, setData] = useState();
+  const [person, setPerson] = useState();
   const [mapper, setMapper] = useState();
   const [array, setArray] = useState();
 
@@ -46,60 +41,60 @@ const Account = () => {
   const options = { selectableRows: "none", filterTypy: "dropdown" }
   const out = [{
     label: 'פירוט כל ההוצאות',
-    command: () => { setChoseE(1) }
+    command: () => { setChose([0, 1]) }
   },
   {
     label: 'חיפוש לפי קוד הוצאה',
-    command: () => { setChoseE(2) }
+    command: () => { setChose([0, 2]) }
   },
   {
     label: 'חיפוש לפי קוד מוסד',
-    command: () => { setChoseE(3) }
+    command: () => { setChose([0, 3]) }
   },
   {
     label: 'חיפוש לפי תאריך ההוצאה',
-    command: () => { setChoseE(4) }
+    command: () => { setChose([0, 4]) }
   },
   {
     label: 'עדכון הוצאה קיימת',
-    command: () => { setChoseE(5) }
+    command: () => { setChose([0, 5]) }
   },
   {
     label: 'הכנסת הוצאה חדשה',
-    command: () => { setChoseE(6) }
+    command: () => {setChose([0, 6]) }
   },
   {
     label: 'מחיקת הוצאה',
-    command: () => { setChoseE(7) }
+    command: () => { setChose([0, 7]) }
   }
   ];
   const inc = [{
     label: 'פירוט כל ההכנסות',
-    command: () => { setChoseI(1) }
+    command: () => { setChose([1, 1]) }
   },
   {
     label: 'חיפוש לפי קוד הכנסה',
-    command: () => { setChoseI(2) }
+    command: () => { setChose([1, 2]) }
   },
   {
     label: 'חיפוש לפי קוד מוסד',
-    command: () => { setChoseI(3) }
+    command: () => { setChose([1, 3]) }
   },
   {
     label: 'חיפוש לפי תאריך ההפקדה',
-    command: () => { setChoseI(4) }
+    command: () => { setChose([1, 4]) }
   },
   {
     label: 'עדכון הכנסה קיימת',
-    command: () => { setChoseI(5) }
+    command: () => { setChose([1, 5]) }
   },
   {
     label: 'הכנסת הכנסה חדשה',
-    command: () => { setChoseI(6) }
+    command: () => { setChose([1, 6]) }
   },
   {
     label: 'מחיקת הכנסה',
-    command: () => { setChoseI(7) }
+    command: () => { setChose([1, 7]) }
   }
   ];
 
@@ -107,101 +102,118 @@ const Account = () => {
     let res;
     let dat = [];
     let value;
-    if (choseE) {
+    if (chose[0] == 0) {
       if (id == null) res = await getData(`expends`)
       else res = await getData(`expends/${id}`)
-      console.log("res",res);
     }
-    else if (choseI) {
+    else if (chose[0] == 1) {
       if (id == null) res = await getData(`income`)
       else res = await getData(`income/${id}`)
     }
-    if (res.response.status!= 200) {
+    try {
+      let x = res.response.status
       let err = res.message;
       toast.current.show({ severity: 'info', summary: 'טעות בהזנת הנתונים', detail: err })
+      setChose(null);setDraw(null);setId(null);
     }
-    if(choseE||choseI==5)dat=null
-    if (choseE == 2 || choseI == 2) {
-      value = Object.values(res)
-      dat.push(value)
+    catch {
+      if(res.length==0){
+      setTableName(null);setData(null);setChose(null);setDraw(null);setId(null);
+      toast.current.show({ severity: 'info', summary: 'לא נמצאו פריטים תואמים' })
     }
-    else {
-      for (let index = 0; index < res.length; index++) {
-        value = Object.values(res[index])
+      if (chose[1] == 5) dat = null; setMapper(1);
+      if (chose[1] == 2) {
+        value = Object.values(res)
         dat.push(value)
       }
+      else {
+        for (let index = 0; index < res.length; index++) {
+          value = Object.values(res[index])
+          dat.push(value)
+        }
+      }
+      setData(dat);
     }
-    setData(dat);
   }
 
   const updateFunc = async () => {
     if (person) {
-      if (choseE == 5) perobj = await putData(`expends/${id}`, person)
-      else if (choseE == 6) perobj = await postData(`expends`, person)
-      else if (choseI == 5) perobj = await putData(`income/${id}`, person)
-      else if (choseI == 6) perobj = await postData(`income`, person)
+      if (chose[0] == 0) {
+        if (chose[1] == 5) perobj = await putData(`expends/${id}`, person)
+        else if (chose[1] == 6) perobj = await postData(`expends`, person)
+      }
+      else {
+        if (chose[1] == 5) perobj = await putData(`income/${id}`, person)
+        else if (chose[1] == 6) perobj = await postData(`income`, person)
+      }
       const err = perobj.message;
       toast.current.show({ severity: 'info', summary: 'הפרטים עודכנו בהצלחה', detail: err })
-      setMapper(null); setData(null); setChoseE(null); setChoseI(null); setDraw(null)
+      setMapper(null); setData(null); setChose(null); setDraw(null)
     }
   }
 
   const deleteFunc = async () => {
-    console.log("deleteeeeeee");
-    if (choseE) perobj = await deleteData(`expends/${id}`, person)
-    else if (choseI) perobj = await deleteData(`income/${id}`, person)
+    if (chose[0] == 0) perobj = await deleteData(`expends/${id}`, data)
+    else if (chose[0] == 1) perobj = await deleteData(`income/${id}`, data)
     const err = perobj.message;
-      toast.current.show({ severity: 'info', detail: err })
-      setMapper(null); setData(null); setChoseE(null); setChoseI(null); setDraw(null)
+    toast.current.show({ severity: 'info', detail: err })
+    setMapper(null); setData(null); setChose(null); setDraw(null)
   }
 
   useEffect(() => {
-    if (choseE) {
+    if (chose && chose[0] == 0) {
       setArray([["מספר הוצאה", "סכום", "הגובה", "קוד קבלה", "תאריך", "קוד מוסד"],
       ["id_current_expenditure", "sum", "collector", "recept_number", "date", "id_institute_expends"],
-      ["int", "int", "string", "int", "string", "int"],[6]])
-      // setCoulums(["מספר הוצאה", "סכום", "הגובה", "קוד קבלה", "תאריך", "קוד מוסד"])
-      // setEnglish(["id_current_expenditure", "sum", "collector", "recept_number", "date", "id_institute_expends",])
-      // setType(["int", "int", "string", "int", "string", "int"])
-      if (choseE == 1) {
+      ["int", "int", "string", "int", "string", "int"], [6]])
+      if (chose[1] == 1) {
         setTableName(`פרוט כל ההוצאות`)
-        funcGet(null)}
-      if (choseE == 2) {
+        funcGet(null)
+      }
+      if (chose[1] == 2) {
         setTableName(`פרוט הוצאה מספר ${id}`)
-        funcGet(id)}
-      if (choseE == 3) {
+        funcGet(id)
+      }
+      if (chose[1] == 3) {
         setTableName(`פרוט הוצאות של מוסד ${id}`)
-        funcGet(`institute/${id}`)}
-      if (choseE == 4) {
+        funcGet(`institute/${id}`)
+      }
+      if (chose[1] == 4) {
         setTableName(`פרוט הוצאות של מוסד ${id}בשנה ${year}בחודש ${month}`)
-        funcGet(`month/${id}/${month}/${year}`)}
-        if(choseE==5){
-          funcGet(`income/${id}`)
-        if(data)setMapper(1)}
-      if(choseE==6)setMapper(1)
-      if(choseE==7)deleteFunc();
+        funcGet(`month/${id}/${month}/${year}`)
+      }
+      if (chose[1] == 5) {
+        funcGet(id)
+        if (data) setMapper(1)
+      }
+      if (chose[1] == 6) setMapper(1)
+      if (chose[1] == 7) deleteFunc();
     }
-    else if (choseI) {
+    else if (chose && chose[0] == 1) {
       setArray([["מספר ההכנסה", "סכום", "מקור ההכנסה", "תאריך", "קוד מוסד"],
-      ["מספר ההכנסה", "סכום", "מקור ההכנסה", "תאריך", "קוד מוסד"],
-      ["id_institute_income", "origion", "date", "sum", "id_income"],[5]])
-      // setCoulums(["מספר ההכנסה", "סכום", "מקור ההכנסה", "תאריך", "קוד מוסד"])
-      // setEnglish(["id_institute_income", "origion", "date", "sum", "id_income"])
-      // setType(["int", "string", "string", "int", "int"])
-      if (choseI == 1) {
+      ["id_income","id_institute_income","origion",  "date", "sum"],
+      ["int", "int", "string", "string", "int"], [5]])
+      if (chose[1] == 1) {
         setTableName(`פרוט כל ההכנסות`)
-        funcGet(null)}
-      if (choseI == 2) {
+        funcGet(null)
+      }
+      if (chose[1] == 2) {
         setTableName(`פרוט הכנסה מספר ${id}`)
-        funcGet(id)}
-      if (choseI == 3) {
+        funcGet(id)
+      }
+      if (chose[1] == 3) {
         setTableName(`פרוט הכנסות של מוסד ${id}`)
-        funcGet(`institute/${id}`)}
-      if (choseI == 4) {
+        funcGet(`institute/${id}`)
+      }
+      if (chose[1] == 4) {
         setTableName(`פרוט הכנסות של מוסד ${id}בשנה ${year}בחודש ${month}`)
-        funcGet(`month/${id}/${month}/${year}`)}
-      if(choseI==5||choseI==6)setMapper(1)
-      if(choseI==7)deleteFunc();
+        funcGet(`month/${id}/${month}/${year}`)
+      }
+      if (chose[1] == 5) {
+        funcGet(id)
+        if (data) setMapper(1)
+      }
+      if (chose[1] == 6) setMapper(1)
+      if (chose[1] == 7) deleteFunc();
     }
   }, [draw]);
 
@@ -209,39 +221,40 @@ const Account = () => {
     {<>
       <Toast ref={toast} />
       <Menu1 className="card" arr={["בית", "ניהול חשבונות", "תלמידים", "צוות", "ניהול תוכן", "הגדרות מוסד"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-calendar", "pi pi-fw pi-pencil", "pi pi-fw pi-users", "pi pi-paperclip", "pi pi-cog"]} navigate={["/Home", "/account", "/Student", "/Staff", "/MaterialManagement", "/definitions"]} />
+      
       {data ? <>
         <CardA className="card" p={data} title={tableName} length={array[3]}></CardA>
-        {/* {yudatatable(data,coulums,options,tableName)} */}
-        <Button label="חזרה" onClick={() => (setMapper(null), setDraw(null), setData(null), setChoseE(null), setChoseI(null), setMonth(null), setYear(null), setId(null))}></Button>
+        {/* {yudatatable(data,array[0],options,tableName)} */}
+        <Button label="חזרה" onClick={() => (setMapper(null), setDraw(null), setData(null), setChose(null), setMonth(null), setYear(null), setId(null))}></Button>
       </> :
-       mapper ? <>
-       {array[0].map((column, index) => {
-        if (index != 0) return (
-            <SearchLine key={counter++} name={column} id={array[1][index]} type={array[2][index]} setObjUser={setPerson} />)
-      })}
-        <Button label="אישור" id="right" onClick={() => (updateFunc())} />
-        <Button label="חזרה" id="left" onClick={() => (counter=1,setMapper(null), setDraw(null), setData(null), setChoseE(null), setChoseI(null), setMonth(null), setYear(null), setId(null))}></Button>
-      </> :
-        <><div className='card_sides'>
-          <Menu model={out} popup ref={menu1} />
-          <Button label="הוצאות" icon="pi pi-bars" onClick={(e) => menu1.current.toggle(e)} id="right" />
-          <Menu model={inc} popup ref={menu2} />
-          <Button label="הכנסות" icon="pi pi-bars" onClick={(e) => menu2.current.toggle(e)} id="left" />
-        </div>
-          {choseE || choseI ?
-            <div className='card'> {choseE == 1 || choseI == 1 ?<></>:
-              choseE == 2 || choseI == 2 ? <InputNumber placeholder="הכנס קוד " value={id} onChange={(e) => setId(e.value)} /> :
-                choseE == 3 || choseI == 3 ? <InputNumber placeholder="הכנס קוד מוסד" value={id} onChange={(e) => setId(e.value)} /> :
-                  choseE == 4 || choseI == 4 ? <><InputNumber placeholder="הכנס קוד מוסד " value={id} onChange={(e) => setId(e.value)} />
-                    <InputNumber placeholder="הכנס  חודש " value={month} onChange={(e) => setMonth(e.value)} />
-                    <InputNumber placeholder="הכנס שנה  " value={year} onChange={(e) => setYear(e.value)} /></> :
-                    choseE == 5 || choseI == 5 ? <> <InputNumber placeholder=" הכנס קוד " value={id} onChange={(e) => setId(e.value)} /> </> :
-                      choseE == 6 || choseI == 6 ? <></> :
-                        choseE == 7 || choseI == 7 ? <InputNumber placeholder="הכנס קוד" value={id} onChange={(e) => setId(e.value)} /> : <></>}
-              <Button label="אישור" onClick={() => (setDraw(1))}  />
-            </div> :
-            <div></div>}
-        </>
+        mapper ? <>
+          {array[0].map((column, index) => {
+            if (index != 0) return (
+              <SearchLine key={counter++} name={column} id={array[1][index]} type={array[2][index]} setObjUser={setPerson} />)
+          })}
+          <Button label="אישור" id="right" onClick={() => (updateFunc())} />
+          <Button label="חזרה" id="left" onClick={() => (counter = 1, setMapper(null), setDraw(null), setData(null), setChose(null), setMonth(null), setYear(null), setId(null))}></Button>
+        </> :
+          <><div className='card_sides'>
+            <Menu model={out} popup ref={menu1} />
+            <Button label="הוצאות" icon="pi pi-bars" onClick={(e) => menu1.current.toggle(e)} id="right" />
+            <Menu model={inc} popup ref={menu2} />
+            <Button label="הכנסות" icon="pi pi-bars" onClick={(e) => menu2.current.toggle(e)} id="left" />
+          </div>
+            {chose ?
+              <div className='card'> {chose[1] == 1 ? <></> :
+                chose[1] == 2 ? <InputNumber placeholder="הכנס קוד " value={id} onChange={(e) => setId(e.value)} /> :
+                  chose[1] == 3 ? <InputNumber placeholder="הכנס קוד מוסד" value={id} onChange={(e) => setId(e.value)} /> :
+                    chose[1] == 4 ? <><InputNumber placeholder="הכנס קוד מוסד " value={id} onChange={(e) => setId(e.value)} />
+                      <InputNumber placeholder="הכנס  חודש " value={month} onChange={(e) => setMonth(e.value)} />
+                      <InputNumber placeholder="הכנס שנה  " value={year} onChange={(e) => setYear(e.value)} /></> :
+                      chose[1] == 5 ? <> <InputNumber placeholder=" הכנס קוד " value={id} onChange={(e) => setId(e.value)} /> </> :
+                        chose[1] == 6 ? <></> :
+                          chose[1] == 7 ? <InputNumber placeholder="הכנס קוד" value={id} onChange={(e) => setId(e.value)} /> : <></>}
+                <Button label="אישור" onClick={() => (setDraw(1))} />
+              </div> :
+              <div></div>}
+          </>
       }</>}</>)
 };
 export default Account

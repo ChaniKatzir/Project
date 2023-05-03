@@ -88,7 +88,6 @@ exports.findAll = async (req, res) => {
   
   // Update a Income by the id in the request
   exports.update = async (req, res) => {
-  console.log("req.params.id",req.params.id,"req.body",req.body);
     dalexpends.update(req.params.id,req.body)
       .then(num => {
         if (num == 1) {

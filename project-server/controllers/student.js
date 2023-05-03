@@ -18,15 +18,12 @@ exports.findAll = async (req, res) => {
   qry.where = p;
   qry.include = [{ model: db.persons, attribute: [] }];
   qry.raw = true;
-  console.log("---find",qry);
 
   student.findAll(qry).then(data => {
-    console.log("---find",data);
 
     res.send(data);
   })
     .catch(err => {
-  console.log("---find",err);
 
       res.status(500).send({
         message:
@@ -57,7 +54,6 @@ exports.create = async (req, res) => {
   };
    try {
     const data1 = await person.create(objperson)
-    console.log(data1);
     let objstudent = {
       "yearbook": req.body.yearbook,
       "status": 3,
@@ -67,7 +63,6 @@ exports.create = async (req, res) => {
     };
 
     const data2 = await student.create(objstudent)
-    console.log(data2);
     res.send({ data1, data2 });
   }
   catch (err) {

@@ -18,16 +18,11 @@ exports.findAll = async (req, res) => {
   qry.where = p;
   qry.include = [{ model: db.persons, attribute: [] }];
   qry.raw = true;
-  console.log("---find",qry);
 
   staff.findAll(qry).then(data => {
-    console.log("---find",data);
-
     res.send(data);
   })
     .catch(err => {
-  console.log("---find",err);
-
       res.status(500).send({
         message:
           err.message || "Some error occurred while finding institute."

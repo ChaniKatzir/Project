@@ -35,7 +35,7 @@ db.sequelize = sequelize
 db.institutes = require('./institute')(sequelize, DataTypes);
 db.expends = require('./current_expenditure')(sequelize, DataTypes);
 db.incomes = require('./income')(sequelize, DataTypes);
-
+db.banks=require('./bank_account')(sequelize,DataTypes);
 db.persons = require('./person')(sequelize, DataTypes);
 db.attendances = require('./attendance')(sequelize, DataTypes);
 
@@ -58,6 +58,12 @@ db.persons.hasMany(db.students, {
   db.staffes.belongsTo(db.persons, {
     foreignKey: 'id_person_staff',
   });
-
+  db.banks.hasMany(db.persons, {
+    foreignKey: 'bank_account',
+  });
+  db.persons.belongsTo(db.banks, {
+    foreignKey: 'bank_account',
+  });
+ 
 module.exports = db
 

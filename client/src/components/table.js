@@ -5,15 +5,12 @@ const yuseDataTable = (data, columns, options, tableName, exportData) => {
   
   const deletedRows = new Set();
   data.forEach((item, index) => {
-    console.log(typeof item[item.length - 1]);
-    console.log(item[item.length - 1]);
-    console.log(item[item.length - 1]?.props["aria-label"]);
-    if (
-      (typeof item[item.length - 1] !== "string" &&
-        item[item.length - 1]?.props["aria-label"]) === "IS_DELETED"
-    ) {
-      deletedRows.add(index);
-    }
+    // if (
+    //   (typeof item[item.length - 1] !== "string" &&
+    //     item[item.length - 1]?.props["aria-label"]) === "IS_DELETED"
+    // ) {
+      // deletedRows.add(index);
+    // }
   });
 
   options = {

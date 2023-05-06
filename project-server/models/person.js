@@ -1,6 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
 
-
 module.exports=(Sequelize,DataTypes)=>{
     const Person=Sequelize.define('persons',{
         id_person:
@@ -12,7 +11,7 @@ module.exports=(Sequelize,DataTypes)=>{
         phone_number:{ type: DataTypes.INTEGER },
         celphone_number:{ type: DataTypes.INTEGER},
         Email:{ type: DataTypes.STRING},
-        bank_account:{ type: DataTypes.INTEGER,allowNull: false},
+        bank_account:{ type: DataTypes.INTEGER,allowNull: false },
         status_person:{type:DataTypes.BOOLEAN,allowNull: false},
         password:{type:DataTypes.INTEGER,allowNull: false, uniqe:true},
             

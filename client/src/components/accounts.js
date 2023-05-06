@@ -31,7 +31,6 @@ const Account = () => {
   const [month, setMonth] = useState();
   const [year, setYear] = useState();
   const [draw, setDraw] = useState();
-  const [objUser, setObjUser] = useState({})
   const [data, setData] = useState();
   const [person, setPerson] = useState();
   const [mapper, setMapper] = useState();
@@ -223,8 +222,8 @@ const Account = () => {
       <Menu1 className="card" arr={["בית", "ניהול חשבונות", "תלמידים", "צוות", "ניהול תוכן", "הגדרות מוסד"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-calendar", "pi pi-fw pi-pencil", "pi pi-fw pi-users", "pi pi-paperclip", "pi pi-cog"]} navigate={["/Home", "/account", "/Student", "/Staff", "/MaterialManagement", "/definitions"]} />
       
       {data ? <>
-        <CardA className="card" p={data} title={tableName} length={array[3]}></CardA>
-        {/* {yudatatable(data,array[0],options,tableName)} */}
+        {/* <CardA className="card" p={data} title={tableName} length={array[3]}></CardA> */}
+        {yudatatable(data,array[0],options,tableName)}
         <Button label="חזרה" onClick={() => (setMapper(null), setDraw(null), setData(null), setChose(null), setMonth(null), setYear(null), setId(null))}></Button>
       </> :
         mapper ? <>
@@ -243,14 +242,14 @@ const Account = () => {
           </div>
             {chose ?
               <div className='card'> {chose[1] == 1 ? <></> :
-                chose[1] == 2 ? <InputNumber placeholder="הכנס קוד " value={id} onChange={(e) => setId(e.value)} /> :
-                  chose[1] == 3 ? <InputNumber placeholder="הכנס קוד מוסד" value={id} onChange={(e) => setId(e.value)} /> :
-                    chose[1] == 4 ? <><InputNumber placeholder="הכנס קוד מוסד " value={id} onChange={(e) => setId(e.value)} />
-                      <InputNumber placeholder="הכנס  חודש " value={month} onChange={(e) => setMonth(e.value)} />
-                      <InputNumber placeholder="הכנס שנה  " value={year} onChange={(e) => setYear(e.value)} /></> :
-                      chose[1] == 5 ? <> <InputNumber placeholder=" הכנס קוד " value={id} onChange={(e) => setId(e.value)} /> </> :
+                chose[1] == 2 ? <InputNumber placeholder="הכנס קוד " value={id} onChange={(e) => setId(e.value)} useGrouping={false} min={1}/> :
+                  chose[1] == 3 ? <InputNumber placeholder="הכנס קוד מוסד" value={id} onChange={(e) => setId(e.value)} useGrouping={false}/> :
+                    chose[1] == 4 ? <><InputNumber placeholder="הכנס קוד מוסד " value={id} onChange={(e) => setId(e.value)} useGrouping={false}/>
+                      <InputNumber placeholder="הכנס  חודש " value={month} onChange={(e) => setMonth(e.value)}useGrouping={false} />
+                      <InputNumber placeholder="הכנס שנה  " value={year} onChange={(e) => setYear(e.value)} useGrouping={false}/></> :
+                      chose[1] == 5 ? <> <InputNumber placeholder=" הכנס קוד " value={id} onChange={(e) => setId(e.value)} useGrouping={false}/> </> :
                         chose[1] == 6 ? <></> :
-                          chose[1] == 7 ? <InputNumber placeholder="הכנס קוד" value={id} onChange={(e) => setId(e.value)} /> : <></>}
+                          chose[1] == 7 ? <InputNumber placeholder="הכנס קוד" value={id} onChange={(e) => setId(e.value)} useGrouping={false}/> : <></>}
                 <Button label="אישור" onClick={() => (setDraw(1))} />
               </div> :
               <div></div>}

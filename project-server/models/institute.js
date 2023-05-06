@@ -8,7 +8,7 @@ module.exports=(Sequelize,DataTypes)=>{
             primaryKey:true             
         },
         tuition:{type:DataTypes.INTEGER,allowNull:false} ,
-        manegers_name:{type:DataTypes.STRING,allowNull:false},
+        manager_id_person:{type:DataTypes.INTEGER,allowNull:false},
         address:{type:DataTypes.STRING,allowNull:false},
         Email:{type:DataTypes.STRING,allowNull:false},
         phone_number:{type:DataTypes.INTEGER,allowNull:false},

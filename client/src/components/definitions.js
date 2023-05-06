@@ -11,15 +11,8 @@ const Definitions = () => {
     const context = useContext(Context);
     console.log(context);
     return (<>
-        {context && (
-         <>
-         
-                {/* <Menu arr={["בית", "ניהול חשבונות", "תלמידים", "צוות", "ניהול תוכן",,"הגדרות מוסד"]} 
-                icon={["pi pi-fw pi-home", "pi pi-fw pi-calendar", "pi pi-fw pi-pencil", "pi pi-fw pi-users","pi pi-cog"]}
-                navigate={["/Home", "/AccountManagement", "/Student", "/Staff", "/MaterialManagement","/definitions"]} />
-                <Search placeholder="חיפוש בחומר הלימוד" /> */}
-        </>)
-        }
+    <h1>דף זה עדין בבניה</h1>
+       
     </>)
 
     

@@ -5,8 +5,6 @@ const UserProvider = ({ children,statusP}) => {
     const [status, setStatus] = useState();
     useEffect(() => {
         if(statusP){
-        console.log(statusP)
-
             setStatus(statusP);
         }
     }, [statusP]);

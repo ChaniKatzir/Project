@@ -9,7 +9,6 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 <link rel="stylesheet" href="login.css"></link>
 const Home = () => {
     const context = useContext(Context);
-    console.log(context);
     return (<>
         {context && (
         context.status == 1 ? <>,

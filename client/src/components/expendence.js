@@ -27,7 +27,6 @@ export default function Expendence(props) {
 
   const funcDelete = async (id) => {
     let response = await deleteData(`expends/${id}`)
-    console.log(response);
     setAlert(response.statusText)
   }
   const funcGet = async (id) => {
@@ -43,7 +42,6 @@ export default function Expendence(props) {
     else {
       for (let index = 0; index < arr.length; index++) {
         ay = Object.values(arr[index])
-        console.log(ay);
         ax.forEach((key, i) => {
           a.push(key + " :" + ay[i])
         });
@@ -63,7 +61,6 @@ export default function Expendence(props) {
       }
       else
         if (type == 3) {
-          console.log(`  month/${id}/${month}/${year}`);
           setTitle(`  הוצאות מוסד מספר ${id}  בשנה${year} בחודש${month}`)
           funcGet(`month/${id}/${month}/${year}`)
         }

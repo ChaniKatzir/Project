@@ -8,9 +8,9 @@ module.exports=(Sequelize,DataTypes)=>{
             autoIncrement:true,
             primaryKey:true},
         id_person_attendance: { type: DataTypes.INTEGER, allowNull: false, references: persons, referenceskey: 'id_person' },
-        date:{ type: DataTypes.DATE, allowNull: false },
-        entry_time:{ type: DataTypes.INTEGER, allowNull: false },
-        exit_time:{ type: DataTypes.INTEGER, allowNull: false }
+        date:{ type: DataTypes.STRING, allowNull: false },
+        entry_time:{ type: DataTypes.STRING, allowNull: false },
+        exit_time:{ type: DataTypes.STRING, allowNull: false }
     },
     {
         timestamps: false,

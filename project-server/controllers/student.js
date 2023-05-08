@@ -18,15 +18,13 @@ exports.findAll = async (req, res) => {
 
   const qry = {};
   qry.where = p;
-  qry.include = [{ model: db.persons, attribute: [] }];
+  qry.include = [{ model: db.persons , attribute: [], include: { model: db.banks , attribute: [] }}];
   qry.raw = true;
 
   student.findAll(qry).then(data => {
-
     res.send(data);
   })
     .catch(err => {
-
       res.status(500).send({
         message:
           err.message || "Some error occurred while finding institute."
@@ -97,7 +95,7 @@ exports.update = async (req, res) => {
   const id = req.params.id;
   let p = {};
   let s = {};
-
+  let b={};
   cr(p, "first_name", req.body.first_name);
   cr(p, "last_name", req.body.last_name);
   cr(p, "address", req.body.address);
@@ -246,6 +244,9 @@ exports.delete = async (req, res) => {
       }),
         person.destroy({
           where: { id_person: id }
+        })
+        banks.destroy({
+          where: { id: ba }
         })
           .then(num => {
             if (num == 1) {

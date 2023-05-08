@@ -11,7 +11,6 @@ import { InputNumber } from 'primereact/inputnumber';
 
 import { useCrudFunctions } from "../hooks/useCrudFunctions";
 import Context from "./context/Context"
-import CardA from './card';
 import Menu1 from './menu'
 import yudatatable from './table';
 import SearchLine from './searchLine';
@@ -35,13 +34,135 @@ const Account = () => {
   const [person, setPerson] = useState();
   const [mapper, setMapper] = useState();
   const [array, setArray] = useState();
-
+  let incomeColumns = [{
+    name: "id_current_expenditure",
+    label: "מספר הוצאה",
+    options: {
+      filter: true,
+      sort: true,
+    }
+  },
+  {
+    name: "sum",
+    label: "סכום",
+    options: {
+      filter: true,
+      sort: false,
+    }
+  },
+  {
+    name: "collector",
+    label: "גובה",
+    options: {
+      filter: true,
+      sort: false,
+    }
+  },
+  {
+    name: "recept_number",
+    label: "מספר קבלה",
+    options: {
+      filter: true,
+      sort: false,
+    }
+  },
+  {
+    name: "date",
+    label: "תאריך",
+    options: {
+      filter: true,
+      sort: false,
+    }
+  },
+  {
+    name: "id_institute_expends",
+    label: "קוד מוסד",
+    options: {
+      filter: true,
+      sort: false,
+    },
+  },
+  {
+    name: "",
+    label: "",
+    options: {
+      filter: false,
+      sort: false,
+      customBodyRender: (value, tableMeta) => {
+        return <><i className="pi pi-trash" style={{ fontSize: '2rem' }} onClick={() => { deleteFunc(data[tableMeta.rowIndex]) }} ></i>
+        </>
+      },
+    },
+  },
+  ]
+  let expendsdColumns = [{
+    name: "id_income",
+    label: "מספר הכנסה",
+    options: {
+      filter: true,
+      sort: true,
+    }
+  },
+  {
+    name: "id_institute_income",
+    label: "קוד מוסד",
+    options: {
+      filter: true,
+      sort: false,
+    }
+  },
+  {
+    name: "date",
+    label: "תאריך",
+    options: {
+      filter: true,
+      sort: false,
+    }
+  },
+  {
+    name: "origion",
+    label: "מקור",
+    options: {
+      filter: true,
+      sort: false,
+    }
+  },
+  {
+    name: "sum",
+    label: "סכום",
+    options: {
+      filter: true,
+      sort: false,
+    }
+  },
+  {
+    name: "id_institute_expends",
+    label: "קוד מוסד",
+    options: {
+      filter: true,
+      sort: false,
+    },
+  },
+  {
+    name: "",
+    label: "",
+    options: {
+      filter: false,
+      sort: false,
+      customBodyRender: (value, tableMeta) => {
+        return <><i className="pi pi-trash" style={{ fontSize: '2rem' }} onClick={() => { deleteFunc(data[tableMeta.rowIndex]) }} ></i>
+        </>
+      },
+    },
+  },
+  ]
   let perobj;
   const options = { selectableRows: "none", filterTypy: "dropdown" }
   const out = [{
     label: 'פירוט כל ההוצאות',
     command: () => { setChose([0, 1]) }
   },
+  
   {
     label: 'חיפוש לפי קוד הוצאה',
     command: () => { setChose([0, 2]) }
@@ -60,11 +181,7 @@ const Account = () => {
   },
   {
     label: 'הכנסת הוצאה חדשה',
-    command: () => {setChose([0, 6]) }
-  },
-  {
-    label: 'מחיקת הוצאה',
-    command: () => { setChose([0, 7]) }
+    command: () => { setChose([0, 6]) }
   }
   ];
   const inc = [{
@@ -90,10 +207,6 @@ const Account = () => {
   {
     label: 'הכנסת הכנסה חדשה',
     command: () => { setChose([1, 6]) }
-  },
-  {
-    label: 'מחיקת הכנסה',
-    command: () => { setChose([1, 7]) }
   }
   ];
 
@@ -113,13 +226,13 @@ const Account = () => {
       let x = res.response.status
       let err = res.message;
       toast.current.show({ severity: 'info', summary: 'טעות בהזנת הנתונים', detail: err })
-      setChose(null);setDraw(null);setId(null);
+      setChose(null); setDraw(null); setId(null);
     }
     catch {
-      if(res.length==0){
-      setTableName(null);setData(null);setChose(null);setDraw(null);setId(null);
-      toast.current.show({ severity: 'info', summary: 'לא נמצאו פריטים תואמים' })
-    }
+      if (res.length == 0) {
+        setTableName(null); setData(null); setChose(null); setDraw(null); setId(null);
+        toast.current.show({ severity: 'info', summary: 'לא נמצאו פריטים תואמים' })
+      }
       if (chose[1] == 5) dat = null; setMapper(1);
       if (chose[1] == 2) {
         value = Object.values(res)
@@ -151,9 +264,10 @@ const Account = () => {
     }
   }
 
-  const deleteFunc = async () => {
-    if (chose[0] == 0) perobj = await deleteData(`expends/${id}`, data)
-    else if (chose[0] == 1) perobj = await deleteData(`income/${id}`, data)
+  const deleteFunc = async (arr) => {
+    if (chose[0] == 0)
+      perobj = await deleteData(`expends/${arr[0]}`)
+    else if (chose[0] == 1) perobj = await deleteData(`income/${arr[0]}`)
     const err = perobj.message;
     toast.current.show({ severity: 'info', detail: err })
     setMapper(null); setData(null); setChose(null); setDraw(null)
@@ -161,9 +275,10 @@ const Account = () => {
 
   useEffect(() => {
     if (chose && chose[0] == 0) {
-      setArray([["מספר הוצאה", "סכום", "הגובה", "קוד קבלה", "תאריך", "קוד מוסד"],
-      ["id_current_expenditure", "sum", "collector", "recept_number", "date", "id_institute_expends"],
-      ["int", "int", "string", "int", "string", "int"], [6]])
+
+      // setArray([["מספר הוצאה", "סכום", "הגובה", "קוד קבלה", "תאריך", "קוד מוסד"],
+      // ["id_current_expenditure", "sum", "collector", "recept_number", "date", "id_institute_expends"],
+      // ["int", "int", "string", "int", "string", "int"], [6]])
       if (chose[1] == 1) {
         setTableName(`פרוט כל ההוצאות`)
         funcGet(null)
@@ -185,12 +300,8 @@ const Account = () => {
         if (data) setMapper(1)
       }
       if (chose[1] == 6) setMapper(1)
-      if (chose[1] == 7) deleteFunc();
     }
     else if (chose && chose[0] == 1) {
-      setArray([["מספר ההכנסה", "סכום", "מקור ההכנסה", "תאריך", "קוד מוסד"],
-      ["id_income","id_institute_income","origion",  "date", "sum"],
-      ["int", "int", "string", "string", "int"], [5]])
       if (chose[1] == 1) {
         setTableName(`פרוט כל ההכנסות`)
         funcGet(null)
@@ -212,7 +323,6 @@ const Account = () => {
         if (data) setMapper(1)
       }
       if (chose[1] == 6) setMapper(1)
-      if (chose[1] == 7) deleteFunc();
     }
   }, [draw]);
 
@@ -220,37 +330,39 @@ const Account = () => {
     {<>
       <Toast ref={toast} />
       <Menu1 className="card" arr={["בית", "ניהול חשבונות", "תלמידים", "צוות", "ניהול תוכן", "הגדרות מוסד"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-calendar", "pi pi-fw pi-pencil", "pi pi-fw pi-users", "pi pi-paperclip", "pi pi-cog"]} navigate={["/Home", "/account", "/Student", "/Staff", "/MaterialManagement", "/definitions"]} />
-      
-      {data ? <>
-        {/* <CardA className="card" p={data} title={tableName} length={array[3]}></CardA> */}
-        {yudatatable(data,array[0],options,tableName)}
-        <Button label="חזרה" onClick={() => (setMapper(null), setDraw(null), setData(null), setChose(null), setMonth(null), setYear(null), setId(null))}></Button>
-      </> :
-        mapper ? <>
-          {array[0].map((column, index) => {
-            if (index != 0) return (
-              <SearchLine key={counter++} name={column} id={array[1][index]} type={array[2][index]} setObjUser={setPerson} />)
-          })}
-          <Button label="אישור" id="right" onClick={() => (updateFunc())} />
-          <Button label="חזרה" id="left" onClick={() => (counter = 1, setMapper(null), setDraw(null), setData(null), setChose(null), setMonth(null), setYear(null), setId(null))}></Button>
-        </> :
-          <><div className='card_sides'>
+      <div className='card_sides'>
             <Menu model={out} popup ref={menu1} />
             <Button label="הוצאות" icon="pi pi-bars" onClick={(e) => menu1.current.toggle(e)} id="right" />
             <Menu model={inc} popup ref={menu2} />
             <Button label="הכנסות" icon="pi pi-bars" onClick={(e) => menu2.current.toggle(e)} id="left" />
           </div>
+      {data ? <>
+        {chose[0] ?
+          <>{yudatatable(data, expendsdColumns, options, tableName)}</>
+          :
+          <>{yudatatable(data, incomeColumns, options, tableName)}</>
+        }
+        <Button label="חזרה" onClick={() => (setMapper(null), setDraw(null), setData(null), setChose(null), setMonth(null), setYear(null), setId(null))}></Button>
+      </> :
+        mapper ? <div class="card">
+          {array[0].map((column, index) => {
+            if (index != 0) return (
+              <SearchLine key={counter++} name={column} id={array[1][index]} type={array[2][index]} setObjUser={setPerson} />)
+          })}
+          <Button label="אישור" id="right" onClick={() => (updateFunc())} />
+          {/* <Button label="חזרה" id="left" onClick={() => (counter = 1, setMapper(null), setDraw(null), setData(null), setChose(null), setMonth(null), setYear(null), setId(null))}></Button> */}
+        </div> :
+          <>
             {chose ?
               <div className='card'> {chose[1] == 1 ? <></> :
-                chose[1] == 2 ? <InputNumber placeholder="הכנס קוד " value={id} onChange={(e) => setId(e.value)} useGrouping={false} min={1}/> :
-                  chose[1] == 3 ? <InputNumber placeholder="הכנס קוד מוסד" value={id} onChange={(e) => setId(e.value)} useGrouping={false}/> :
-                    chose[1] == 4 ? <><InputNumber placeholder="הכנס קוד מוסד " value={id} onChange={(e) => setId(e.value)} useGrouping={false}/>
-                      <InputNumber placeholder="הכנס  חודש " value={month} onChange={(e) => setMonth(e.value)}useGrouping={false} />
-                      <InputNumber placeholder="הכנס שנה  " value={year} onChange={(e) => setYear(e.value)} useGrouping={false}/></> :
-                      chose[1] == 5 ? <> <InputNumber placeholder=" הכנס קוד " value={id} onChange={(e) => setId(e.value)} useGrouping={false}/> </> :
-                        chose[1] == 6 ? <></> :
-                          chose[1] == 7 ? <InputNumber placeholder="הכנס קוד" value={id} onChange={(e) => setId(e.value)} useGrouping={false}/> : <></>}
-                <Button label="אישור" onClick={() => (setDraw(1))} />
+                chose[1] == 2 ? <InputNumber placeholder="הכנס קוד " value={id} onChange={(e) => setId(e.value)} useGrouping={false} min={1} /> :
+                  chose[1] == 3 ? <InputNumber placeholder="הכנס קוד מוסד" value={id} onChange={(e) => setId(e.value)} useGrouping={false} /> :
+                    chose[1] == 4 ? <><InputNumber placeholder="הכנס קוד מוסד " value={id} onChange={(e) => setId(e.value)} useGrouping={false} />
+                      <InputNumber placeholder="הכנס  חודש " value={month} onChange={(e) => setMonth(e.value)} useGrouping={false} />
+                      <InputNumber placeholder="הכנס שנה  " value={year} onChange={(e) => setYear(e.value)} useGrouping={false} /></> :
+                      chose[1] == 5 ? <> <InputNumber placeholder=" הכנס קוד " value={id} onChange={(e) => setId(e.value)} useGrouping={false} /> </> :
+                        chose[1] == 6 ? <></> : <></>}
+                <Button label="אישור" onClick={() => (setDraw(1))} />:<></>
               </div> :
               <div></div>}
           </>

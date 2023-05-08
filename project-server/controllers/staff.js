@@ -23,7 +23,6 @@ exports.findAll = async (req, res) => {
   qry.raw = true;
 
   staff.findAll(qry).then(data => {
-    console.log("data",data);
     res.send(data);
   })
     .catch(err => {

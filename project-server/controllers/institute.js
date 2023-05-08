@@ -86,7 +86,7 @@ const dalinstitute = require('../dal/institute')
   exports.delete =async (req, res) => {
  
 
-    dalinstitute.destroy(req.params.id)
+    dalinstitute.delete(req.params.id)
       .then(num => {
         if (num == 1) {
           res.send({

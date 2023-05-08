@@ -33,15 +33,139 @@ const Staff = () => {
   const serch = [["מספר זהות", "שם פרטי", "שם משפחה", "מספר טלפון", "מספר פלאפון", "וותק", "תפקיד", "קוד מוסד"]
     , ["id_person", "first_name", "last_name", "phone_number", "celphone_number", "seniority", "id_role", "id_institute_staff"]
     , ["int", "string", "string", "int", "int", "int", "int", "int"]]
-  const create = [["מספר זהות", "שם פרטי", "שם משפחה", "כתובת מגורים", "מספר טלפון", "מספר פלאפון", "כתובת מייל", "מספר בנק", "מספר סניף", "מספר חשבון", "קוד כניסה למערכת", "תפקיד", "וותק", "קוד מוסד"],
-  ["id_person", "first_name", "last_name", "address", "phone_number", "celphone_number", "Email", "id_bank", "id_branch", "num", "password", "id_role", "seniority", "id_institute_staff"],
+  const create = [["מספר זהות", "שם פרטי", "שם משפחה", "כתובת מגורים", "מספר טלפון", "מספר פלאפון", "כתובת מייל","קוד מוסד", "קוד כניסה למערכת", "מספר בנק", "מספר סניף", "מספר חשבון", "וותק", "תפקיד"],
+  ["id_person", "first_name", "last_name", "address", "phone_number", "celphone_number", "Email", "id_institute_staff", "password", "id_bank", "id_branch", "num", "seniority", "id_role"],
   ["int", "string", "string", "string", "int", "int", "string", "int", "int", "int", "int", "int", "int", "int"]]
+  let staffColumns = [{
+    name: "id_person",
+    label:"מספר זהות",
+    options: {
+      filter: true,
+      sort: true,
+    }
+  },
+  {
+    name: "first_name",
+    label:  "שם פרטי",
+    options: {
+      filter: true,
+      sort: false,
+    }
+  },
+  {
+    name: "last_name",
+    label: "שם משפחה",
+    options: {
+      filter: true,
+      sort: false,
+    }
+  },
+  {
+    name: "address",
+    label: "כתובת מגורים",
+    options: {
+      filter: true,
+      sort: false,
+    }
+  },
+  {
+    name: "phone_number",
+    label: "מספר טלפון",
+    options: {
+      filter: true,
+      sort: false,
+    }
+  },
+  {
+    name: "celphone_number",
+    label: "מספר פלאפון",
+    options: {
+      filter: true,
+      sort: false,
+    },
+  },
+  {
+    name: "Email",
+    label:  "כתובת מייל",
+    options: {
+      filter: true,
+      sort: false,
+    },
+  },
+  {
+    name: "id_institute_student",
+    label:  "קוד מוסד",
+    options: {
+      filter: true,
+      sort: false,
+    },
+  },
+  {
+    name: "password",
+    label:  "סיסמה ",
+    options: {
+      filter: true,
+      sort: false,
+    },
+  },
+  {
+    name: "id_bank",
+    label: "מספר בנק",
+    options: {
+      filter: true,
+      sort: false,
+    },
+  },
+  {
+    name: "id_branch",
+    label: "מספר סניף",
+    options: {
+      filter: true,
+      sort: false,
+    },
+  },
+  {
+    name: "num",
+    label: "מספר חשבון",
+    options: {
+      filter: true,
+      sort: false,
+    },
+  },
+  {
+    name: "id_role",
+    label:  "קוד תפקיד ",
+    options: {
+      filter: true,
+      sort: false,
+    },
+  },
+  {
+    name: "seniority",
+    label: "וותק",
+    options: {
+      filter: true,
+      sort: false,
+    },
+  },
 
+  {
+    name: "",
+    label: "",
+    options: {
+      filter: false,
+      sort: false,
+      customBodyRender: (value, tableMeta) => {
+        return <><i className="pi pi-trash" style={{ fontSize: '2rem' }} onClick={() => {console.log("dataf",dataf); deletefunc(dataf[tableMeta.rowIndex]) }} ></i>
+        </>
+      },
+    },
+  },
+  ]
   const getfunc = async () => {
     let res;
     let dat = [];
     let value;
-    console.log("data", person);
     if (id == null)
       res = await putData(`staff`, person)
     else//serch
@@ -85,8 +209,8 @@ const Staff = () => {
       setData(null); setBtn(null); setId(null)
     }
   }
-  const deletefunc = async () => {
-    perobj = await deleteData(`staff/${id}`)
+  const deletefunc = async (arr) => {
+    perobj = await deleteData(`staff/${arr[0]}`)
     const err = perobj.message;
     toast.current.show({ severity: 'info', detail: err })
     setData(null); setBtn(null); setId(null)
@@ -97,10 +221,20 @@ const Staff = () => {
       let value;
       let dat = [];
       let x = await putData('staff')
-      console.log("x",x);
       for (let index = 0; index < x.length; index++) {
-        value = await Object.values(x[index])
-        dat.push(value);
+      let values=Object.values(x[index]);
+      let arr=[]
+     Object.keys(x[index]).forEach((element,i) => {
+          if(i>3&&element!=='id_staff'&&element!=='id_person_staff'&&element!=='person.status'&&element!=="person.bank_account"&&element!=="person.bank.id")
+        (
+          arr.push(values[i]));
+          
+        })
+        for (let j = 0; j < 3; j++) {
+          arr.push (values[j]);
+          
+        }
+        dat.push(arr)
       }
       setDataf(dat)
     }
@@ -154,10 +288,9 @@ const Staff = () => {
                 </div> : <></>
           }
         </>}
-      {console.log(dataf)}
       {dataf ?
         // <CardA className="card" p={dataf} title={tableName}></CardA>
-        <>{yudatatable(dataf,create[0],options,tableName)}</>
+        <>{yudatatable(dataf,staffColumns,options,tableName)}</>
 
          : <></>}
 

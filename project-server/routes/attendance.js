@@ -6,7 +6,7 @@ attendanceRouter.get("/", attendanceControler.findAll);
 
 attendanceRouter.get("/last/:id", attendanceControler.findLast);
 
-attendanceRouter.get("/calender/:id/:year/:month/:day", attendanceControler.findCal);
+attendanceRouter.get("/calender/:id/:year/:month/:day",attendanceControler.findCal);
 
 attendanceRouter.get("/:id", attendanceControler.findAllByPersonId);
 

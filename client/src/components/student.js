@@ -51,7 +51,7 @@ const Student = () => {
     label:  "שם פרטי",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     }
   },
   {
@@ -59,7 +59,7 @@ const Student = () => {
     label: "שם משפחה",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     }
   },
   {
@@ -67,7 +67,7 @@ const Student = () => {
     label: "כתובת מגורים",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     }
   },
   {
@@ -75,7 +75,7 @@ const Student = () => {
     label: "מספר טלפון",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     }
   },
   {
@@ -83,7 +83,7 @@ const Student = () => {
     label: "מספר פלאפון",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     },
   },
   {
@@ -91,7 +91,7 @@ const Student = () => {
     label:  "כתובת מייל",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     },
   },
   {
@@ -99,7 +99,7 @@ const Student = () => {
     label:  "קוד מוסד",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     },
   },
   {
@@ -107,7 +107,7 @@ const Student = () => {
     label:  "שכר לימוד",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     },
   },
   {
@@ -115,7 +115,7 @@ const Student = () => {
     label: "מספר בנק",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     },
   },
   {
@@ -147,7 +147,7 @@ const Student = () => {
     label: "שנתון",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     },
   },
 
@@ -158,8 +158,8 @@ const Student = () => {
       filter: false,
       sort: false,
       customBodyRender: (value, tableMeta) => {
-        return <><i className="pi pi-trash" style={{ fontSize: '2rem' }} onClick={() => {console.log("dataf",dataf); deletefunc(dataf[tableMeta.rowIndex]) }} ></i>
-        </>
+        return context.status==1?<><i className="pi pi-trash" style={{ fontSize: '1.5rem' }} onClick={() => {console.log("dataf",dataf); deletefunc(dataf[tableMeta.rowIndex]) }} ></i>
+        </>:<></>
       },
     },
   },

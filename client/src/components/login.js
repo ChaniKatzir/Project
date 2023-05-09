@@ -50,7 +50,7 @@ const Login = (props) => {
    <div className="form">
         <h1>ברוכים  הבאים</h1>
         <h3></h3>
-        <InputNumber placeholder="הקש מספר זהות" value={valueid} onChange={(e) => setValueid(e.value)}useGrouping={false} />
+        <InputNumber  placeholder="הקש מספר זהות" value={valueid} onChange={(e) => setValueid(e.value)}useGrouping={false} />
         <h1></h1>
         <Password placeholder="הקש סיסמא" value={valuepass} feedback={false} onChange={(e) => setValuepass(e.target.value)} toggleMask useGrouping={false}/>
         <h1></h1>

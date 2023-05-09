@@ -49,7 +49,7 @@ const Staff = () => {
     label:  "שם פרטי",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     }
   },
   {
@@ -57,7 +57,7 @@ const Staff = () => {
     label: "שם משפחה",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     }
   },
   {
@@ -65,7 +65,7 @@ const Staff = () => {
     label: "כתובת מגורים",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     }
   },
   {
@@ -73,7 +73,7 @@ const Staff = () => {
     label: "מספר טלפון",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     }
   },
   {
@@ -81,7 +81,7 @@ const Staff = () => {
     label: "מספר פלאפון",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     },
   },
   {
@@ -89,7 +89,7 @@ const Staff = () => {
     label:  "כתובת מייל",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     },
   },
   {
@@ -97,7 +97,7 @@ const Staff = () => {
     label:  "קוד מוסד",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     },
   },
   {
@@ -113,7 +113,7 @@ const Staff = () => {
     label: "מספר בנק",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     },
   },
   {
@@ -137,7 +137,7 @@ const Staff = () => {
     label:  "קוד תפקיד ",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     },
   },
   {
@@ -145,7 +145,7 @@ const Staff = () => {
     label: "וותק",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     },
   },
 
@@ -156,7 +156,8 @@ const Staff = () => {
       filter: false,
       sort: false,
       customBodyRender: (value, tableMeta) => {
-        return <><i className="pi pi-trash" style={{ fontSize: '2rem' }} onClick={() => {console.log("dataf",dataf); deletefunc(dataf[tableMeta.rowIndex]) }} ></i>
+        return <><i className="pi pi-trash" style={{ fontSize: '1.5rem' }} onClick={() => {console.log("dataf",dataf); deletefunc(dataf[tableMeta.rowIndex]) }} ></i>
+        <i className="pi pi-pencil" style={{ fontSize: '1.5rem' }} onClick={() => {console.log("dataf",dataf); postfunc(dataf[tableMeta.rowIndex]) }} ></i>
         </>
       },
     },

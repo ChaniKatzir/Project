@@ -4,15 +4,7 @@ import MUIDataTable from "mui-datatables";
 const yuseDataTable = (data, columns, options, tableName, exportData) => {
   
   const deletedRows = new Set();
-  // data.forEach((item, index) => {
-    // if (
-    //   (typeof item[item.length - 1] !== "string" &&
-    //     item[item.length - 1]?.props["aria-label"]) === "IS_DELETED"
-    // ) {
-      // deletedRows.add(index);
-    // }
-  // });
-
+ 
   options = {
     ...options,
     onDownload: (buildHead, buildBody, columns, dataa) => {

@@ -47,15 +47,15 @@ const Account = () => {
     label: "סכום",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     }
   },
   {
     name: "collector",
-    label: "גובה",
+    label: "שם הגובה",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     }
   },
   {
@@ -63,7 +63,7 @@ const Account = () => {
     label: "מספר קבלה",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     }
   },
   {
@@ -71,7 +71,7 @@ const Account = () => {
     label: "תאריך",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     }
   },
   {
@@ -79,7 +79,7 @@ const Account = () => {
     label: "קוד מוסד",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     },
   },
   {
@@ -108,7 +108,7 @@ const Account = () => {
     label: "קוד מוסד",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     }
   },
   {
@@ -116,15 +116,15 @@ const Account = () => {
     label: "תאריך",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     }
   },
   {
     name: "origion",
-    label: "מקור",
+    label: "מקור ההכנסה",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     }
   },
   {
@@ -132,7 +132,7 @@ const Account = () => {
     label: "סכום",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     }
   },
   {
@@ -140,7 +140,7 @@ const Account = () => {
     label: "קוד מוסד",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     },
   },
   {

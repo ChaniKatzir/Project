@@ -18,7 +18,9 @@ export const useCrudFunctions = () => {
 
   const deleteData = async (url) => {
     try {
+      console.log("dellll",url);
       const response = await axios.delete(`http://localhost:2000/${url}`);
+      console.log("====",response);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -37,11 +39,11 @@ export const useCrudFunctions = () => {
 
   const postData = async (url, body) => {
     try {
-
       const response = await axios.post(`http://localhost:2000/${url}`, body);
       return response.data;
     } catch (error) {
       console.log(error);
+      return error;
     }
   }
 

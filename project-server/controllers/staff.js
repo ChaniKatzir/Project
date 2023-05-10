@@ -34,6 +34,8 @@ exports.findAll = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
+console.log("postcontroller");
+
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!"
@@ -48,10 +50,12 @@ exports.create = async (req, res) => {
   }
   let data;
   const check = await banks.findOne({ where: { num: req.body.num } })
-  
-  if (check.length == 0) {
+  console.log("check",check);
+  if (!check) {
+    console.log("!check======");
     data = await banks.create(bankobj);
     data = data.id;
+    console.log(data,"==========");
   }
   else {
     data = check.id;
@@ -233,9 +237,11 @@ exports.update = async (req, res) => {
 
 // // Delete a student with the specified id in the request
 exports.delete = async (req, res) => {
+  console.log("deletesta");
   const id = req.params.id;
   let ba = await person.findAll({ where: { id_person: id } })
-  if (ba.length == 1) {
+  console.log("====================",ba);
+  if (ba) {
     ba = ba.bank_account;
     try {
       staff.destroy({
@@ -250,6 +256,7 @@ exports.delete = async (req, res) => {
           .then(num => {
             if (num == 1) {
               status_person = false;
+              console.log("hurray!!!");
               res.send({
                 message: "staff was deleted successfully!"
               });

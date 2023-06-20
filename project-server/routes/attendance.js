@@ -8,6 +8,8 @@ attendanceRouter.get("/last/:id", attendanceControler.findLast);
 
 attendanceRouter.get("/calender/:id/:year/:month/:day",attendanceControler.findCal);
 
+attendanceRouter.get("/sum/:id/:year/:month",attendanceControler.findMonth);
+
 attendanceRouter.get("/:id", attendanceControler.findAllByPersonId);
 
 attendanceRouter.put("/:id",attendanceControler.update);

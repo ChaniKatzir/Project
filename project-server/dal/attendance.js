@@ -33,7 +33,16 @@ exports.findCal = async (id, year, month, day) => {
         }
     })
 }
-
+exports.findMonth = async (id, year, month) => {
+    return attendance.findAll({
+        where: {
+            [Op.and]: [{ id_attendance: id },
+            sequelize.where(sequelize.fn('YEAR', sequelize.col('date')), year),
+            sequelize.where(sequelize.fn('MONTH', sequelize.col('date')), month)
+            ]
+        }
+    })
+}
 exports.create = async (req, res) => {
     return attendance.create(req.body)
 

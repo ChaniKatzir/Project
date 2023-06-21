@@ -10,7 +10,7 @@ export default function CardA(props, index) {
     const [dataP, setDataP] = useState();
     const [dataS, setDataS] = useState();
     const [definitions, setDefinitions] = useState();
-    const [attendancePrivate, setAttendancePrivate] = useState();
+    const [attendance, setAttendance] = useState();
 
     const context = useContext(Context);
     const { putData, getData } = useCrudFunctions()
@@ -25,7 +25,8 @@ export default function CardA(props, index) {
             props.list.forEach((element, index) => {
                 data.push(element + " : " + props.attend[index])
             });
-            setAttendancePrivate(data)
+            console.log(data);
+            setAttendance(data)
         }
     }, [])
     useEffect(() => {
@@ -62,19 +63,20 @@ export default function CardA(props, index) {
         }
     }, []);
 
-    return (context && (
+    return ( (
 
         <div className="card flex justify-content-center">
             {
-                attendancePrivate ?
+                attendance?
+                <>{console.log("hiiiiii")}
                     <Card kea={index} title={props.title} className="cardA" id="card">
                         <p className="m-0">
-                            {attendancePrivate.map((element, index) => {
+                            {attendance.map((element, index) => {
                                 return (<p >{element}</p>)
                             })}
 
                         </p>
-                    </Card>
+                    </Card></>
                     :
                     definitions ?
                         <Card kea={index} title={props.title} className="cardA" id="card">

@@ -57,13 +57,14 @@ const yuseDataTable = (data, columns, options, tableName, exportData) => {
       },
     },
   };
-  return (
-    <MUIDataTable
+  return (<>
+{    console.log("data",data)
+}    <MUIDataTable
       title={tableName}
       data={data}
       columns={columns}
       options={options}
-    />
+    /></>
   );
 };
 

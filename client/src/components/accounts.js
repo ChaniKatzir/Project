@@ -34,6 +34,8 @@ const Account = () => {
   const [person, setPerson] = useState();
   const [mapper, setMapper] = useState();
   const [array, setArray] = useState();
+  const [once, setOnce] = useState();
+
   let incomeColumns = [{
     name: "id_current_expenditure",
     label: "מספר הוצאה",
@@ -160,40 +162,53 @@ const Account = () => {
   const options = { selectableRows: "none", filterTypy: "dropdown" }
   const out = [{
     label: 'פירוט כל ההוצאות',
+    icon: 'pi pi-qrcode',
     command: () => { setChose([0, 1]) }
   },
   
   {
     label: 'חיפוש לפי קוד הוצאה',
+      icon: 'pi pi-search',
     command: () => { setChose([0, 2]) }
   },
   {
     label: 'חיפוש לפי קוד מוסד',
+      icon: 'pi pi-search',
+
     command: () => { setChose([0, 3]) }
   },
   {
     label: 'חיפוש לפי תאריך ההוצאה',
+
     command: () => { setChose([0, 4]) }
   },
   {
     label: 'עדכון הוצאה קיימת',
+      icon: 'pi pi-replay',
     command: () => { setChose([0, 5]) }
   },
   {
     label: 'הכנסת הוצאה חדשה',
+      icon: 'pi pi-sign-in',
     command: () => { setChose([0, 6]) }
   }
   ];
   const inc = [{
     label: 'פירוט כל ההכנסות',
+      icon: 'pi pi-qrcode',
+
     command: () => { setChose([1, 1]) }
   },
   {
     label: 'חיפוש לפי קוד הכנסה',
+      icon: 'pi pi-search',
+
     command: () => { setChose([1, 2]) }
   },
   {
     label: 'חיפוש לפי קוד מוסד',
+      icon: 'pi pi-search',
+
     command: () => { setChose([1, 3]) }
   },
   {
@@ -202,11 +217,17 @@ const Account = () => {
   },
   {
     label: 'עדכון הכנסה קיימת',
+      icon: 'pi pi-replay',
+
     command: () => { setChose([1, 5]) }
   },
   {
     label: 'הכנסת הכנסה חדשה',
-    command: () => { setChose([1, 6]) }
+      icon: 'pi pi-sign-in',
+
+    command: () => {setChose([1, 6])} 
+    
+    
   }
   ];
 
@@ -226,11 +247,10 @@ const Account = () => {
       let x = res.response.status
       let err = res.message;
       toast.current.show({ severity: 'info', summary: 'טעות בהזנת הנתונים', detail: err })
-      setChose(null); setDraw(null); setId(null);
+      setOnce(null);setMapper(null); setDraw(null); setData(null); setChose(null); setMonth(null);setYear(null); setId(null)
     }
     catch {
       if (res.length == 0) {
-        setTableName(null); setData(null); setChose(null); setDraw(null); setId(null);
         toast.current.show({ severity: 'info', summary: 'לא נמצאו פריטים תואמים' })
       }
       if (chose[1] == 5) dat = null; setMapper(1);
@@ -260,7 +280,7 @@ const Account = () => {
       }
       const err = perobj.message;
       toast.current.show({ severity: 'info', summary: 'הפרטים עודכנו בהצלחה', detail: err })
-      setMapper(null); setData(null); setChose(null); setDraw(null)
+      setOnce(null);setMapper(null); setDraw(null); setData(null); setChose(null); setMonth(null);setYear(null); setId(null)
     }
   }
 
@@ -270,15 +290,15 @@ const Account = () => {
     else if (chose[0] == 1) perobj = await deleteData(`income/${arr[0]}`)
     const err = perobj.message;
     toast.current.show({ severity: 'info', detail: err })
-    setMapper(null); setData(null); setChose(null); setDraw(null)
+    setOnce(null);setMapper(null); setDraw(null); setData(null); setChose(null); setMonth(null);setYear(null); setId(null)
   }
 
   useEffect(() => {
     if (chose && chose[0] == 0) {
-
-      // setArray([["מספר הוצאה", "סכום", "הגובה", "קוד קבלה", "תאריך", "קוד מוסד"],
-      // ["id_current_expenditure", "sum", "collector", "recept_number", "date", "id_institute_expends"],
-      // ["int", "int", "string", "int", "string", "int"], [6]])
+ 
+      setArray([["מספר הוצאה", "סכום", "הגובה", "קוד קבלה", "תאריך", "קוד מוסד"],
+      ["id_current_expenditure", "sum", "collector", "recept_number", "date", "id_institute_expends"],
+      ["int", "int", "string", "int", "string", "int"], [6]])
       if (chose[1] == 1) {
         setTableName(`פרוט כל ההוצאות`)
         funcGet(null)
@@ -295,13 +315,21 @@ const Account = () => {
         setTableName(`פרוט הוצאות של מוסד ${id}בשנה ${year}בחודש ${month}`)
         funcGet(`month/${id}/${month}/${year}`)
       }
+  
       if (chose[1] == 5) {
         funcGet(id)
-        if (data) setMapper(1)
+          if (data) {           
+            setMapper(1)}
       }
-      if (chose[1] == 6) setMapper(1)
-    }
+      if (chose[1] == 6) {
+        setMapper(1)
+      }
+    
+        }
     else if (chose && chose[0] == 1) {
+      setArray([["מספר הכנסה", "סכום", "תאריך", "מקור ",  "קוד מוסד"],
+      ["id_income", "sum", "date", "origion", "id_institute_income"],
+      ["int", "int", "string", "string", "int"], [6]])
       if (chose[1] == 1) {
         setTableName(`פרוט כל ההכנסות`)
         funcGet(null)
@@ -322,7 +350,9 @@ const Account = () => {
         funcGet(id)
         if (data) setMapper(1)
       }
-      if (chose[1] == 6) setMapper(1)
+      if (chose[1] == 6){
+        setMapper(1)
+      } 
     }
   }, [draw]);
 
@@ -342,18 +372,24 @@ const Account = () => {
           :
           <>{yudatatable(data, incomeColumns, options, tableName)}</>
         }
-        <Button label="חזרה" onClick={() => (setMapper(null), setDraw(null), setData(null), setChose(null), setMonth(null), setYear(null), setId(null))}></Button>
+        <Button label="חזרה" onClick={() => (setOnce(null),setMapper(null), setDraw(null), setData(null), setChose(null), setMonth(null), setYear(null), setId(null))}></Button>
       </> :
         mapper ? <div class="card">
-          {array[0].map((column, index) => {
+          {
+          
+          array[0].map((column, index) => {
             if (index != 0) return (
               <SearchLine key={counter++} name={column} id={array[1][index]} type={array[2][index]} setObjUser={setPerson} />)
-          })}
-          <Button label="אישור" id="right" onClick={() => (updateFunc())} />
+          })
+          }
+
+          <Button label="אישור" id="right" onClick={() => (updateFunc(),setOnce(null),setMapper(null), setDraw(null), setData(null), setChose(null), setMonth(null), setYear(null), setId(null))} />
+        <Button label="חזרה" onClick={() => (setOnce(null),setMapper(null), setDraw(null), setData(null), setChose(null), setMonth(null), setYear(null), setId(null))}></Button>
+
           {/* <Button label="חזרה" id="left" onClick={() => (counter = 1, setMapper(null), setDraw(null), setData(null), setChose(null), setMonth(null), setYear(null), setId(null))}></Button> */}
         </div> :
           <>
-            {chose ?
+            {chose && once==null?
               <div className='card'> {chose[1] == 1 ? <></> :
                 chose[1] == 2 ? <InputNumber placeholder="הכנס קוד " value={id} onChange={(e) => setId(e.value)} useGrouping={false} min={1} /> :
                   chose[1] == 3 ? <InputNumber placeholder="הכנס קוד מוסד" value={id} onChange={(e) => setId(e.value)} useGrouping={false} /> :
@@ -361,8 +397,9 @@ const Account = () => {
                       <InputNumber placeholder="הכנס  חודש " value={month} onChange={(e) => setMonth(e.value)} useGrouping={false} />
                       <InputNumber placeholder="הכנס שנה  " value={year} onChange={(e) => setYear(e.value)} useGrouping={false} /></> :
                       chose[1] == 5 ? <> <InputNumber placeholder=" הכנס קוד " value={id} onChange={(e) => setId(e.value)} useGrouping={false} /> </> :
-                        chose[1] == 6 ? <></> : <></>}
-                <Button label="אישור" onClick={() => (setDraw(1))} />:<></>
+                        chose[1] == 6 ? <>{}
+                        </> : <></>}
+              {chose[1]!=1&&chose[1]!=6? <Button label="אישור" onClick={() => (setDraw(1))} />:<>{setOnce(1)}{setDraw(1)}</>}
               </div> :
               <div></div>}
           </>

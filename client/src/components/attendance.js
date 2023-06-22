@@ -154,7 +154,7 @@ const Attendace = (props) => {
        <Button label="חזרה" rounded onClick={() => (setTable(null), setTitle(null), setNames(null),setUseCalender(null),setDate(null))} />
       </> :
       totalSalary&&visible==true?<>
-      <ConfirmDialog visible={visible} onHide={() => setVisible(false)} message={totalSalary}
+      <ConfirmDialog visible={visible} onHide={() => (setVisible(false),setTotalSalary(null),setTotalTimeHoures(null),setTotalTimeMinutes(null))} message={totalSalary}
                 header=":סך המשכורות לחודש זה הוא"  />
       </>:
       totalTimeHoures&&totalTimeinutes?<>

@@ -4,7 +4,6 @@ import Card from "./card";
 import AttendacePrivate from "./attendacePrivate";
 
 import { useCrudFunctions } from "../hooks/useCrudFunctions";
-import { useGetData } from "../hooks/useGetData";
 import Context from "./context/Context"
 import { useNavigate } from "react-router-dom";
 import App from "../App";

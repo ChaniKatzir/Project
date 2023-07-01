@@ -23,7 +23,7 @@ const Attendace = (props) => {
   const [table, setTable] = useState();
   const [title, setTitle] = useState();
   const [totalTimeHoures, setTotalTimeHoures] = useState();
-  const [totalTimeinutes, setTotalTimeMinutes] = useState();
+  const [totalTimeMinutes, setTotalTimeMinutes] = useState();
   const [totalSalary, setTotalSalary] = useState();
   const [visible, setVisible] = useState(false);
   const currentDate = new Date();
@@ -35,30 +35,29 @@ const Attendace = (props) => {
   const { putData, getData } = useCrudFunctions()
   const context = useContext(Context);
   const options = { selectableRows: "none", filterTypy: "dropdown" }
-  const Id = 2
-  const Status = 2
+ 
   const outSalary = [
     {
       label: 'למשכורת של החודש האחרון',
-      command: () => { func(`attendance/${Id}`, 5, "דרישות שכר") }
+      command: () => { func(`attendance/sum/${props.Id}/${currentYear}/${currentMonth}`, 5, "דרישות שכר") }
     },
     {
       label: 'לדרישות שכר',
-      command: () => { func(`determination/${Id}`, 4, "דרישות שכר") }
+      command: () => { func(`determination/${props.Id}`, 4, "דרישות שכר") }
     }
   ]
 
   const outAttendance = [
     {
       label: 'לסיכום נוכחות של החודש האחרון',
-      command: () => { func(`attendance/sum/${Id}/${currentYear}/${currentMonth}`, 6, " סיכום נוכחות") }
+      command: () => { func(`attendance/sum/${props.Id}/${currentYear}/${currentMonth}`, 6, " סיכום נוכחות") }
     }, {
       label: 'לקבלת דווח נוכחות',
-      command: () => { func(`attendance/${Id}`, 1, "נוכחות") }
+      command: () => { func(`attendance/last/${props.Id}`, 1, "נוכחות") }
     },
     {
       label: 'לקבלת הנוכחות האחרונה',
-      command: () => { func(`attendance/last/${Id}`, 2, "נוכחות אחרונה") }
+      command: () => { func(`attendance/last/${props.Id}`, 2, "נוכחות אחרונה") }
     },
     {
       label: 'בחר נוכחות על פי תאריך',
@@ -115,15 +114,17 @@ const Attendace = (props) => {
           const timeNumberEnt = parseInt(hoursEnt) + parseInt(minutesEnt) / 60;
           const timeNumberExt = parseInt(hoursExt) + parseInt(minutesExt) / 60;
           sum = (timeNumberExt - timeNumberEnt) + sum
+          console.log("sum",sum);
         })
         if (tp == 5) {
-          let res = await getData(`determination/${Id}`);
+          let res = await getData(`determination/${props.Id}`);
           let cost = res["cost"];
           cost = parseInt(cost) * parseInt(sum) + parseInt(res["travel_payment"])
           setTotalSalary('ש"ח' + cost)
         }
+        console.log(`${parseInt(sum)}:${sum.toString().split('.')[1]}`);
         setTotalTimeHoures(parseInt(sum))
-        setTotalTimeMinutes(sum.toString().split('.')[1])
+        setTotalTimeMinutes((sum.toString().split('.')[1]).toFixed(2))
         setVisible(true) 
       }
     }
@@ -157,11 +158,10 @@ const Attendace = (props) => {
       <ConfirmDialog visible={visible} onHide={() => (setVisible(false),setTotalSalary(null),setTotalTimeHoures(null),setTotalTimeMinutes(null))} message={totalSalary}
                 header=":סך המשכורות לחודש זה הוא"  />
       </>:
-      totalTimeHoures&&totalTimeinutes?<>
+      totalTimeHoures&&totalTimeMinutes&&visible?<>
+          <ConfirmDialog visible={visible} onHide={() => (setVisible(false),setTotalSalary(null),setTotalTimeHoures(null),setTotalTimeMinutes(null))} message={`${totalTimeHoures} :${totalTimeMinutes}`}
+                header=":סך השעות הוא"  />
       </>:
-        // data ? <>
-        //   <CardA list={names} attend={data} title={title} />
-        //   <Button label="חזרה" rounded onClick={() => (setData(null), setTitle(null), setUseCalender(null), setDate(null), setNames(null))} /></> :
         <>
           <br></br>
           <br></br>
@@ -173,12 +173,12 @@ const Attendace = (props) => {
 
 
           {<><Menu model={outAttendance} popup ref={menu1} />
-            <Button label="נוכחות" icon="pi pi-bars" onClick={(e) => menu1.current.toggle(e)} />
-            {Status == 1 || Status == 2 ? <><Menu model={outSalary} popup ref={menu2} />
-              <Button label="נתוני שכר" icon="pi pi-bars" onClick={(e) => menu2.current.toggle(e)} /> </> : <></>}
+            <Button label="נוכחות" icon="pi pi-bars" onClick={(e) => menu1.current.toggle(e)} id="right"/>
+            {props.Status == 1 || props.Status == 2 ? <><Menu model={outSalary} popup ref={menu2} />
+              <Button label="נתוני שכר" icon="pi pi-bars" onClick={(e) => menu2.current.toggle(e)} id="left"/> </> : <></>}
           </>}
           {UseCalender ? <Calendar value={date} onChange={(e) => { setDate(`${e.target.value.getFullYear()}/${e.target.value.toLocaleString("en-US", { month: "2-digit" })}/${e.target.value.toLocaleString("en-US", { day: "2-digit" })}`) }} showButtonBar placeholder="בחר תאריך" /> : <></>}
-          {date ? <Button label="אישור" rounded onClick={() => { func(`attendance/calender/${Id}/${date}`, 3, `נוכחות ליום ${date}`) }} /> : <></>}
+          {date ? <Button label="אישור" rounded onClick={() => { func(`attendance/calender/${props.Id}/${date}`, 3, `נוכחות ליום ${date}`) }} /> : <></>}
           {/* <CardA p={props.p} s={S} title={props.title}></CardA> */}
         </>}
     </>)

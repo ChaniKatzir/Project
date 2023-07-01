@@ -42,10 +42,9 @@ exports.findCal = async (req, res) => {
 exports.findMonth = async (req, res) => {
   dalattendance.findMonth(req.params.id, req.params.year, req.params.month)
     .then(data => {
-      console.log("data", data);
       res.send(data);
     })
-    .catch(err => {
+    .catch(err => { 
       res.status(500).send({
         message:
           err.message || "Some error occurred while findg attendance."

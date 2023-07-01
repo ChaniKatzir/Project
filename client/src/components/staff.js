@@ -9,6 +9,7 @@ import CardA from './card';
 import { InputNumber } from 'primereact/inputnumber';
 import yudatatable from './table';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { useNavigate } from 'react-router-dom';
 
 
 <link rel="stylesheet" href="login.css"></link>
@@ -21,6 +22,7 @@ const Staff = () => {
   const [btn, setBtn] = useState(0);
   const [id, setId] = useState();
   const [person, setPerson] = useState();
+  const navigate = useNavigate();
 
   const toast = useRef(null);
   let perobj;
@@ -291,6 +293,8 @@ const Staff = () => {
       <Menu arr={["בית", "תלמידים", "איזור אישי", "ניהול תוכן"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-pencil", "pi pi-fw pi-book", "pi pi-paperclip"]} navigate={["/home", "/student", "/privateArea", "/materialManagement"]} />
     </>}
     <Button label="הוספת רשומה חדשה" onClick={() => { setBtn(1) }}></Button>
+    <Button label=" פרטי עובד" onClick={() => { navigate('/introduction') }}></Button>
+
     {btn === 1 ? <>{ confirm1(postfunc, null, "הוספה בוטלה", 'הוספת רשומה', <><br /><br /><br /><br /><br /><br /><br /><br /><br />{
         create[0].map((name, index) => {return (<SearchLine key={counter++} name={name} id={create[1][index]} type={create[2][index]} setObjUser={setPerson} />)
     })}</>)}</> : <></>}

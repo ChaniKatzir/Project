@@ -3,7 +3,7 @@ const{persons}=require(".");
 
 module.exports=(Sequelize,DataTypes)=>{
     const Banks=Sequelize.define('banks',{
-        id:{
+        id_b:{
             type:DataTypes.INTEGER,
             autoIncrement:true,uniqe:true,allowNull:false,
             primaryKey:true},

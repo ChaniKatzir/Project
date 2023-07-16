@@ -34,7 +34,6 @@ exports.findAll = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-console.log("postcontroller");
 
   if (!req.body) {
     res.status(400).send({
@@ -48,17 +47,16 @@ console.log("postcontroller");
     "id_branch": req.body.id_branch,
     "num": req.body.num
   }
+
   let data;
   const check = await banks.findOne({ where: { num: req.body.num } })
-  console.log("check",check);
+
   if (!check) {
-    console.log("!check======");
     data = await banks.create(bankobj);
-    data = data.id;
-    console.log(data,"==========");
+    data = data.dataValues;
   }
   else {
-    data = check.id;
+    data = check.dataValues;
   }
   let objperson = {
     "id_person": req.body.id_person,
@@ -69,7 +67,7 @@ console.log("postcontroller");
     "celphone_number": req.body.celphone_number,
     "Email": req.body.Email,
     "status_person": 1,
-    "bank_account": data,
+    "bank_account": data.id_b,
     "password": req.body.password
   };
   try {
@@ -237,35 +235,28 @@ exports.update = async (req, res) => {
 
 // // Delete a student with the specified id in the request
 exports.delete = async (req, res) => {
-  console.log("deletesta");
   const id = req.params.id;
   let ba = await person.findAll({ where: { id_person: id } })
-  console.log("====================",ba);
   if (ba) {
-    ba = ba.bank_account;
+    ba = ba[0].dataValues.bank_account;
     try {
       staff.destroy({
         where: { id_person_staff: id }
       }),
+      console.log("staff destroid");
         person.destroy({
           where: { id_person: id }
         }),
+      console.log("person destroid");
+
         banks.destroy({
-          where: { id: ba }
+          where: { id_b: ba }
         })
-          .then(num => {
-            if (num == 1) {
-              status_person = false;
-              console.log("hurray!!!");
+          .then(
+            console.log("hihihihi"),
               res.send({
                 message: "staff was deleted successfully!"
-              });
-            } else {
-              res.send({
-                message: `Cannot delete staff with id=${id}. Maybe staff was not found!`
-              });
-            }
-          })
+              }))
     }
     catch {
       (err => {

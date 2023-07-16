@@ -49,10 +49,10 @@ exports.create = async (req, res) => {
   const check = await banks.findOne({ where: { num: req.body.num } })
   if (!check) {
     data = await banks.create(bankobj);
-    data = data.id;
+    data = data.dataValues;
   }
   else {
-    data = check.id;
+    data = check.dataValues;
   }
 
   let objperson = {
@@ -63,7 +63,7 @@ exports.create = async (req, res) => {
     "phone_number": req.body.phone_number,
     "celphone_number": req.body.celphone_number,
     "Email": req.body.Email,
-    "bank_account": data,
+    "bank_account": data.id_b,
     "status_person": true,
     "password": req.body.password
 

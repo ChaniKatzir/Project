@@ -18,9 +18,7 @@ export const useCrudFunctions = () => {
 
   const deleteData = async (url) => {
     try {
-      console.log("dellll",url);
       const response = await axios.delete(`http://localhost:2000/${url}`);
-      console.log("====",response);
       return response.data;
     } catch (error) {
       console.log(error);

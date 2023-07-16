@@ -2,7 +2,6 @@ import React from "react";
 import MUIDataTable from "mui-datatables";
 
 const yuseDataTable = (data, columns, options, tableName, exportData) => {
-  
   const deletedRows = new Set();
  
   options = {

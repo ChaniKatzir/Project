@@ -1,14 +1,16 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
-import Context from "./context/Context"
+import Context from "./context/Context";
+import "primeicons/primeicons.css";//icone
+import "primereact/resources/primereact.min.css";//core
+import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import Menu from "./menu";
 import { Button } from "primereact/button";
 import { useCrudFunctions } from "../hooks/useCrudFunctions";
 import SearchLine from "./searchLine";
 import { Toast } from 'primereact/toast';
-import { InputNumber } from 'primereact/inputnumber';
 import yudatatable from './table';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
-import CardA from "./card";
+import Attendace from "./attendance";
 
 <link rel="stylesheet" href="login.css"></link>
 
@@ -16,15 +18,18 @@ const Staff = () => {
   const { putData, deleteData, postData } = useCrudFunctions();
   // const [data, setData] = useState()
   const [dataf, setDataf] = useState([1, 2])
-  const [tableName, setTableName] = useState();
+  // const [tableName, setTableName] = useState();
   const [btn, setBtn] = useState(0);
   const [id, setId] = useState();
   const [person, setPerson] = useState();
   const [click, setClick] = useState();
-  const context = useContext(Context);
+  const [confirm, setConfirm] = useState(null);
+  const [idPerson, setIdPerson] = useState(null);
 
   const toast = useRef(null);
+  const context = useContext(Context);
   let perobj;
+  const tableName="פרטי אנשי הצוות";
   const options = { selectableRows: "none", filterTypy: "dropdown" }
   let counter = 1;
   // const serch = [["מספר זהות", "שם פרטי", "שם משפחה", "מספר טלפון", "מספר פלאפון", "וותק", "תפקיד", "קוד מוסד"]
@@ -35,6 +40,38 @@ const Staff = () => {
   ["int", "string", "string", "string", "int", "int", "string", "int", "int", "int", "int", "int", "int", "int"]]
 
   let staffColumns = [
+    {
+      name: "לחץ למחיקה",
+      options: {
+        filter: false,
+        sort: false,
+        customBodyRender: (value, tableMeta) => {
+          return <><i className='pi pi-trash' onClick={() => confirm1( deletefunc,dataf[tableMeta.rowIndex], "בוטל", "מחיקת רשומה", '?לאחר הלחיצה על "אישור", לא יהיה ניתן לשחזר את הרשומה. האם למחוק', 'מחיקת רשומה',2)} />
+           </>
+        }}
+    },
+    {
+      name: "לחץ לעריכה",
+      options: {
+        filter: false,
+        sort: false,
+        customBodyRender: (value, tableMeta) => {
+          return <> <i className="pi pi-user-edit" onClick={() => {confirm1( putfunc,dataf[tableMeta.rowIndex], "בוטל", "עדכון רשומה", <><br /><br /><br /><br /><br /><br /><br /><br /><br />{
+            create[0].map((name, index) => {console.log(dataf[tableMeta.rowIndex][3]);setIdPerson(dataf[tableMeta.rowIndex][3]); return (<SearchLine key={counter++} name={name} id={create[1][index]} placeHolder={dataf[tableMeta.rowIndex][index+3]} type={create[2][index]} setObjUser={setPerson} />)
+        })}</>,3)}}/>
+            </>
+        }}
+    },
+    {
+      name: "לחץ לפרוט",
+      options: {
+        filter: false,
+        sort: false,
+        customBodyRender: (value, tableMeta) => {
+          return <> <i className="pi pi-user" onClick={()=>(setConfirm(dataf[tableMeta.rowIndex]))}/>
+          </>
+        }}
+    },
     {
       name: "id_person",
       label: "מספר זהות",
@@ -133,29 +170,13 @@ const Staff = () => {
         filter: true,
         sort: true,
       }},
-    {
-      name: "",
-      label: "",
-      options: {
-        filter: false,
-        sort: false,
-        customBodyRender: (value, tableMeta) => {
-          return <><i className='pi pi-trash' onClick={() => confirm1( deletefunc,dataf[tableMeta.rowIndex], "נמחקה", "מחיקה בוטלה", '?לאחר הלחיצה על "אישור", לא יהיה ניתן לשחזר את הרשומה. האם למחוק', 'מחיקת רשומה',2)} />
-            <i className="pi pi-pencil" onClick={() => { postfunc(dataf[tableMeta.rowIndex]) }} ></i>
-          </>
-        }}
-    }]
-
-  // const accept = (arr, func) => {
-  //   func(arr)
-  //   // toast.current.show({ severity: 'success', summary: `!רשומה ${type} בהצלחה`, detail: "הפרטים נקלטו במערכת", life: 3000 });
-  // }
+    ]
 
   const reject = (type) => {
     toast.current.show({ severity: 'warn', summary: type, detail: 'אין שינוי ברשומות', life: 3000 });
   }
 
-  const confirm1 = (func, arr, type2, hd, msg,num) => {
+  const confirm1 = (func, arr, type2, hd, msg, num) => {
     setBtn(null);
     confirmDialog({
       message: msg,
@@ -166,34 +187,33 @@ const Staff = () => {
     });
   };
 
-  const getfunc = async () => {
-    let res;
-    let dat = [];
-    let value;
-    if (id === null)
-      res = await putData(`staff`, person)
-    else
-      res = await putData(`staff`, { "id_person_staff": id })
-    try {
-      let err = res.message;
-      toast.current.show({ severity: 'info', summary: 'טעות בהזנת הנתונים', detail: err })
-      setId(null); //setData(null);
-    }
-    catch {
-      if (res.length === 0) {
-        setTableName(null); setId(null);// setData(null);
-        toast.current.show({ severity: 'info', summary: 'לא נמצאו פריטים תואמים' })
-      }
-      if (btn === 2) { dat = null; setBtn(5); }
-      else {
-        for (let index = 0; index < res.length; index++) {
-          value = Object.values(res[index])
-          dat.push(value)
-        }
-      }
-      // setData(dat);
-    }
-  }
+  // const getfunc = async () => {
+  //   let res;
+  //   let dat = [];
+  //   let value;
+  //   if (id === null)
+  //     res = await putData(`staff`, person)
+  //   else
+  //     res = await putData(`staff`, { "id_person_staff": id })
+  //   try {
+  //     let err = res.message;
+  //     toast.current.show({ severity: 'info', summary: 'טעות בהזנת הנתונים', detail: err })
+  //     setId(null); 
+  //   }
+  //   catch {
+  //     if (res.length === 0) {
+  //       setTableName(null); setId(null);
+  //       toast.current.show({ severity: 'info', summary: 'לא נמצאו פריטים תואמים' })
+  //     }
+  //     if (btn === 2) { dat = null; setBtn(5); }
+  //     else {
+  //       for (let index = 0; index < res.length; index++) {
+  //         value = Object.values(res[index])
+  //         dat.push(value)
+  //       }
+  //     }
+  //   }
+  // }
 
   const postfunc = async () => {
     if (person&&click==1) {
@@ -211,8 +231,26 @@ const Staff = () => {
     first()
   }
 
+  const putfunc = async () => {
+    console.log("person", person,click);
+    if (person&&click==3) {
+      let err;
+      console.log("perobj",perobj);
+      perobj = await putData(`staff/${idPerson}`, person)
+      try {
+        err = perobj.response.data.message;
+        toast.current.show({ severity: 'warn', summary: `Error`, detail: err, life: 3000 });
+      }
+      catch {
+        toast.current.show({ severity: 'success', summary: 'הפרטים עודכנו בהצלחה', detail: err, life: 3000 })
+      }
+      setBtn(null); setId(null);setPerson(null); setClick(null); perobj=null;
+    }
+    first()
+  }
+
   const deletefunc = async (arr) => {
-    perobj = await deleteData(`staff/${arr[0]}`)
+    perobj = await deleteData(`staff/${arr[3]}`)
     toast.current.show({ severity: 'success', summary: `!רשומה נמחקה בהצלחה`, detail: "הפרטים נקלטו במערכת", life: 3000 });
     setBtn(null); setId(null); perobj=null;
     first()
@@ -225,6 +263,9 @@ const Staff = () => {
       for (let index = 0; index < x.length; index++) {
         let values = Object.values(x[index]);
         let arr = []
+        for (let i = 0; i <3; i++) {
+          arr.push(0);
+        }
         Object.keys(x[index]).forEach((element, i) => {
           if (i > 3 && element !== 'staff.id_staff' && element !== 'id_person_staff' && element !== 'person.status' && element !== "person.bank_account" && element !== "person.bank.id_b")
             (        
@@ -250,6 +291,11 @@ const Staff = () => {
       postfunc()
   }, [click]);
 
+  useEffect(() => {
+    if (click==3&&person)
+      putfunc()
+  }, [click]);
+
   return (<>
     <Toast ref={toast} />
     <ConfirmDialog />
@@ -257,84 +303,18 @@ const Staff = () => {
       <Menu arr={["בית", "ניהול חשבונות", "תלמידים", "צוות", "ניהול תוכן", "הגדרות מוסד"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-calendar", "pi pi-fw pi-pencil", "pi pi-fw pi-users", "pi pi-paperclip", "pi pi-cog"]} navigate={["/home", "/account", "/student", "/staff", "/materialManagement", "/definitions"]} /></> : <>
       <Menu arr={["בית", "תלמידים", "איזור אישי", "ניהול תוכן"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-pencil", "pi pi-fw pi-book", "pi pi-paperclip"]} navigate={["/home", "/student", "/privateArea", "/materialManagement"]} />
     </>}
+    {confirm?<>
+    <Attendace  Id={confirm[3]} Status={confirm[15]}></Attendace></>
+    :
+    <>
+    <div className='card_sides'>
     <Button label="הוספת רשומה חדשה" onClick={() => { setBtn(1) }}></Button>
+    </div>
     {btn === 1 ? <>{ confirm1(postfunc, null, "הוספה בוטלה", 'הוספת רשומה', <><br /><br /><br /><br /><br /><br /><br /><br /><br />{
         create[0].map((name, index) => {return (<SearchLine key={counter++} name={name} id={create[1][index]} type={create[2][index]} setObjUser={setPerson} />)
     })}</>,1)}</> : <></>}
     {dataf ? <>{yudatatable(dataf, staffColumns, options, tableName)}</>:<></>}
+    </> }
   </>)
-
-
-  // const postfunc = async () => {
-  //   if (person) {
-  //     let err;
-  //     if (btn === 5)
-  //       perobj = await putData(`staff`, person)
-  //     else
-  //       perobj = await postData(`staff`, person)
-  //     try {
-  //       err = perobj.response.data.message;
-  //       toast.current.show({ severity: 'info', summary: 'ERROR', detail: err })
-  //     }
-  //     catch {
-  //       toast.current.show({ severity: 'info', summary: 'הפרטים עודכנו בהצלחה', detail: err })
-  //     }
-  //     setData(null); setBtn(null); setId(null)
-  //   }
-  // }
-
-  // return (<>
-  //   {<>
-  //     <Toast ref={toast} />
-  //     <ConfirmDialog />
-  //     {context.status === 1 ? <>
-  //       <Menu
-  //         arr={["בית", "ניהול חשבונות", "תלמידים", "צוות", "ניהול תוכן", "הגדרות מוסד"]}
-  //         icon={["pi pi-fw pi-home", "pi pi-fw pi-calendar", "pi pi-fw pi-pencil", "pi pi-fw pi-users", "pi pi-paperclip", "pi pi-cog"]}
-  //         navigate={["/home", "/account", "/student", "/staff", "/materialManagement", "/definitions"]} />
-  //     </> :<>
-  //         <Menu
-  //           arr={["בית", "תלמידים", "איזור אישי", "ניהול תוכן"]}
-  //           icon={["pi pi-fw pi-home", "pi pi-fw pi-pencil", "pi pi-fw pi-book", "pi pi-paperclip"]}
-  //           navigate={["/home", "/student", "/privateArea", "/materialManagement"]} />
-  //       </>}
-  //     {data ? <>
-  //       <CardA className="card" p={data} title={tableName}></CardA>
-  //       <Button label="חזרה" onClick={(setData(null), setBtn(null), setId(null), setPerson(null), setDataf(null))}></Button>
-  //     </> : <>
-  //         <Button label="חיפוש" onClick={() => { setBtn(1); setDataf(null) }}></Button> 
-  //         <Button label="עידכון פרטי עובד" onClick={() => { setBtn(2); setDataf(null) }}></Button>
-  //         <Button label="הוספת רשומה חדשה" onClick={() => { setBtn(3); setDataf(null) }}></Button>
-  //         {btn === 1 ? <div class="card">{
-  //           serch[0].map((name, index) => {
-  //             return (
-  //               <SearchLine key={counter++} name={name} id={serch[1][index]} type={serch[2][index]} setObjUser={setPerson} />)
-  //           })}<Button label="חפש" onClick={() => { setData(null); getfunc() }} /></div>
-  //          : btn === 2 ? <div class="card"><InputNumber placeholder="הכנס קוד " value={id} onChange={(e) => setId(e.value)} />
-  //            <Button label="חפש" onClick={() => { getfunc() }} /></div>
-  //           : btn === 3 ? <>{confirm1( postfunc,null, "נוספה", "הוספה בוטלה",
-  //           <><br/><br/><br/><br/><br/><br/><br/><br/><br/>{create[0].map((name, index) => {
-  //             if ((btn === 5 && index !== 0) || btn === 3)
-  //               return (<SearchLine key={counter++} name={name} id={create[1][index]} type={create[2][index]} setObjUser={setPerson} />
-  //               )
-  //           })}</>
-  //             , 'הוספת רשומה')}</>
-  //              : btn === 3 || btn === 5 ? <div class="card">
-  //              {create[0].map((name, index) => {
-  //              if ((btn === 5 && index !== 0) || btn === 3)
-  //              return (<SearchLine key={counter++} name={name} id={create[1][index]} type={create[2][index]} setObjUser={setPerson} />
-  //              )})}
-  //              <Button label="אישור" onClick={() => { setDataf(null); postfunc() }} />
-  //              </div> 
-  //             : <></>
-  //         }
-  //       </>}
-  //     {dataf ?
-  //       // <CardA className="card" p={dataf} title={tableName}></CardA>
-  //       <>{yudatatable(dataf, staffColumns, options, tableName)}</>
-  //       : <></>}
-  //   </>
-  //   }
-  // </>)
 }
 export default Staff;

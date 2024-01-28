@@ -13,6 +13,20 @@ exports.findAll = async (req, res) => {
     });
 }
 
+exports.findMonth = async (req, res) => {
+  console.log(req.params.id, req.params.year, req.params.month);
+  dalattendance.findMonth(req.params.id, req.params.year, req.params.month)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => { 
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while findg attendance."
+      });
+    });
+}
+
 exports.findAllByPersonId = async (req, res) => {
   dalattendance.findAllByPersonId(req.params.id)
     .then(data => {

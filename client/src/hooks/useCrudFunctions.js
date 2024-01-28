@@ -5,7 +5,6 @@ import axios from "axios";
 
 export const useCrudFunctions = () => {
   const getData = async (url) => {
-  
     try {
       const response = await axios.get(`http://localhost:2000/${url}`);
       var x=response.data;
@@ -28,6 +27,7 @@ export const useCrudFunctions = () => {
   const putData = async (url, body) => {
     try {
       let response = await axios.put(`http://localhost:2000/${url}`, body);
+      // console.log(response.data);
       return response.data;
     } catch (error) {
       console.log(error);

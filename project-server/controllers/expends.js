@@ -3,6 +3,7 @@ const dalexpends = require('../dal/expends')
 
 
 exports.findAll = async (req, res) => {
+  console.log("herrrrrrrrrr");
   dalexpends.findAll()
       .then(data => {
         res.send(data);

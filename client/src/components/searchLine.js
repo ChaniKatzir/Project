@@ -15,7 +15,7 @@ export default function SearchLine(props) {
                 {props.name}
             </label>
             {props.name == 'תאריך' ? <><Calendar value={date} key={props.counter} id={props.id} keyfilter={props.type} className="w-full" onChange={(e) => { if (props.type == 'int') onChange(parseInt(e.target.value), props.id); else onChange(e.target.value, props.id) }} showButtonBar /></> :
-                <><InputText key={props.counter} id={props.id} keyfilter={props.type} useGrouping={false} className="w-full" onChange={(e) => { setDate(e.value); if (props.type == 'int') onChange(parseInt(e.target.value), props.id); else onChange(e.target.value, props.id) }} />
+                <><InputText key={props.counter} id={props.id} keyfilter={props.type} placeholder={props.placeHolder} useGrouping={false} className="w-full" onChange={(e) => { setDate(e.value); if (props.type == 'int') onChange(parseInt(e.target.value), props.id); else onChange(e.target.value, props.id) }} />
                 </>}
         </div>
     </div>

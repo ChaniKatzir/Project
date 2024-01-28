@@ -233,7 +233,7 @@ exports.update = async (req, res) => {
   }
 };
 
-// // Delete a student with the specified id in the request
+// // Delete a staff with the specified id in the request
 exports.delete = async (req, res) => {
   const id = req.params.id;
   let ba = await person.findAll({ where: { id_person: id } })
@@ -243,17 +243,13 @@ exports.delete = async (req, res) => {
       staff.destroy({
         where: { id_person_staff: id }
       }),
-      console.log("staff destroid");
         person.destroy({
           where: { id_person: id }
         }),
-      console.log("person destroid");
-
         banks.destroy({
           where: { id_b: ba }
         })
           .then(
-            console.log("hihihihi"),
               res.send({
                 message: "staff was deleted successfully!"
               }))

@@ -12,23 +12,22 @@ import { useNavigate } from "react-router-dom";
 export default function Expendence(props) {
   const context = useContext(Context);
   const { putData, getData, deleteData, postData } = useCrudFunctions()
-
   const [id, setId] = useState();
   const [month, setMonth] = useState();
   const [year, setYear] = useState();
-
   const [alert, setAlert] = useState();
   const [type, setTipe] = useState();
   const [data, setData] = useState();
-  const [draw, setDraw] = useState();//כדי לעקוף את onchange
-
+  const [draw, setDraw] = useState();
   const [title, setTitle] = useState();
   const navigate = useNavigate();
 
+ 
   const funcDelete = async (id) => {
     let response = await deleteData(`expends/${id}`)
     setAlert(response.statusText)
   }
+
   const funcGet = async (id) => {
     let arr = await getData(`expends/${id}`)
     let a = []
@@ -102,20 +101,20 @@ export default function Expendence(props) {
             {<><Button label="לקבלת נתונים" severity="help" text raised onClick={() => (setDraw(id))} /></>}
             {type == 1 ?
               <><InputNumber placeholder="הכנס קוד הוצאה" value={id} onChange={(e) => setId(e.value)} /></> :
-              type == 2 ? <>
-                <InputNumber placeholder="הכנס מספר מוסד" value={id} onChange={(e) => setId(e.value)} /></> :
-                type == 3 ?
-                  <>
-                    <InputNumber placeholder="הכנס חודש" value={month} onChange={(e) => setMonth(e.value)} />
-                    <InputNumber placeholder="הכנס שנה" value={year} onChange={(e) => setYear(e.value)} />
-                    <InputNumber placeholder="הכנס קוד מוסד" value={id} onChange={(e) => setId(e.value)} /></> :
-                  type == 4 ?
-                    <>
-                      {setDraw(1)} </> :
-                       type == 5 ?
-                    <>
-                    <InputNumber placeholder="הכנס קוד מוסד" value={id} onChange={(e) => setId(e.value)} /> </>:
-                    <></>
+            type == 2 ? <>
+              <InputNumber placeholder="הכנס מספר מוסד" value={id} onChange={(e) => setId(e.value)} /></> :
+            type == 3 ?
+              <>
+                <InputNumber placeholder="הכנס חודש" value={month} onChange={(e) => setMonth(e.value)} />
+                <InputNumber placeholder="הכנס שנה" value={year} onChange={(e) => setYear(e.value)} />
+                <InputNumber placeholder="הכנס קוד מוסד" value={id} onChange={(e) => setId(e.value)} /></> :
+            type == 4 ?
+              <>
+                {setDraw(1)} </> :
+                  type == 5 ?
+              <>
+              <InputNumber placeholder="הכנס קוד מוסד" value={id} onChange={(e) => setId(e.value)} /> </>:
+              <></>
 
             }
           </>}

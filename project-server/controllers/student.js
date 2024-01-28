@@ -126,12 +126,12 @@ exports.update = async (req, res) => {
                       .then(num => {
                         if (num == 1) {
                           res.send({
-                            message: "staff was updated successfully."
+                            message: "student was updated successfully."
                           });
                         }
                         else {
                           res.send({
-                            message: `Cannot update bank of staff with id=${id}`
+                            message: `Cannot update bank of student with id=${id}`
                           });
                         }
                       })
@@ -181,7 +181,7 @@ exports.update = async (req, res) => {
               .then(num => {
                 if (num == 1) {
                   res.send({
-                    message: "staff was updated successfully."
+                    message: "student was updated successfully."
                   });
                 }
                 else {
@@ -213,7 +213,7 @@ exports.update = async (req, res) => {
       .then(num => {
         if (num == 1) {
           res.send({
-            message: "staff was updated successfully."
+            message: "student was updated successfully."
           });
         }
         else {
@@ -248,18 +248,10 @@ exports.delete = async (req, res) => {
         banks.destroy({
           where: { id: ba }
         })
-          .then(num => {
-            if (num == 1) {
-              status_person = false;
-              res.send({
-                message: "פרטי התלמיד נמחקו בהצלחה מן המאגר!"
-              });
-            } else {
-              res.send({
-                message: `Cannot delete student with id=${id}. Maybe student was not found!`
-              });
-            }
-          })
+        .then(
+          res.send({
+            message: "student was deleted successfully!"
+          }))
     }
     catch {
       (err => {

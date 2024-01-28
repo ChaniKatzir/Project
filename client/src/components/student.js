@@ -1,48 +1,76 @@
-import { useEffect, useState, useContext, useRef } from "react";
-import Context from "./context/Context"
+import React,{ useEffect, useState, useContext, useRef } from "react";
+import Context from "./context/Context";
 import "primeicons/primeicons.css";//icone
 import "primereact/resources/primereact.min.css";//core
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import Menu from "./menu";
-// import SearchLine from "./searchLine"
 import { Button } from "primereact/button";
 import { useCrudFunctions } from "../hooks/useCrudFunctions";
-import Table from "./table";
 import SearchLine from "./searchLine";
-import CardA from './card';
-import { InputNumber } from 'primereact/inputnumber';
 import { Toast } from 'primereact/toast';
 import yudatatable from './table';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
-
-
+import Attendace from "./attendance";
 
 <link rel="stylesheet" href="login.css"></link>
 
 const Student = () => {
   const { putData, deleteData, postData } = useCrudFunctions();
-  const [data, setData] = useState()
   const [dataf, setDataf] = useState([1,2])
-  const [tableName, setTableName] = useState();
   const [btn, setBtn] = useState(0);
   const [id, setId] = useState();
   const [person, setPerson] = useState();
-  const toast = useRef(null);  
   const [click, setClick] = useState();
+  const [confirm, setConfirm] = useState(null);
+  const [idPerson, setIdPerson] = useState(null);
 
+  const toast = useRef(null);  
+  const context = useContext(Context);
+  const tableName="פרטי התלמידים";
   let perobj;
   const options = { selectableRows: "none", filterTypy: "dropdown" }
-
-
   let counter = 1;
-  const context = useContext(Context);
-  const serch = [["מספר זהות", "שם פרטי", "שם משפחה", "מספר טלפון", "מספר פלאפון", "שנתון", "קוד מוסד"],
-  ["id_person", "first_name", "last_name", "phone_number", "celphone_number", "yearbook", "id_institute_student"],
-  ["int", "string", "string", "int", "int", "int", "int"]];
+  // const serch = [["מספר זהות", "שם פרטי", "שם משפחה", "מספר טלפון", "מספר פלאפון", "שנתון", "קוד מוסד"],
+  // ["id_person", "first_name", "last_name", "phone_number", "celphone_number", "yearbook", "id_institute_student"],
+  // ["int", "string", "string", "int", "int", "int", "int"]];
   const create = [["מספר זהות", "שם פרטי", "שם משפחה", "כתובת מגורים", "מספר טלפון", "מספר פלאפון", "כתובת מייל", "קוד מוסד", "שכר לימוד", "מספר בנק", "מספר סניף", "מספר חשבון", "קוד אימות", "שנתון"],
   ["id_person", "first_name", "last_name", "address", "phone_number", "celphone_number", "Email", "id_institute_student", "tuition", "id_bank", "id_branch", "num", "password", "yearbook"],
   ["int", "string", "string", "string", "int", "int", "string", "int", "int", "int", "int", "int", "int", "int"]]
-  let studentsColumns = [{
+ 
+  let studentsColumns = [
+    {
+      name: "לחץ למחיקה",
+      options: {
+        filter: false,
+        sort: false,
+        customBodyRender: (value, tableMeta) => {
+          return <><i className='pi pi-trash' onClick={() => confirm1( deletefunc,dataf[tableMeta.rowIndex], "בוטל", "מחיקת רשומה", '?לאחר הלחיצה על "אישור", לא יהיה ניתן לשחזר את הרשומה. האם למחוק', 'מחיקת רשומה',2)} />
+           </>
+        }}
+    },
+    {
+      name: "לחץ לעריכה",
+      options: {
+        filter: false,
+        sort: false,
+        customBodyRender: (value, tableMeta) => {
+          return <> <i className="pi pi-user-edit" onClick={() => {confirm1( putfunc,dataf[tableMeta.rowIndex], "בוטל", "עדכון רשומה", <><br /><br /><br /><br /><br /><br /><br /><br /><br />{
+            create[0].map((name, index) => {console.log(dataf[tableMeta.rowIndex][3]);setIdPerson(dataf[tableMeta.rowIndex][3]); return (<SearchLine key={counter++} name={name} id={create[1][index]} placeHolder={dataf[tableMeta.rowIndex][index+3]} type={create[2][index]} setObjUser={setPerson} />)
+        })}</>,3)}}/>
+            </>
+        }}
+    },
+    {
+      name: "לחץ לפרוט",
+      options: {
+        filter: false,
+        sort: false,
+        customBodyRender: (value, tableMeta) => {
+          return <> <i className="pi pi-user" onClick={()=>(setConfirm(dataf[tableMeta.rowIndex]),console.log(dataf[tableMeta.rowIndex][3]))}/>
+          </>
+        }}
+    },
+    {
     name: "id_person",
     label:"מספר זהות",
     options: {
@@ -154,22 +182,8 @@ const Student = () => {
       sort: true,
     },
   },
-
-  {
-    name: "",
-    label: "",
-    options: {
-      filter: false,
-      sort: false,
-      customBodyRender: (value, tableMeta) => {
-        return context.status==1?<><i className="pi pi-trash" style={{ fontSize: '1.5rem' }} onClick={() => {console.log("dataf",dataf); deletefunc(dataf[tableMeta.rowIndex]) }} ></i>
-        </>:<></>
-      },
-    },
-  },
   ]
 
-  
   const reject = (type) => {
     toast.current.show({ severity: 'warn', summary: type, detail: 'אין שינוי ברשומות', life: 3000 });
   }
@@ -185,34 +199,33 @@ const Student = () => {
     });
   };
 
-  const getfunc = async () => {
-    let res;
-    let dat = [];
-    let value;
-    if (id === null)
-      res = await putData(`student`, person)
-    else
-      res = await putData(`student`, { "id_person_staff": id })
-    try {
-      let err = res.message;
-      toast.current.show({ severity: 'info', summary: 'טעות בהזנת הנתונים', detail: err })
-      setId(null); //setData(null);
-    }
-    catch {
-      if (res.length === 0) {
-        setTableName(null); setId(null);// setData(null);
-        toast.current.show({ severity: 'info', summary: 'לא נמצאו פריטים תואמים' })
-      }
-      if (btn === 2) { dat = null; setBtn(5); }
-      else {
-        for (let index = 0; index < res.length; index++) {
-          value = Object.values(res[index])
-          dat.push(value)
-        }
-      }
-      // setData(dat);
-    }
-  }
+  // const getfunc = async () => {
+  //   let res;
+  //   let dat = [];
+  //   let value;
+  //   if (id === null)
+  //     res = await putData(`student`, person)
+  //   else
+  //     res = await putData(`student`, { "id_person_staff": id })
+  //   try {
+  //     let err = res.message;
+  //     toast.current.show({ severity: 'info', summary: 'טעות בהזנת הנתונים', detail: err })
+  //     setId(null);
+  //   }
+  //   catch {
+  //     if (res.length === 0) {
+  //       setTableName(null); setId(null);
+  //       toast.current.show({ severity: 'info', summary: 'לא נמצאו פריטים תואמים' })
+  //     }
+  //     if (btn === 2) { dat = null; setBtn(5); }
+  //     else {
+  //       for (let index = 0; index < res.length; index++) {
+  //         value = Object.values(res[index])
+  //         dat.push(value)
+  //       }
+  //     }
+  //   }
+  // }
 
   const postfunc = async () => {
     if (person&&click==1) {
@@ -230,8 +243,26 @@ const Student = () => {
     first()
   }
 
+  const putfunc = async () => {
+    console.log("person", person,click);
+    if (person&&click==3) {
+      let err;
+      console.log("perobj",perobj);
+      perobj = await putData(`student/${idPerson}`, person)
+      try {
+        err = perobj.response.data.message;
+        toast.current.show({ severity: 'warn', summary: `Error`, detail: err, life: 3000 });
+      }
+      catch {
+        toast.current.show({ severity: 'success', summary: 'הפרטים עודכנו בהצלחה', detail: err, life: 3000 })
+      }
+      setBtn(null); setId(null);setPerson(null); setClick(null); perobj=null;
+    }
+    first()
+  }
+
   const deletefunc = async (arr) => {
-    perobj = await deleteData(`staff/${arr[0]}`)
+    perobj = await deleteData(`student/${arr[3]}`)
     toast.current.show({ severity: 'success', summary: `!רשומה נמחקה בהצלחה`, detail: "הפרטים נקלטו במערכת", life: 3000 });
     setBtn(null); setId(null); perobj=null;
     first()
@@ -244,6 +275,9 @@ const Student = () => {
       for (let index = 0; index < x.length; index++) {
         let values = Object.values(x[index]);
         let arr = []
+        for (let i = 0; i <3; i++) {
+          arr.push(0);
+        }
         Object.keys(x[index]).forEach((element, i) => {
           if (i > 3 && element !== 'student.id_student' && element !== 'id_person_student' && element !== 'person.status' && element !== "person.bank_account" && element !== "person.bank.id_b")
             (        
@@ -267,6 +301,8 @@ const Student = () => {
   useEffect(() => {
     if (click==1&&person)
       postfunc()
+    if (click==3&&person)
+      putfunc()
   }, [click]);
 
   return (<>
@@ -276,146 +312,18 @@ const Student = () => {
       <Menu arr={["בית", "ניהול חשבונות", "תלמידים", "צוות", "ניהול תוכן", "הגדרות מוסד"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-calendar", "pi pi-fw pi-pencil", "pi pi-fw pi-users", "pi pi-paperclip", "pi pi-cog"]} navigate={["/home", "/account", "/student", "/staff", "/materialManagement", "/definitions"]} /></> : <>
       <Menu arr={["בית", "תלמידים", "איזור אישי", "ניהול תוכן"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-pencil", "pi pi-fw pi-book", "pi pi-paperclip"]} navigate={["/home", "/student", "/privateArea", "/materialManagement"]} />
     </>}
+    {confirm?<>
+    <Attendace  Id={confirm[3]} Status={3}></Attendace></>
+    :
+    <>
+    <div className='card_sides'>
     <Button label="הוספת רשומה חדשה" onClick={() => { setBtn(1) }}></Button>
+    </div>
     {btn === 1 ? <>{ confirm1(postfunc, null, "הוספה בוטלה", 'הוספת רשומה', <><br /><br /><br /><br /><br /><br /><br /><br /><br />{
         create[0].map((name, index) => {return (<SearchLine key={counter++} name={name} id={create[1][index]} type={create[2][index]} setObjUser={setPerson} />)
     })}</>,1)}</> : <></>}
     {dataf ? <>{yudatatable(dataf, studentsColumns, options, tableName)}</>:<></>}
+ </>}
   </>)
 }
- //   const getfunc = async () => {
-//     let res;
-//     let dat = [];
-//     let value;
-//     if (id == null) 
-//     res = await putData(`student`, person)
-//     else//serch
-//       res = await putData(`student`, {"id_person_student":id})
-//     try {
-//       let x = res.response.status
-//       let err = res.message;
-//       toast.current.show({ severity: 'info', summary: 'טעות בהזנת הנתונים', detail: err })
-//       setId(null); setData(null);
-//     }
-//     catch {
-//       if (res.length == 0) {
-//         setTableName(null); setData(null);setId(null)
-//         toast.current.show({ severity: 'info', summary: 'לא נמצאו פריטים תואמים' })
-//       }
-//       if (btn == 2) { dat = null; setBtn(5); }
-//       else {
-//         for (let index = 0; index < res.length; index++) {
-//           value = Object.values(res[index])
-//           dat.push(value)
-//         }
-//       }
-//       setData(dat);
-//     }
-//   }
-
-//   const postfunc = async () => {
-//     if (person) {
-//       let err;
-//       if(btn==5)
-//       perobj = await putData(`student`, person)
-//       else
-//       perobj = await postData(`student`, person)
-//       try{
-//         err=perobj.response.data.message;
-//         toast.current.show({ severity: 'info', summary: 'ERROR', detail: err })
-//       }
-//       catch{toast.current.show({ severity: 'info', summary: 'הפרטים עודכנו בהצלחה', detail: err })
-//     }
-//       setData(null);setBtn(null);setId(null)
-//     }
-
-//   }
-  
-//   const deletefunc = async (arr) => {
-//     perobj = await deleteData(`student/${arr[0]}`)
-//     const err = perobj.message;
-//     toast.current.show({ severity: 'info', detail: err })
-//     setData(null);setBtn(null);setId(null)
-//   }
-
-//   const first = async () => {
-//     if(dataf)
-//     {
-//     let value;
-//     let dat = [];
-//     let x = await putData('student')
-//     for (let index = 0; index < x.length; index++) {
-//       let values=Object.values(x[index]);
-//       let arr=[]
-//      Object.keys(x[index]).forEach((element,i) => {
-//           if(i>3&&element!=='id_student'&&element!=='id_person_student'&&element!=='person.status'&&element!=="person.bank_account"&&element!=="person.bank.id")
-//         (
-//           arr.push(values[i]));
-          
-//         })
-//         for (let j = 0; j < 3; j++) {
-//           arr.push (values[j]);
-          
-//         }
-//         dat.push(arr)
-//       }
-//     setDataf(dat)
-//   }
-//   else setDataf(null)
-//   }
-
-//   useEffect(() => {
-//     first()
-//   }, []);
-
-//   return (<>
-//     {<>
-//         <Toast ref={toast} />
-//         {context.status == 1 ? <>
-//           <Menu
-//             arr={["בית", "ניהול חשבונות", "תלמידים", "צוות", "ניהול תוכן", "הגדרות מוסד"]}
-//             icon={["pi pi-fw pi-home", "pi pi-fw pi-calendar", "pi pi-fw pi-pencil", "pi pi-fw pi-users", "pi pi-paperclip", "pi pi-cog"]}
-//             navigate={["/home", "/account", "/student", "/staff", "/materialManagement", "/definitions"]} />
-//         </> :
-//           <>
-//             <Menu
-//               arr={["בית", "תלמידים", "איזור אישי", "ניהול תוכן"]}
-//               icon={["pi pi-fw pi-home", "pi pi-fw pi-pencil", "pi pi-fw pi-book", "pi pi-paperclip"]}
-//               navigate={["/home", "/student", "/privateArea", "/materialManagement"]} />
-//           </>}
-//         {data ? <>
-//           <CardA className="card" p={data} title={tableName}></CardA>
-//           <Button label="חזרה" onClick={() => (setData(null), setBtn(null), setId(null), setPerson(null),setDataf(null))}></Button>
-//         </> :
-//           <>
-            
-//             <Button label="חיפוש" onClick={() => { setBtn(1);setDataf(null) }}></Button>
-//             <Button label="עידכון פרטי תלמיד" onClick={() => { setBtn(2);setDataf(null) }}></Button>
-//             <Button label="הוספה" onClick={() => { setBtn(3) ;setDataf(null)}}></Button>
-//             {btn == 1 ? <div class="card">{
-//               serch[0].map((name, index) => {
-//                 return (
-//                   <SearchLine key={counter++} name={name} id={serch[1][index]} type={serch[2][index]} setObjUser={setPerson} />)
-//               })}<Button label="חפש" onClick={() => { setData(null); getfunc() }} /></div>
-//               : btn == 2 ? <div class="card"><InputNumber placeholder="הכנס קוד " value={id} onChange={(e) => setId(e.value)} />
-//                 <Button label="חפש" onClick={() => { getfunc() }} /></div>
-//                 : btn == 3 ||btn== 5 ? <div class="card">
-//                   {create[0].map((name, index) => {
-//                     if ((btn == 5 && index != 0) || btn == 3)
-//                       return (<SearchLine key={counter++} name={name} id={create[1][index]} type={create[2][index]} setObjUser={setPerson} />
-//                       )
-//                   })}
-//                     <Button label="אישור" onClick={() => { setDataf(null);postfunc() }} /> 
-//                     </div> : <></>
-//             }
-//           </>}
-//           {dataf?
-//           // <CardA className="card" p={dataf} title={tableName}></CardA>
-//           <>{yudatatable(dataf,studentsColumns,options,tableName)}</>
-//           :<></>}
-
-//       </>
-//     }
-//   </>)
-// }
 export default Student;

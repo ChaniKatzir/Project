@@ -3,7 +3,6 @@ import MUIDataTable from "mui-datatables";
 
 const yuseDataTable = (data, columns, options, tableName, exportData) => {
   const deletedRows = new Set();
- 
   options = {
     ...options,
     onDownload: (buildHead, buildBody, columns, dataa) => {

@@ -10,11 +10,14 @@ attendanceRouter.get("/calender/:id/:year/:month/:day",attendanceControler.findC
 
 attendanceRouter.get("/:id", attendanceControler.findAllByPersonId);
 
+attendanceRouter.get("/sum/:id/:year/:month",attendanceControler.findMonth);
+
 attendanceRouter.put("/:id",attendanceControler.update);
 
 attendanceRouter.post("/", attendanceControler.create);
 
 attendanceRouter.delete("/:id",attendanceControler.delete);
+
 
 
 module.exports = attendanceRouter;

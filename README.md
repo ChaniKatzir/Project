@@ -1,4 +1,4 @@
-## Managing to Manage
+# Managing to Manage
 Full-stack web application designed to help institutions efficiently manage their operations. It acts as a digital management system, enabling administrators, staff, and students to organize data, track activities, and access information in a simple and easy way.
 
 The system combines modern web technologies with a scalable architecture to deliver a smooth and user-friendly experience.
@@ -12,19 +12,19 @@ Support students with smart search over recorded lectures
 Deliver a responsive and intuitive user experience
 
 ## Tech stack
-# Frontend
+###  Frontend
 React
 MUI (Material UI)
 Hooks & Functional Components
-# Backend
+### Backend
 Node.js
 Express.js
-# Database
+### Database
 MySQL
 Sequelize ORM
-# AI Component
+### AI Component
 Python (for data processing and intelligent features)
-# Tools & Utilities
+### Tools & Utilities
 Git & GitHub
 Postman (API testing)
 dotenv (.env configuration)
@@ -38,15 +38,15 @@ DAL (Data Access Layer) – Manages communication with the database
 Models – Define database structure and relationships
 
 ## User Roles
-# Admin
+### Admin
 Manage institution data
 Track finances
 Monitor attendance
 Manage lecture repository
-# Staff
+### Staff
 Attendance tracking
 Access relevant data
-# Students
+### Students
 Access lectures
 Use smart search functionality
 
@@ -60,17 +60,17 @@ Use smart search functionality
 🌐 API integration with fallback to local DB storage
 
 ## Installation & Setup
-# 1. Clone the repository
+### 1. Clone the repository
 git clone <your-repo-url>
 cd managing-to-manage
-# 2. Install dependencies
+### 2. Install dependencies
 npm install
-# 3. Setup environment variables
+### 3. Setup environment variables
 Create a .env file:
 DB_HOST=your_host
 DB_USER=your_user
 DB_PASSWORD=your_password
 DB_NAME=your_db
 PORT=5000
-# 4. Run the project
+### 4. Run the project
 npm start

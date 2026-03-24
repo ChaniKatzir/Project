@@ -16,7 +16,7 @@ exports.findAllByPersonId = async (id) => {
 exports.findMonth = async (id, year, month) => {
     return await attendance.findAll({
         where: {
-            [Op.and]: [{ id_attendance: id },
+            [Op.and]: [{ id_person_attendance: id },
             sequelize.where(sequelize.fn('YEAR', sequelize.col('date')), year),
             sequelize.where(sequelize.fn('MONTH', sequelize.col('date')), month)
             ]
@@ -36,7 +36,7 @@ exports.findLast = async (id) => {
 exports.findCal = async (id, year, month, day) => {
     return attendance.findOne({
         where: {
-            [Op.and]: [{ id_attendance: id },
+            [Op.and]: [{ id_person_attendance: id },
             sequelize.where(sequelize.fn('YEAR', sequelize.col('date')), year),
             sequelize.where(sequelize.fn('MONTH', sequelize.col('date')), month),
             sequelize.where(sequelize.fn('DAY', sequelize.col('date')), day)

@@ -11,6 +11,7 @@ import { Toast } from 'primereact/toast';
 import yudatatable from './table';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import Attendace from "./attendance";
+import Home from "./Home";
 
 <link rel="stylesheet" href="login.css"></link>
 
@@ -56,7 +57,7 @@ const Staff = () => {
         filter: false,
         sort: false,
         customBodyRender: (value, tableMeta) => {
-          return <> <i className="pi pi-user-edit" onClick={() => {confirm1( putfunc,dataf[tableMeta.rowIndex], "בוטל", "עדכון רשומה", <><br /><br /><br /><br /><br /><br /><br /><br /><br />{
+          return <> <i className="pi pi-user-edit" onClick={() => {confirm1( putfunc,dataf[tableMeta.rowIndex], "בוטל", "עדכון רשומה", <><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />{
             create[0].map((name, index) => {console.log(dataf[tableMeta.rowIndex][3]);setIdPerson(dataf[tableMeta.rowIndex][3]); return (<SearchLine key={counter++} name={name} id={create[1][index]} placeHolder={dataf[tableMeta.rowIndex][index+3]} type={create[2][index]} setObjUser={setPerson} />)
         })}</>,3)}}/>
             </>
@@ -187,34 +188,6 @@ const Staff = () => {
     });
   };
 
-  // const getfunc = async () => {
-  //   let res;
-  //   let dat = [];
-  //   let value;
-  //   if (id === null)
-  //     res = await putData(`staff`, person)
-  //   else
-  //     res = await putData(`staff`, { "id_person_staff": id })
-  //   try {
-  //     let err = res.message;
-  //     toast.current.show({ severity: 'info', summary: 'טעות בהזנת הנתונים', detail: err })
-  //     setId(null); 
-  //   }
-  //   catch {
-  //     if (res.length === 0) {
-  //       setTableName(null); setId(null);
-  //       toast.current.show({ severity: 'info', summary: 'לא נמצאו פריטים תואמים' })
-  //     }
-  //     if (btn === 2) { dat = null; setBtn(5); }
-  //     else {
-  //       for (let index = 0; index < res.length; index++) {
-  //         value = Object.values(res[index])
-  //         dat.push(value)
-  //       }
-  //     }
-  //   }
-  // }
-
   const postfunc = async () => {
     if (person&&click==1) {
       let err;
@@ -300,8 +273,8 @@ const Staff = () => {
     <Toast ref={toast} />
     <ConfirmDialog />
     {context.status === 1 ? <>
-      <Menu arr={["בית", "ניהול חשבונות", "תלמידים", "צוות", "ניהול תוכן", "הגדרות מוסד"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-calendar", "pi pi-fw pi-pencil", "pi pi-fw pi-users", "pi pi-paperclip", "pi pi-cog"]} navigate={["/home", "/account", "/student", "/staff", "/materialManagement", "/definitions"]} /></> : <>
-      <Menu arr={["בית", "תלמידים", "איזור אישי", "ניהול תוכן"]} icon={["pi pi-fw pi-home", "pi pi-fw pi-pencil", "pi pi-fw pi-book", "pi pi-paperclip"]} navigate={["/home", "/student", "/privateArea", "/materialManagement"]} />
+      <Menu arr={["אזור אישי", "תלמידים", "צוות", "ניהול חשבונות", "הגדרות מוסד"]} icon={["pi pi-fw pi-book", "pi pi-fw pi-pencil", "pi pi-fw pi-users", "pi pi-fw pi-calendar", "pi pi-cog"]} navigate={["/privateArea", "/student", "/staff", "/account", "/definitions"]} /></> : <>
+      <Menu arr={["אזור אישי", "תלמידים"]} icon={["pi pi-fw pi-book", "pi pi-fw pi-pencil"]} navigate={["/privateArea", "/student"]} />
     </>}
     {confirm?<>
     <Attendace  Id={confirm[3]} Status={confirm[15]}></Attendace></>
@@ -310,7 +283,7 @@ const Staff = () => {
     <div className='card_sides'>
     <Button label="הוספת רשומה חדשה" onClick={() => { setBtn(1) }}></Button>
     </div>
-    {btn === 1 ? <>{ confirm1(postfunc, null, "הוספה בוטלה", 'הוספת רשומה', <><br /><br /><br /><br /><br /><br /><br /><br /><br />{
+    {btn === 1 ? <>{ confirm1(postfunc, null, "הוספה בוטלה", 'הוספת רשומה', <><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />{
         create[0].map((name, index) => {return (<SearchLine key={counter++} name={name} id={create[1][index]} type={create[2][index]} setObjUser={setPerson} />)
     })}</>,1)}</> : <></>}
     {dataf ? <>{yudatatable(dataf, staffColumns, options, tableName)}</>:<></>}

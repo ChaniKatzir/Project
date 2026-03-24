@@ -78,9 +78,10 @@ export default function AttendacePrivate(props) {
                 data ? <> <CardA list={names} attend={data} title={title} />
                     <Button label="חזרה" rounded onClick={() => (setData(null), setTitle(null), setUseCalender(null), setDate(null), setNames(null))} /></> :
                     <>
-                        {context.status == 1 || context.status == 2 ? <Button label="לדרישות שכר" rounded onClick={() => { func(`determination/${context.id}`, 4, "דרישות שכר") }} /> : <></>}
-                        {<><Menu model={out} popup ref={menu1} />
-                            <Button label="נוכחות" icon="pi pi-bars" onClick={(e) => menu1.current.toggle(e)} />  </>}
+                        {context.status == 1 || context.status == 2 ? <Button label="לדרישות שכר"   rounded onClick={() => { func(`determination/${context.id}`, 4, "דרישות שכר") }} /> : <></>}
+                        {<>
+                        <Menu model={out} popup ref={menu1} />
+                            <Button label="נוכחות" rounded icon="pi pi-bars" onClick={(e) => menu1.current.toggle(e)} />  </>}
                         {UseCalender ? <Calendar value={date} onChange={(e) => { setDate(`${e.target.value.getFullYear()}/${e.target.value.toLocaleString("en-US", { month: "2-digit" })}/${e.target.value.toLocaleString("en-US", { day: "2-digit" })}`) }} showButtonBar placeholder="בחר תאריך" /> : <></>}
                         {date ? <Button label="אישור" rounded onClick={() => { func(`attendance/calender/${context.id}/${date}`, 3, `נוכחות ליום ${date}`) }} /> : <></>}
                         <CardA p={props.p} s={props.s} title={props.title}></CardA>

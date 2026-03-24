@@ -1,0 +1,25 @@
+# Node.js (if using Node)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python (if using Python)
+__pycache__/
+*.py[cod]
+venv/
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

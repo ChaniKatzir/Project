@@ -40,24 +40,39 @@ const dalinstitute = require('../dal/institute')
 
   // Find a single institute 
   exports.findOne = async (req, res) => {
-   
-
-    dalinstitute.findOne(req.params.id)
+       dalinstitute.findOne(req.params.id)
       .then(data => {
         if (data) {
           res.send(data);
         } else {
           res.status(404).send({
-            message: `Cannot find institute with id=${id}.`
+            message: `Cannot find institute with id=${req.params.id}.`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error retrieving Institute with id=" + id
+          message: "Error retrieving Institute with id=" + req.params.id
         });
       });
   };
+  exports.findOneInstitute = async (req, res) => {
+    dalinstitute.findOneInstitute(req.params.id)
+   .then(data => {
+     if (data) {
+       res.send(data);
+     } else {
+       res.status(404).send({
+         message: `Cannot find institute with id=${req.params.id}.`
+       });
+     }
+   })
+   .catch(err => {
+     res.status(500).send({
+       message: "Error retrieving Institute with id=" + req.params.id
+     });
+   });
+};
 
   // Update a Institute by the id in the request
   exports.update = async (req, res) => {
@@ -84,8 +99,7 @@ const dalinstitute = require('../dal/institute')
 
   // // Delete a Institute with the specified id in the request
   exports.delete =async (req, res) => {
- 
-
+    let id=req.params.id;
     dalinstitute.delete(req.params.id)
       .then(num => {
         if (num == 1) {

@@ -43,8 +43,12 @@ exports.findAllByPersonId = async (req, res) => {
 exports.findCal = async (req, res) => {
   dalattendance.findCal(req.params.id, req.params.year, req.params.month, req.params.day)
     .then(data => {
-      console.log("data", data);
-      res.send(data);
+      data!=null?
+      res.send(data):
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while findg attendance."
+      });
     })
     .catch(err => {
       res.status(500).send({

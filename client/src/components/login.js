@@ -11,6 +11,7 @@ import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
 import { useNavigate } from "react-router-dom";
 import { Toast } from 'primereact/toast';
+import { Image } from 'primereact/image';
 
 
 const Login = (props) => {
@@ -48,11 +49,12 @@ const Login = (props) => {
   return (
   <>{statusP?<></>:
    <div className="form">
+        <Image src="./ytj.png" alt="Image" width="11%"/>
         <h1>ברוכים  הבאים</h1>
         <h3></h3>
-        <InputNumber  placeholder="הקש מספר זהות" value={valueid} onChange={(e) => setValueid(e.value)}useGrouping={false} />
+        <InputNumber style={{ width: "100%", maxWidth: "210px" }} placeholder="הקש מספר זהות" value={valueid} onChange={(e) => setValueid(e.value)}useGrouping={false} />
         <h1></h1>
-        <Password placeholder="הקש סיסמא" value={valuepass} feedback={false} onChange={(e) => setValuepass(e.target.value)} toggleMask useGrouping={false}/>
+        <Password style={{ width: "100%", maxWidth: "210px" }} placeholder="הקש סיסמא" value={valuepass} feedback={false} onChange={(e) => setValuepass(e.target.value)} toggleMask useGrouping={false}/>
         <h1></h1>
         <Toast ref={toast} />
         <Button label="כניסה" onClick={() => { func() }} /></div>}

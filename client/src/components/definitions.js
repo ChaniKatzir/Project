@@ -8,6 +8,8 @@ import { InputNumber } from 'primereact/inputnumber';
 import { Toast } from 'primereact/toast';
 import yudatatable from './table';
 import SearchLine from './searchLine';
+import Home from "./Home";
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 
 import Search from './search'
 import { useCrudFunctions } from "../hooks/useCrudFunctions";
@@ -28,11 +30,13 @@ const Definitions = () => {
   const [mapper, setMapper] = useState();
   const [institute, setInstitute] = useState();
   const [array, setArray] = useState();
+
   const [data, setData] = useState();
   const toast = useRef(null);
   const menu2 = useRef(null);
   const [draw, setDraw] = useState();
   const [once, setOnce] = useState();
+  const [confirm, setConfirm] = useState(null);
 
   const options = { selectableRows: "none", filterTypy: "dropdown" }
   let perobj;
@@ -101,7 +105,7 @@ const Definitions = () => {
       filter: false,
       sort: false,
       customBodyRender: (value, tableMeta) => {
-        return <><i className="pi pi-trash" style={{ fontSize: '2rem' }} onClick={() => { deletefunc(data[tableMeta.rowIndex]) }} ></i>
+        return <><i className="pi pi-trash" style={{ fontSize: '1' }} onClick={() => { deletefunc(data[tableMeta.rowIndex]) }} ></i>
         </>
       },
     },
@@ -109,16 +113,27 @@ const Definitions = () => {
   ]
   const updateFunc = async () => {
     if (institute) {
-console.log("institute",institute,id);
       if (choose == 3) perobj = await putData(`institute/${id}`, institute)
       else if (choose == 5) perobj = await postData(`institute`, institute)
-      console.log(perobj,"perobj");
       const err = perobj.message;
       toast.current.show({ severity: 'info', summary: 'הפרטים עודכנו בהצלחה', detail: err })
       setOnce(null); setMapper(null); setDraw(null); setData(null); setChose(null); setId(null)
     }
   }
 
+  const confirm1 = (func, arr, type2, hd, msg) => {
+    confirmDialog({
+      message: msg,
+      header: hd,
+      // icon: 'pi pi-exclamation-triangle',
+      accept: () => { func(arr) ;setMapper(null);setDraw(null); setChose(null); setId(null); setOnce(null)},
+      reject: () => { reject(type2);setMapper(null) ;setDraw(null); setChose(null); setId(null); setOnce(null)}
+    });
+  };
+
+  const reject = (type) => {
+    toast.current.show({ severity: 'warn', summary: type, detail: 'אין שינוי ברשומות', life: 3000 });
+  }
   const deletefunc = async (id) => {
     perobj = await deleteData(`institute/${id}`)
     toast.current.show({ severity: 'info', summary: 'המחיקה בוצעה בהצלחה' })
@@ -126,11 +141,13 @@ console.log("institute",institute,id);
   }
 
   const funcGet = async (id) => {
+    console.log("ghbjnk", id);
+
     let res;
     let datas = [];
     if (id == null)
       res = await getData(`institute/`)
-    else res = await getData(`institute/${id}`)
+    else res = await getData(`institute/institute/${id}`)
     try {
       let x = res.response.status
       let err = res.message;
@@ -140,20 +157,22 @@ console.log("institute",institute,id);
       if (res.length == 0) {
         toast.current.show({ severity: 'info', summary: 'לא נמצאו פריטים תואמים' })
       }
-      if (choose == 3){ setData(null);setMapper(1);datas=null; }
-      else {if (choose == 1) {
-        for (let index = 0; index < res.length; index++) {
-          let value = Object.values(res[index])
-          datas.push(value)
-        }
-        setData(datas)
-      }
+      if (choose == 3) { setData(null); setMapper(1); datas = null; }
       else {
-        datas = Object.values(res)
-        let arr = []
-        arr.push(datas)
-        setData(arr)
-      }}
+        if (choose == 1) {
+          for (let index = 0; index < res.length; index++) {
+            let value = Object.values(res[index])
+            datas.push(value)
+          }
+          setData(datas)
+        }
+        else {
+          datas = Object.values(res)
+          let arr = []
+          arr.push(datas)
+          setData(arr)
+        }
+      }
     }
 
   }
@@ -183,9 +202,10 @@ console.log("institute",institute,id);
       }
       if (choose == 3) {
         funcGet(id)
-        if (data){
-          console.log("data",data);
-          setMapper(1)}
+        if (data) {
+          console.log("data", data);
+          setMapper(1)
+        }
       }
       if (choose == 4) {
         deletefunc(id)
@@ -206,12 +226,7 @@ console.log("institute",institute,id);
       icon: 'pi pi-search',
       command: () => { setChose(2) }
     }
-    ,
-    {
-      label: 'עדכון פרטי מוסד',
-      icon: 'pi pi-replay',
-      command: () => { setChose(3) }
-    }
+
     ,
     {
       label: 'מחיקת מוסד',
@@ -227,53 +242,23 @@ console.log("institute",institute,id);
   ];
 
   return (<>
-    {
-      <>
         <Toast ref={toast} />
-
-        {<Menu1 arr={["בית", "ניהול חשבונות", "תלמידים", "צוות", "ניהול תוכן", "הגדרות מוסד", "הודעות "]}
-          icon={["pi pi-fw pi-home", "pi pi-fw pi-calendar", "pi pi-fw pi-pencil", "pi pi-fw pi-users", "pi pi-paperclip", "pi pi-cog"]}
-          navigate={["/home", "/account", "/student", "/staff", "/materialManagement", "/definitions", "/messege"]} />
-        }
-
-        {data ? <>
-          {yudatatable(data, definitionColumns, options, title)}
-          <Button label="חזרה" onClick={() => (setDraw(null), setData(null), setChose(null), setId(null), setOnce(null))}></Button>
-        </>
-          :
-          <>
-            <div className="card flex justify-content-center">
-              {<><Menu model={institutes} popup ref={menu2} />
-                <Button label="למוסדות נוספים" icon="pi pi-bars" onClick={(e) => menu2.current.toggle(e)} id="left" /></>
-              }
-            </div>
-            {(choose && once == null ?
-              <div className='card'> {
-                choose == 2 ? <InputNumber placeholder="הכנס קוד מוסד" value={id} onChange={(e) => setId(e.value)} /> :
-                  choose == 3 ? <InputNumber placeholder="הכנס קוד מוסד" value={id} onChange={(e) => setId(e.value)} /> :
-                    choose == 4 ? <InputNumber placeholder="הכנס קוד מוסד" value={id} onChange={(e) => setId(e.value)} /> :
-                      <></>}
-                {choose != 1 && choose != 5 ? <Button label=" אישור" onClick={() => (setDraw(1))} /> : <>{setOnce(1)}{setDraw(1)}</>}
-              </div>
-              :
-              mapper ? <div class="card">
-                
-                {array[0].map((column, index) => {
-                  if (index != 0) return (
-                    <SearchLine key={counter++} name={column} id={array[1][index]} type={array[2][index]} setObjUser={setInstitute} />)
-                })
-                }
-                <Button label="אישור" id="right" onClick={() => (updateFunc())} />
-                <Button label="חזרה" onClick={() => (setOnce(null), setMapper(null), setDraw(null), setData(null), setChose(null), setId(null))} />
-              </div> :
+        <ConfirmDialog />
+        <Menu1 arr={["אזור אישי", "תלמידים", "צוות", "ניהול חשבונות", "הגדרות מוסד"]} icon={["pi pi-fw pi-book", "pi pi-fw pi-pencil", "pi pi-fw pi-users", "pi pi-fw pi-calendar", "pi pi-cog"]} navigate={["/privateArea", "/student", "/staff", "/account", "/definitions"]} />
+        {data ? <>{yudatatable(data, definitionColumns, options, title)} <Button label="חזרה" onClick={() => (setDraw(null), setData(null), setChose(null), setId(null), setOnce(null))}></Button> </>
+         :<>
+            <div className="card flex justify-content-center"><Menu model={institutes} popup ref={menu2} /><Button label="הוספת מוסד" onClick={() => (setChose(5),setDraw(1),setOnce(1))} id="left" /><Button label="פרטי כל המוסדות" onClick={() => (setChose(1),setDraw(1),setOnce(1))} id="left" /></div>
+              {mapper ? <>
+                {confirm1(updateFunc, null, "הוספה בוטלה", 'הוספת רשומה',<><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />{
+                  array[0].map((name, index) => {
+                    return( <SearchLine key={counter++} name={name} id={array[1][index]} type={array[2][index]} setObjUser={setInstitute} />)
+                  })}</>)}
+                </> :
                 <>  {privateInstitute ? <><Card names={names} defin={privateInstitute} title={"פרטי המוסד"}></Card></> : <></>}
-
-                </>)}
-
-          </>
-        }
-      </>
-    }
+                </>
+              }
+        </>
+      }    
   </>)
 
 

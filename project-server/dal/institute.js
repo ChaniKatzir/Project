@@ -9,8 +9,12 @@ exports.create = async (body) => {
     return  institute.create(body)
 }
 
-exports.findOne = async (id) => {
+
+exports.findOneInstitute = async (id) => {
     return institute.findOne({ where: { id_institute: id } })
+}
+exports.findOne = async (id) => {
+    return institute.findOne({ where: { manager_id_person: id } })
 }
 
 exports.update = async (id,body) => {

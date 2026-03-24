@@ -21,6 +21,7 @@ const Attendace = (props) => {
   const [data, setData] = useState();
   const [date, setDate] = useState();
   const [table, setTable] = useState();
+  const [card, setCard] = useState();
   const [title, setTitle] = useState();
   const [totalTimeHoures, setTotalTimeHoures] = useState();
   const [totalTimeMinutes, setTotalTimeMinutes] = useState();
@@ -28,7 +29,7 @@ const Attendace = (props) => {
   const [visible, setVisible] = useState(false);
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
-  const currentMonth = currentDate.getMonth() + 1; // Note: Months are zero-indexed, so we add 1 to get the correct month
+  const currentMonth = currentDate.getMonth(); // Note: Months are zero-indexed, so we add 1 to get the correct month
   const menu1 = useRef(null);
   const menu2 = useRef(null);
   const toast = useRef(null);
@@ -46,6 +47,7 @@ const Attendace = (props) => {
       command: () => { func(`determination/${props.Id}`, 4, "דרישות שכר") }
     }
   ]
+  console.log("curm",currentMonth)
 
   const outAttendance = [
     {
@@ -53,35 +55,40 @@ const Attendace = (props) => {
       command: () => { func(`attendance/sum/${props.Id}/${currentYear}/${currentMonth}`, 6, " סיכום נוכחות") }
     }, {
       label: 'לקבלת דווח נוכחות',
-      command: () => { func(`attendance/last/${props.Id}`, 1, "נוכחות") }
+      command: () => { func(`attendance/${props.Id}`, 1, "נוכחות") }
     },
     {
       label: 'לקבלת הנוכחות האחרונה',
       command: () => { func(`attendance/last/${props.Id}`, 2, "נוכחות אחרונה") }
-    },
-    {
-      label: 'בחר נוכחות על פי תאריך',
-      command: () => { setUseCalender(1) }
     }
   ]
   const func = async (url, tp, ttl) => {
+    console.log(url, tp, ttl);
     let res = await getData(url);
-    console.log("resss",res);
+    console.log(res);
     try {
       let x = res.response.status
       let err = res.message;
       toast.current.show({ severity: 'info', summary: 'לא נמצאו פריטים תואמים' })
     }
     catch {
+      console.log("catch");
+
       if (res.length == 0) {
+      console.log("0");
+
         toast.current.show({ severity: 'info', summary: 'לא נמצאו פריטים תואמים' })
       }
       if (tp == 4) {
+      console.log("4");
+
         setNames(["קוד שכר", "סכום לשעה", "השתתפות בנסיעות", "פנסיה", "מספר זהות"])
       }
       else
         setNames(["קוד נוכחות", "מספר זהות", "תאריך", "שעת כניסה", "שעת יציאה"])
       if (tp != 5 && tp != 6) {
+      console.log("56");
+
         let arr = []
         if (tp == 1) {
           res.forEach(element => {
@@ -91,9 +98,14 @@ const Attendace = (props) => {
           setTable(arr)
         }
         else {
+         if(tp==2||tp==4){
+          arr = Object.values(res)
+            setCard(arr);
+         }
+         else{
           arr = Object.values(res)
           setTitle(ttl)
-          setTable(arr)
+          setTable(arr)}
         }
       }
       //בשביל card
@@ -104,6 +116,8 @@ const Attendace = (props) => {
       // }
 
       else {
+      console.log("else");
+
         let arr = []
         let sum = 0
         let sumHours=0;
@@ -159,6 +173,10 @@ const Attendace = (props) => {
       {table ? <> {yudatatable(table, names, options, title)}
        <Button label="חזרה" rounded onClick={() => (setTable(null), setTitle(null), setNames(null),setUseCalender(null),setDate(null))} />
       </> :
+      card?<>
+      <CardA  list={names} attend={card} title={title}>   </CardA>
+      <Button label="חזרה" rounded onClick={() => (setCard(null), setTitle(null), setNames(null),setUseCalender(null),setDate(null))} />
+      </>:
       totalSalary&&visible==true?<>
       <Dialog visible={visible} onHide={() => (setVisible(false),setTotalSalary(null),setTotalTimeHoures(null),setTotalTimeMinutes(null))} 
                 header=":סך המשכורות לחודש זה הוא" 

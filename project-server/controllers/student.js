@@ -113,6 +113,7 @@ exports.update = async (req, res) => {
   cr(b, "id_branch", req.body.id_branch)
   cr(b, "num", req.body.num)
 
+  console.log("p",p);
   if (Object.keys(p).length != 0) {
     person.update(p, { where: { id_person: id } })
       .then(num => {
@@ -237,7 +238,7 @@ exports.delete = async (req, res) => {
   const id = req.params.id;
   let ba = await person.findAll({ where: { id_person: id } })
   if (ba.length == 1) {
-    ba = ba.bank_account;
+    ba = ba[0].dataValues.bank_account;
     try {
       student.destroy({
         where: { id_person_student: id }
@@ -245,10 +246,13 @@ exports.delete = async (req, res) => {
         person.destroy({
           where: { id_person: id }
         })
+
         banks.destroy({
-          where: { id: ba }
+          where: { id_b: ba }
         })
+
         .then(
+
           res.send({
             message: "student was deleted successfully!"
           }))
@@ -263,19 +267,23 @@ exports.delete = async (req, res) => {
   }
   else {
     try {
+
       staff.destroy({
         where: { id_person_staff: id }
       }),
+
         person.destroy({
           where: { id_person: id }
         })
           .then(num => {
+
             if (num == 1) {
               status_person = false;
               res.send({
                 message: "staff was deleted successfully!"
               });
             } else {
+
               res.send({
                 message: `Cannot delete staff with id=${id}. Maybe staff was not found!`
               });
@@ -283,6 +291,7 @@ exports.delete = async (req, res) => {
           })
     }
     catch {
+
       (err => {
         res.status(500).send({
           message: "Could not delete staff with id=" + id

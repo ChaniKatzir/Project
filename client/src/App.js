@@ -9,7 +9,6 @@ import PrivateArea from "./components/privateArea"
 import Student from "./components/student"
 import Definitions from "./components/definitions"
 import Staff from "./components/staff";
-import Metirial from "./components/metirial"
 import AttendacePrivate from "./components/attendacePrivate";
 function App() {
   const [status, setStatus] = useState();
@@ -27,7 +26,6 @@ const setStatusCallback = (id) => {
           <Route path='/student' element={<Student/>}></Route>      
           <Route path='/staff' element={<Staff/>}></Route>    
           <Route path='/account' element={<Account/>}></Route>   
-          <Route path='/materialManagement' element={<Metirial/>}></Route>      
           <Route path='/definitions' element={<Definitions/>}></Route>   
           <Route path='/attendacePrivate' element={<AttendacePrivate/>}></Route>    
         </Routes>

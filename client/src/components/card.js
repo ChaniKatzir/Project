@@ -63,8 +63,7 @@ export default function CardA(props, index) {
     }, []);
 
     return (context && (
-
-        <div className="card flex justify-content-center">
+        <div >
             {
                 attendancePrivate ?
                     <Card kea={index} title={props.title} className="cardA" id="card">
@@ -72,7 +71,6 @@ export default function CardA(props, index) {
                             {attendancePrivate.map((element, index) => {
                                 return (<p >{element}</p>)
                             })}
-
                         </p>
                     </Card>
                     :
@@ -82,22 +80,21 @@ export default function CardA(props, index) {
                                 {definitions.map((element, index) => {
                                     return (<p >{element}</p>)
                                 })}
-
                             </p>
                         </Card> 
                     :
-                        dataS && dataP ?
-                            <Card kea={index} title={props.title} className="md:w-25rem" id="card">
-                                <p className="m-0">
-                                    {dataP.map((element, index) => {
-                                        return (<p >{element}</p>)
-                                    })}
-                                    {dataS.map((element, index) => {
-                                        return (<p >{element}</p>)
-                                    })}
-                                </p>
-                            </Card>
-                            : <></>
+                    dataS && dataP ?
+                        <Card kea={index} title={props.title} className="md:w-25rem" id="card">
+                            <p className="m-0">
+                                {dataP.map((element, index) => {
+                                    return (<p >{element}</p>)
+                                })}
+                                {dataS.map((element, index) => {
+                                    return (<p >{element}</p>)
+                                })}
+                            </p>
+                        </Card>
+                    : <></>
             }
         </div>)
     )

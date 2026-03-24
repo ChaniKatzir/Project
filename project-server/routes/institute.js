@@ -5,6 +5,8 @@ const instituteRouter = express.Router();
 
 instituteRouter.get("/:id", instituteControler.findOne);
 
+instituteRouter.get("/institute/:id", instituteControler.findOneInstitute);
+
 instituteRouter.get("/", instituteControler.findAll);
 
 instituteRouter.put("/:id",instituteControler.update);

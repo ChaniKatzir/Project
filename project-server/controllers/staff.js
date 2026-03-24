@@ -237,7 +237,7 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   const id = req.params.id;
   let ba = await person.findAll({ where: { id_person: id } })
-  if (ba) {
+  if (ba.length == 1) {
     ba = ba[0].dataValues.bank_account;
     try {
       staff.destroy({
@@ -246,10 +246,12 @@ exports.delete = async (req, res) => {
         person.destroy({
           where: { id_person: id }
         }),
+
         banks.destroy({
           where: { id_b: ba }
         })
           .then(
+
               res.send({
                 message: "staff was deleted successfully!"
               }))

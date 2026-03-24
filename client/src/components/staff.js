@@ -10,8 +10,13 @@ import SearchLine from "./searchLine";
 import { Toast } from 'primereact/toast';
 import yudatatable from './table';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+<<<<<<< HEAD
 import Attendace from "./attendance";
 import Home from "./Home";
+=======
+import { useNavigate } from 'react-router-dom';
+
+>>>>>>> 5b1542055acfc409507b2bfc24c9c49d669b1617
 
 <link rel="stylesheet" href="login.css"></link>
 
@@ -23,9 +28,13 @@ const Staff = () => {
   const [btn, setBtn] = useState(0);
   const [id, setId] = useState();
   const [person, setPerson] = useState();
+<<<<<<< HEAD
   const [click, setClick] = useState();
   const [confirm, setConfirm] = useState(null);
   const [idPerson, setIdPerson] = useState(null);
+=======
+  const navigate = useNavigate();
+>>>>>>> 5b1542055acfc409507b2bfc24c9c49d669b1617
 
   const toast = useRef(null);
   const context = useContext(Context);
@@ -282,8 +291,14 @@ const Staff = () => {
     <>
     <div className='card_sides'>
     <Button label="הוספת רשומה חדשה" onClick={() => { setBtn(1) }}></Button>
+<<<<<<< HEAD
     </div>
     {btn === 1 ? <>{ confirm1(postfunc, null, "הוספה בוטלה", 'הוספת רשומה', <><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />{
+=======
+    <Button label=" פרטי עובד" onClick={() => { navigate('/introduction') }}></Button>
+
+    {btn === 1 ? <>{ confirm1(postfunc, null, "הוספה בוטלה", 'הוספת רשומה', <><br /><br /><br /><br /><br /><br /><br /><br /><br />{
+>>>>>>> 5b1542055acfc409507b2bfc24c9c49d669b1617
         create[0].map((name, index) => {return (<SearchLine key={counter++} name={name} id={create[1][index]} type={create[2][index]} setObjUser={setPerson} />)
     })}</>,1)}</> : <></>}
     {dataf ? <>{yudatatable(dataf, staffColumns, options, tableName)}</>:<></>}

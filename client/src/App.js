@@ -10,6 +10,9 @@ import Student from "./components/student"
 import Definitions from "./components/definitions"
 import Staff from "./components/staff";
 import AttendacePrivate from "./components/attendacePrivate";
+import Attendace from "./components/attendance";
+import Introduction from "./components/introduction";
+
 function App() {
   const [status, setStatus] = useState();
 
@@ -27,7 +30,11 @@ const setStatusCallback = (id) => {
           <Route path='/staff' element={<Staff/>}></Route>    
           <Route path='/account' element={<Account/>}></Route>   
           <Route path='/definitions' element={<Definitions/>}></Route>   
-          <Route path='/attendacePrivate' element={<AttendacePrivate/>}></Route>    
+          <Route path='/attendacePrivate' element={<AttendacePrivate/>}></Route> 
+          <Route path='/attendance' element={<Attendace/>}></Route>   
+          <Route path='/introduction' element={<Introduction/>}></Route>    
+ 
+
         </Routes>
     </UserProvider>
 </>

@@ -57,7 +57,18 @@ exports.findCal = async (req, res) => {
       });
     });
 }
-
+exports.findMonth = async (req, res) => {
+  dalattendance.findMonth(req.params.id, req.params.year, req.params.month)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => { 
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while findg attendance."
+      });
+    });
+}
 //Find a single attendance 
 exports.findLast = async (req, res) => {
   dalattendance.findLast(req.params.id)

@@ -8,8 +8,11 @@ import { InputNumber } from 'primereact/inputnumber';
 import { Toast } from 'primereact/toast';
 import yudatatable from './table';
 import SearchLine from './searchLine';
+<<<<<<< HEAD
 import Home from "./Home";
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+=======
+>>>>>>> 5b1542055acfc409507b2bfc24c9c49d669b1617
 
 import Search from './search'
 import { useCrudFunctions } from "../hooks/useCrudFunctions";
@@ -30,13 +33,19 @@ const Definitions = () => {
   const [mapper, setMapper] = useState();
   const [institute, setInstitute] = useState();
   const [array, setArray] = useState();
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5b1542055acfc409507b2bfc24c9c49d669b1617
   const [data, setData] = useState();
   const toast = useRef(null);
   const menu2 = useRef(null);
   const [draw, setDraw] = useState();
   const [once, setOnce] = useState();
+<<<<<<< HEAD
   const [confirm, setConfirm] = useState(null);
+=======
+>>>>>>> 5b1542055acfc409507b2bfc24c9c49d669b1617
 
   const options = { selectableRows: "none", filterTypy: "dropdown" }
   let perobj;
@@ -105,7 +114,11 @@ const Definitions = () => {
       filter: false,
       sort: false,
       customBodyRender: (value, tableMeta) => {
+<<<<<<< HEAD
         return <><i className="pi pi-trash" style={{ fontSize: '1' }} onClick={() => { deletefunc(data[tableMeta.rowIndex]) }} ></i>
+=======
+        return <><i className="pi pi-trash" style={{ fontSize: '2rem' }} onClick={() => { deletefunc(data[tableMeta.rowIndex]) }} ></i>
+>>>>>>> 5b1542055acfc409507b2bfc24c9c49d669b1617
         </>
       },
     },
@@ -113,14 +126,22 @@ const Definitions = () => {
   ]
   const updateFunc = async () => {
     if (institute) {
+<<<<<<< HEAD
       if (choose == 3) perobj = await putData(`institute/${id}`, institute)
       else if (choose == 5) perobj = await postData(`institute`, institute)
+=======
+console.log("institute",institute,id);
+      if (choose == 3) perobj = await putData(`institute/${id}`, institute)
+      else if (choose == 5) perobj = await postData(`institute`, institute)
+      console.log(perobj,"perobj");
+>>>>>>> 5b1542055acfc409507b2bfc24c9c49d669b1617
       const err = perobj.message;
       toast.current.show({ severity: 'info', summary: 'הפרטים עודכנו בהצלחה', detail: err })
       setOnce(null); setMapper(null); setDraw(null); setData(null); setChose(null); setId(null)
     }
   }
 
+<<<<<<< HEAD
   const confirm1 = (func, arr, type2, hd, msg) => {
     confirmDialog({
       message: msg,
@@ -134,6 +155,8 @@ const Definitions = () => {
   const reject = (type) => {
     toast.current.show({ severity: 'warn', summary: type, detail: 'אין שינוי ברשומות', life: 3000 });
   }
+=======
+>>>>>>> 5b1542055acfc409507b2bfc24c9c49d669b1617
   const deletefunc = async (id) => {
     perobj = await deleteData(`institute/${id}`)
     toast.current.show({ severity: 'info', summary: 'המחיקה בוצעה בהצלחה' })
@@ -141,13 +164,20 @@ const Definitions = () => {
   }
 
   const funcGet = async (id) => {
+<<<<<<< HEAD
     console.log("ghbjnk", id);
 
+=======
+>>>>>>> 5b1542055acfc409507b2bfc24c9c49d669b1617
     let res;
     let datas = [];
     if (id == null)
       res = await getData(`institute/`)
+<<<<<<< HEAD
     else res = await getData(`institute/institute/${id}`)
+=======
+    else res = await getData(`institute/${id}`)
+>>>>>>> 5b1542055acfc409507b2bfc24c9c49d669b1617
     try {
       let x = res.response.status
       let err = res.message;
@@ -157,6 +187,7 @@ const Definitions = () => {
       if (res.length == 0) {
         toast.current.show({ severity: 'info', summary: 'לא נמצאו פריטים תואמים' })
       }
+<<<<<<< HEAD
       if (choose == 3) { setData(null); setMapper(1); datas = null; }
       else {
         if (choose == 1) {
@@ -172,6 +203,22 @@ const Definitions = () => {
           arr.push(datas)
           setData(arr)
         }
+=======
+      if (choose == 3){datas=null; setMapper(1)}
+      setData(datas);
+      if (choose == 1) {
+        for (let index = 0; index < res.length; index++) {
+          let value = Object.values(res[index])
+          datas.push(value)
+        }
+        setData(datas)
+      }
+      else {
+        datas = Object.values(res)
+        let arr = []
+        arr.push(datas)
+        setData(arr)
+>>>>>>> 5b1542055acfc409507b2bfc24c9c49d669b1617
       }
     }
 
@@ -202,10 +249,16 @@ const Definitions = () => {
       }
       if (choose == 3) {
         funcGet(id)
+<<<<<<< HEAD
         if (data) {
           console.log("data", data);
           setMapper(1)
         }
+=======
+        if (data){
+          console.log("data",data);
+          setMapper(1)}
+>>>>>>> 5b1542055acfc409507b2bfc24c9c49d669b1617
       }
       if (choose == 4) {
         deletefunc(id)
@@ -226,6 +279,7 @@ const Definitions = () => {
       icon: 'pi pi-search',
       command: () => { setChose(2) }
     }
+<<<<<<< HEAD
 
     ,
     {
@@ -259,6 +313,76 @@ const Definitions = () => {
               }
         </>
       }    
+=======
+    ,
+    {
+      label: 'עדכון פרטי מוסד',
+      icon: 'pi pi-replay',
+      command: () => { setChose(3) }
+    }
+    ,
+    {
+      label: 'מחיקת מוסד',
+      icon: 'pi pi-trash',
+      command: () => { setChose(4) }
+    }
+    ,
+    {
+      label: ' הכנסת מוסד חדש',
+      icon: 'pi pi-sign-in',
+      command: () => { setChose(5) }
+    }
+  ];
+
+  return (<>
+    {
+      <>
+        <Toast ref={toast} />
+
+        {<Menu1 arr={["בית", "ניהול חשבונות", "תלמידים", "צוות", "ניהול תוכן", "הגדרות מוסד", "הודעות "]}
+          icon={["pi pi-fw pi-home", "pi pi-fw pi-calendar", "pi pi-fw pi-pencil", "pi pi-fw pi-users", "pi pi-paperclip", "pi pi-cog"]}
+          navigate={["/home", "/account", "/student", "/staff", "/materialManagement", "/definitions", "/messege"]} />
+        }
+
+        {data ? <>
+          {yudatatable(data, definitionColumns, options, title)}
+          <Button label="חזרה" onClick={() => (setDraw(null), setData(null), setChose(null), setId(null), setOnce(null))}></Button>
+        </>
+          :
+          <>
+            <div className="card flex justify-content-center">
+              {<><Menu model={institutes} popup ref={menu2} />
+                <Button label="למוסדות נוספים" icon="pi pi-bars" onClick={(e) => menu2.current.toggle(e)} id="left" /></>
+              }
+            </div>
+            {(choose && once == null ?
+              <div className='card'> {
+                choose == 2 ? <InputNumber placeholder="הכנס קוד מוסד" value={id} onChange={(e) => setId(e.value)} /> :
+                  choose == 3 ? <InputNumber placeholder="הכנס קוד מוסד" value={id} onChange={(e) => setId(e.value)} /> :
+                    choose == 4 ? <InputNumber placeholder="הכנס קוד מוסד" value={id} onChange={(e) => setId(e.value)} /> :
+                      <></>}
+                {choose != 1 && choose != 5 ? <Button label=" אישור" onClick={() => (setDraw(1))} /> : <>{setOnce(1)}{setDraw(1)}</>}
+              </div>
+              :
+              mapper ? <div class="card">
+                
+                {array[0].map((column, index) => {
+                  if (index != 0) return (
+                    <SearchLine key={counter++} name={column} id={array[1][index]} type={array[2][index]} setObjUser={setInstitute} />)
+                })
+                }
+                <Button label="אישור" id="right" onClick={() => (updateFunc())} />
+                <Button label="חזרה" onClick={() => (setOnce(null), setMapper(null), setDraw(null), setData(null), setChose(null), setId(null))} />
+              </div> :
+                <>  {privateInstitute ? <><Card names={names} defin={privateInstitute} title={"פרטי המוסד"}></Card></> : <></>}
+
+                </>)}
+
+          </>
+        }
+      </>
+    }
+>>>>>>> 5b1542055acfc409507b2bfc24c9c49d669b1617
   </>)
 
 
